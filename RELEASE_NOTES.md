@@ -1,15 +1,8 @@
-# Ocre Companion 1.0 RC3
+# Ocre Companion 1.2 — Profils
 
-- 286 archimonstres issus de la liste fournie par l’utilisateur
-- 8 Dofus Ocre suivis séparément
-- Mode Chasseur avec équipe active
-- Mode Farm
-- Circuits Dofus Rétro
-- Planificateur de tournée
-- Vue équipe x8
-- Journal de chasse
-- Sauvegardes JSON, CSV et instantanés locaux
-- Fonctionnement hors ligne
-- Installation PWA sur iPhone
-- Icône « L’Ocre »
-- Splash screen « Ocre & Ombre »
+- Création de plusieurs profils indépendants (serveurs, Temporis, équipes, mono-compte).
+- Ajout, suppression et renommage libre des personnages, de 1 à 16 par profil.
+- Progression, équipe active, journal, circuits et réglages conservés séparément pour chaque profil.
+- Migration automatique de la progression v1.1 vers un profil « Profil actuel ».
+- Export et import JSON de l’ensemble des profils, avec compatibilité des anciennes sauvegardes.
+- Interface équipe adaptée dynamiquement au nombre de personnages.

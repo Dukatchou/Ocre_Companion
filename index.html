@@ -350,7 +350,7 @@ footer .btn.primary{background:linear-gradient(135deg,#9f681d,#d49a2c);border-co
 </head>
 <body><div id="appSplash" aria-hidden="true"><div class="splashLoader"></div></div>
 <header>
- <div class="headrow"><div><h1>Ocre Companion</h1><span class="releasebadge">1.2 · Profils</span></div><div class="topactions"><button class="iconbtn" id="quickHelp" aria-label="Aide">?</button><button class="iconbtn" id="quickSettings" aria-label="Réglages">⚙</button></div></div><div class="saved" id="saved">Sauvegarde locale</div>
+ <div class="headrow"><div><h1>Ocre Companion</h1><span class="releasebadge">1.2.1 · Correctif statistiques</span></div><div class="topactions"><button class="iconbtn" id="quickHelp" aria-label="Aide">?</button><button class="iconbtn" id="quickSettings" aria-label="Réglages">⚙</button></div></div><div class="saved" id="saved">Sauvegarde locale</div>
  <div class="subtitle" id="activeLabel"></div>
  <div class="progressbar"><div id="progressFill"></div></div>
  <div class="progresstext" id="progressText"></div><div class="statusbar"><span class="statuspill" id="networkStatus">● En ligne</span><span class="statuspill" id="offlineReady">Hors ligne : vérification…</span><button class="installbtn hidden" id="installBtn">Installer</button></div>
@@ -711,15 +711,35 @@ function nextPlannedRegion(current){
  return route[(idx>=0?idx+1:0)%route.length]||route[0];
 }
 function recordChange(person,index,oldValue){state.history.push({person,index,oldValue,time:Date.now()});if(state.history.length>30)state.history.shift();}
+function removeJournalCapture(person,index){
+ const pos=state.journal.findIndex(j=>j.person===person&&j.archi===index);
+ if(pos!==-1)state.journal.splice(pos,1);
+}
+function reconcileJournal(){
+ const seen=new Set();
+ state.journal=state.journal.filter(j=>{
+   if(!Number.isInteger(j.person)||!Number.isInteger(j.archi))return false;
+   if(!state.done[j.person]||!state.done[j.person][j.archi])return false;
+   const key=`${j.person}:${j.archi}`;
+   if(seen.has(key))return false;
+   seen.add(key);
+   return true;
+ });
+}
 function toggleDone(person,index,value,log=true){
  const old=state.done[person][index];
  const next=value===undefined?!old:value;
  if(old===next)return;
  recordChange(person,index,old);
  state.done[person][index]=next;
- if(log&&next){
-   state.journal.unshift({time:Date.now(),person,archi:index,region:ARCHIS[index].region});
-   if(state.journal.length>100)state.journal=state.journal.slice(0,100);
+ if(next){
+   if(log){
+     removeJournalCapture(person,index);
+     state.journal.unshift({time:Date.now(),person,archi:index,region:ARCHIS[index].region});
+     if(state.journal.length>100)state.journal=state.journal.slice(0,100);
+   }
+ }else{
+   removeJournalCapture(person,index);
  }
 }
 
@@ -1108,7 +1128,7 @@ function deleteProfile(id){
  appState.profiles=appState.profiles.filter(x=>x.id!==id);if(appState.activeProfileId===id){appState.activeProfileId=appState.profiles[0].id;state=appState.profiles[0];}save();renderProfiles();renderAll();toast("Profil supprimé");
 }
 
-function renderAll(){renderProfileBar();applySettings();updateStorageHealth();renderView();renderOcreTabs();renderProgress();renderDashboard();renderChips();renderList();renderFarm();renderRoutes();renderTeam();renderHunter();renderJournal();renderPlanner();$("remainingOnly").checked=state.remainingOnly;updateNetwork();updateOfflineState();}
+function renderAll(){reconcileJournal();renderProfileBar();applySettings();updateStorageHealth();renderView();renderOcreTabs();renderProgress();renderDashboard();renderChips();renderList();renderFarm();renderRoutes();renderTeam();renderHunter();renderJournal();renderPlanner();$("remainingOnly").checked=state.remainingOnly;updateNetwork();updateOfflineState();}
 document.querySelectorAll("[data-view]").forEach(b=>b.onclick=()=>{state.view=b.dataset.view;save();renderAll();});
 
 
@@ -1171,10 +1191,17 @@ $("doCopy").onclick=()=>{let t=+$("copyTarget").value;if(confirm(`Copier la prog
 $("undoBtn").onclick=()=>{
  const h=state.history.pop();
  if(!h){toast("Aucune action à annuler");return;}
- state.done[h.person][h.index]=h.oldValue;save();renderAll();toast("Dernière action annulée");
+ state.done[h.person][h.index]=h.oldValue;
+ if(h.oldValue){
+   removeJournalCapture(h.person,h.index);
+   state.journal.unshift({time:Date.now(),person:h.person,archi:h.index,region:ARCHIS[h.index].region});
+ }else{
+   removeJournalCapture(h.person,h.index);
+ }
+ save();renderAll();toast("Dernière action annulée");
 };
 
-$("exportBtn").onclick=()=>{state.lastBackup=Date.now();save();const blob=new Blob([JSON.stringify({app:"Ocre Companion",version:"1.2",exported:new Date().toISOString(),archimonstres:ARCHIS.length,appState},null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="ocre-companion-profils.json";a.click();URL.revokeObjectURL(a.href);};
+$("exportBtn").onclick=()=>{state.lastBackup=Date.now();save();const blob=new Blob([JSON.stringify({app:"Ocre Companion",version:"1.2.1",exported:new Date().toISOString(),archimonstres:ARCHIS.length,appState},null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="ocre-companion-profils.json";a.click();URL.revokeObjectURL(a.href);};
 $("moreBtn").onclick=()=>$("moreDialog").showModal();
 $("importBtn").onclick=()=>{$("moreDialog").close();$("fileInput").click();};
 $("fileInput").onchange=async e=>{try{const o=JSON.parse(await e.target.files[0].text());if(o.appState&&Array.isArray(o.appState.profiles)){const imported=o.appState;imported.profiles=imported.profiles.map(normalizeProfile).filter(Boolean);if(!imported.profiles.length)throw 0;appState=imported;if(!appState.profiles.some(p=>p.id===appState.activeProfileId))appState.activeProfileId=appState.profiles[0].id;state=appState.profiles.find(p=>p.id===appState.activeProfileId);ensureProfileDefaults();}else{const s=normalizeProfile(o.state||o);if(!s)throw 0;s.profileName=s.profileName||"Profil importé";appState.profiles.push(s);appState.activeProfileId=s.id;state=s;}save();renderAll();alert("Sauvegarde importée.");}catch(err){alert("Sauvegarde invalide.");}e.target.value="";};

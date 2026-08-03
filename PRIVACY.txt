@@ -1,0 +1,8 @@
+OCRE COMPANION — CONFIDENTIALITÉ
+
+Aucun compte.
+Aucune base de données distante.
+Aucun suivi publicitaire.
+Aucune donnée envoyée à un serveur.
+
+Les noms des personnages, les captures, les routes et les sauvegardes restent dans le stockage local du navigateur sur l’appareil. Les fichiers exportés ne quittent l’appareil que si l’utilisateur choisit lui-même de les partager ou de les sauvegarder.

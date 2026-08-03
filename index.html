@@ -1,0 +1,1093 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#173d34">
+<title>Ocre Companion — Dofus Rétro</title>
+<style>
+:root{--bg:#f1eee8;--panel:#fffdf8;--ink:#231d16;--muted:#766b5d;--green:#6b4b23;--green2:#f3e6cd;--gold:#d7a84c;--line:#d6dfda;--danger:#a23b34;--shadow:0 8px 28px rgba(18,55,45,.09)}
+*{box-sizing:border-box} html{scroll-behavior:smooth}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);padding-bottom:94px}
+header{position:sticky;top:0;z-index:40;background:linear-gradient(135deg,#15392f,#23705a);color:#fff;padding:calc(11px + env(safe-area-inset-top)) 14px 13px;box-shadow:var(--shadow)}
+.headrow{display:flex;align-items:center;justify-content:space-between;gap:10px} h1{font-size:21px;margin:0} .saved{font-size:11px;opacity:.85}
+.subtitle{font-size:13px;opacity:.85;margin-top:4px}
+.progressbar{height:10px;background:rgba(255,255,255,.22);border-radius:999px;overflow:hidden;margin:10px 0 5px}
+.progressbar>div{height:100%;width:0;background:var(--gold);transition:width .25s}
+.progresstext{font-size:13px;font-weight:800}
+main{max-width:900px;margin:auto;padding:12px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:17px;padding:12px;margin-bottom:12px;box-shadow:0 4px 18px rgba(20,40,34,.04)}
+.viewtabs,.ocretabs,.chips{display:flex;gap:7px;overflow-x:auto;padding-bottom:3px}
+.pill{border:1px solid var(--line);background:#fff;border-radius:999px;padding:9px 12px;white-space:nowrap;font-weight:750;color:var(--muted)}
+.pill.active{background:var(--green);border-color:var(--green);color:white}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:8px 0}
+.stat{background:#f6f8f7;border:1px solid var(--line);border-radius:14px;padding:11px;text-align:center}
+.stat b{display:block;font-size:21px;color:var(--green)} .stat span{font-size:11px;color:var(--muted)}
+.next{background:linear-gradient(135deg,#fff8e8,#fff);border:1px solid #ead4a1;border-radius:15px;padding:13px;margin-top:10px}
+.next small{color:#80651f;font-weight:800} .next strong{display:block;font-size:18px;margin:4px 0} .next p{margin:0;font-size:13px;color:var(--muted)}
+.regiongrid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
+.regioncard{text-align:left;border:1px solid var(--line);background:#fff;border-radius:15px;padding:12px;min-height:92px}
+.regioncard.done{background:var(--green2);border-color:#a7cfbf}
+.regioncard strong{font-size:14px;display:block;line-height:1.2} .regioncard span{font-size:12px;color:var(--muted)}
+.mini{height:7px;background:#e8ecea;border-radius:99px;overflow:hidden;margin:9px 0 5px} .mini i{display:block;height:100%;background:var(--green)}
+.controls{display:grid;grid-template-columns:1fr auto;gap:8px}
+input[type=search]{width:100%;border:1px solid var(--line);border-radius:12px;padding:12px;font-size:16px}
+.btn{border:1px solid var(--line);background:#fff;border-radius:12px;padding:10px 12px;font-weight:750;color:var(--ink)}
+.btn.primary{background:var(--green);color:white;border-color:var(--green)} .btn.danger{color:var(--danger)}
+.toggle{display:flex;align-items:center;gap:8px;font-size:14px;margin-top:10px}
+.zone{margin-bottom:12px}
+.zonehead{position:sticky;top:112px;z-index:15;display:flex;justify-content:space-between;align-items:center;background:rgba(238,242,239,.95);backdrop-filter:blur(10px);padding:10px 3px 7px}
+.zonehead h2{font-size:17px;margin:0} .zonecount{font-size:12px;color:var(--muted);font-weight:800}
+.archi{display:grid;grid-template-columns:46px 1fr auto;align-items:center;gap:9px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:8px;margin-bottom:7px;min-height:63px}
+.archi.done{background:#e3f2eb;border-color:#9bc9b7}
+.check{width:43px;height:43px;border-radius:12px;border:2px solid #adb9b4;background:#fff;color:#fff;font-size:24px;font-weight:900}
+.archi.done .check{background:var(--green);border-color:var(--green)}
+.name{font-size:15px;font-weight:800;line-height:1.23} .sub{font-size:12px;color:var(--muted);margin-top:3px}
+.x8{border:0;background:#eef3f0;border-radius:10px;padding:9px 8px;font-size:11px;font-weight:900;color:#4e625b}
+.empty{text-align:center;color:var(--muted);padding:34px}
+footer{position:fixed;bottom:0;left:0;right:0;z-index:50;background:rgba(255,255,255,.97);backdrop-filter:blur(15px);border-top:1px solid var(--line);padding:8px 10px calc(8px + env(safe-area-inset-bottom))}
+.footerin{max-width:900px;margin:auto;display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.footerin .btn{padding:9px 3px;font-size:11px}
+dialog{border:0;border-radius:18px;padding:0;max-width:530px;width:calc(100% - 28px);box-shadow:var(--shadow)} dialog::backdrop{background:rgba(0,0,0,.42)}
+.modal{padding:18px} .modal h3{margin-top:0} .modal input,.modal select{width:100%;padding:11px;border:1px solid var(--line);border-radius:10px;margin:4px 0 10px;font-size:16px}
+.small{font-size:12px;color:var(--muted);line-height:1.45}
+.hidden{display:none!important}
+.farmwrap{max-width:620px;margin:0 auto}
+.farmtop{display:flex;gap:8px;align-items:center;margin-bottom:10px}
+.farmtop select{flex:1;border:1px solid var(--line);background:#fff;border-radius:12px;padding:11px;font-size:15px}
+.farmcard{background:linear-gradient(145deg,#173d34,#286f5c);color:#fff;border-radius:23px;padding:22px 18px;box-shadow:var(--shadow);min-height:310px;display:flex;flex-direction:column;justify-content:space-between;text-align:center}
+.farmstep{font-size:12px;font-weight:800;opacity:.75;letter-spacing:.04em}
+.farmname{font-size:28px;font-weight:900;line-height:1.1;margin:22px 0 9px}
+.farmsub{font-size:14px;opacity:.78}
+.farmstatus{display:inline-flex;align-items:center;justify-content:center;align-self:center;border-radius:999px;padding:7px 11px;background:rgba(255,255,255,.13);font-size:12px;font-weight:800;margin-top:16px}
+.farmactions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.farmcapture{border:0;border-radius:16px;padding:17px 9px;font-weight:900;font-size:16px;background:#fff;color:#174b3e}
+.farmcapture.team{background:#f0c66d;color:#513b09}
+.farmnav{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:11px}
+.farmnav .btn{padding:13px}
+.farmdone{background:linear-gradient(145deg,#246b58,#2b866d)}
+.route{border-left:4px solid var(--green);padding:9px 10px;margin:8px 0;background:#f7faf8;border-radius:0 12px 12px 0}
+.route strong{display:block;font-size:14px}.route span{font-size:12px;color:var(--muted)}
+@media(min-width:700px){main{padding:18px}.regiongrid{grid-template-columns:repeat(4,1fr)}.archi{padding:10px 12px}}
+
+.routeplanner{display:grid;gap:10px}
+.routecard{background:#fff;border:1px solid var(--line);border-radius:15px;padding:12px}
+.routecard.active{border-color:var(--green);box-shadow:0 0 0 2px rgba(31,107,87,.08)}
+.routehead{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+.routehead strong{font-size:15px;line-height:1.25}
+.routehead span{font-size:12px;color:var(--muted);font-weight:800}
+.routeactions{display:flex;gap:7px;margin-top:9px}
+.routeactions .btn{padding:8px 10px;font-size:12px}
+.auditbadge{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:5px 8px;font-size:11px;font-weight:900;background:#fff0d5;color:#835c08;margin-top:5px}
+.priority{display:inline-flex;align-items:center;border-radius:999px;padding:3px 7px;background:#fff4dc;color:#8b650d;font-size:10px;font-weight:900;margin-left:5px}
+.datainfo{font-size:12px;color:var(--muted);line-height:1.45}
+
+
+.matrixwrap{overflow:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--line);border-radius:14px}
+.matrix{border-collapse:separate;border-spacing:0;width:max-content;min-width:100%;background:#fff}
+.matrix th,.matrix td{border-bottom:1px solid var(--line);border-right:1px solid var(--line);padding:8px;text-align:center;font-size:12px}
+.matrix th{position:sticky;top:0;background:#f5f8f6;z-index:3;font-weight:900}
+.matrix th:first-child,.matrix td:first-child{position:sticky;left:0;background:#fff;z-index:2;text-align:left;min-width:220px;max-width:220px}
+.matrix th:first-child{z-index:4;background:#f5f8f6}
+.matrix td:first-child strong{display:block;font-size:13px;line-height:1.2}
+.matrix td:first-child span{display:block;font-size:10px;color:var(--muted);margin-top:3px}
+.mcheck{width:31px;height:31px;border:1px solid #aebbb5;border-radius:9px;background:#fff;font-weight:900;color:#fff}
+.mcheck.done{background:var(--green);border-color:var(--green)}
+.matrixfilters{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.matrixfilters select{border:1px solid var(--line);border-radius:11px;padding:10px;background:#fff;font-size:14px}
+.toast{position:fixed;left:50%;bottom:96px;transform:translate(-50%,20px);background:#183d34;color:#fff;border-radius:999px;padding:10px 15px;font-size:13px;font-weight:800;opacity:0;pointer-events:none;transition:.2s;z-index:80;white-space:nowrap}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.installnote{background:#eef8f4;border:1px solid #b8d9cd;border-radius:14px;padding:11px;font-size:12px;line-height:1.45;margin-top:10px}
+
+
+.statusbar{display:flex;gap:8px;flex-wrap:wrap;margin-top:9px}
+.statuspill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:6px 9px;font-size:11px;font-weight:850;background:rgba(255,255,255,.14);color:#fff}
+.statuspill.offline{background:rgba(226,179,75,.22)}
+.installbtn{border:0;background:#f0c568;color:#493607;border-radius:999px;padding:7px 10px;font-weight:900;font-size:11px}
+.onboard{display:grid;gap:10px}
+.onstep{display:grid;grid-template-columns:34px 1fr;gap:10px;align-items:start}
+.onnum{width:32px;height:32px;border-radius:10px;background:var(--green);color:#fff;display:grid;place-items:center;font-weight:900}
+.onstep strong{display:block;font-size:14px}.onstep span{font-size:12px;color:var(--muted);line-height:1.4}
+.qagrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.qaitem{border:1px solid var(--line);border-radius:12px;padding:10px;background:#f8faf9}
+.qaitem b{display:block;font-size:16px;color:var(--green)}.qaitem span{font-size:11px;color:var(--muted)}
+
+
+.quickbar{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.quickbar .btn{padding:12px}
+.farmcard.compact{min-height:260px}
+.farmhint{font-size:11px;opacity:.7;margin-top:8px}
+
+
+.updatebar{display:none;position:fixed;left:12px;right:12px;bottom:96px;z-index:90;max-width:650px;margin:auto;background:#173d34;color:white;border-radius:15px;padding:11px 12px;box-shadow:var(--shadow);align-items:center;justify-content:space-between;gap:10px}
+.updatebar.show{display:flex}
+.updatebar span{font-size:12px;font-weight:800}
+.updatebar button{border:0;border-radius:10px;background:#f0c568;color:#493607;padding:8px 10px;font-weight:900}
+
+
+.hunterbar{display:grid;grid-template-columns:1fr auto;gap:8px;margin-bottom:10px}
+.hunterbar select{border:1px solid var(--line);border-radius:12px;padding:11px;background:#fff;font-size:14px}
+.membergrid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.memberbtn{border:1px solid var(--line);border-radius:13px;padding:10px;background:#fff;font-weight:800;text-align:left}
+.memberbtn.active{background:var(--green2);border-color:var(--green);color:#17483d}
+.memberbtn small{display:block;color:var(--muted);font-weight:600;margin-top:3px}
+.journalitem{display:grid;grid-template-columns:56px 1fr;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
+.journalitem:last-child{border-bottom:0}
+.journaltime{font-size:11px;color:var(--muted);font-weight:800}
+.journalitem strong{display:block;font-size:14px}
+.journalitem span{display:block;font-size:12px;color:var(--muted);margin-top:3px}
+.resume{background:linear-gradient(135deg,#fff8e8,#fff);border:1px solid #ead4a1;border-radius:15px;padding:12px;margin-bottom:12px}
+.resume strong{display:block;font-size:16px;margin-bottom:4px}
+.resume span{font-size:12px;color:var(--muted)}
+
+
+.sessionsummary{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:10px 0}
+.sessionstat{background:#f7faf8;border:1px solid var(--line);border-radius:12px;padding:9px;text-align:center}
+.sessionstat b{display:block;color:var(--green);font-size:18px}
+.sessionstat span{font-size:10px;color:var(--muted)}
+
+
+.planintro{font-size:12px;color:var(--muted);line-height:1.45;margin-bottom:10px}
+.planregions{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.planregion{border:1px solid var(--line);border-radius:13px;background:#fff;padding:10px;text-align:left}
+.planregion.active{background:var(--green2);border-color:var(--green);color:#17483d}
+.planregion strong{display:block;font-size:13px;line-height:1.2}
+.planregion span{display:block;font-size:11px;color:var(--muted);margin-top:3px}
+.planresult{margin-top:12px;display:grid;gap:8px}
+.planstep{display:grid;grid-template-columns:34px 1fr auto;gap:9px;align-items:center;border:1px solid var(--line);border-radius:13px;padding:9px;background:#fff}
+.planstep .num{width:32px;height:32px;border-radius:10px;background:var(--green);color:#fff;display:grid;place-items:center;font-weight:900}
+.planstep strong{display:block;font-size:13px}
+.planstep span{font-size:11px;color:var(--muted)}
+.planstep button{border:0;background:#eef3f0;border-radius:9px;padding:8px;font-size:11px;font-weight:900}
+.planempty{text-align:center;color:var(--muted);padding:18px}
+
+
+.completecard{background:linear-gradient(145deg,#205b4c,#2e8069);color:#fff;border-radius:22px;padding:22px;text-align:center;box-shadow:var(--shadow)}
+.completecard h3{font-size:24px;margin:0 0 8px}.completecard p{font-size:13px;opacity:.82;margin:0 0 15px}
+.completecard .btn{background:#fff;color:#17483d;border:0}
+.fadein{animation:fadeIn .18s ease-out}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+button:active{transform:scale(.985)}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid rgba(228,179,75,.65);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+
+
+.safetybox{background:#fff8e8;border:1px solid #ead4a1;border-radius:14px;padding:11px;margin-top:10px}
+.safetybox strong{display:block;font-size:13px;color:#6d520f;margin-bottom:4px}
+.safetybox span{display:block;font-size:12px;color:#7c6a3f;line-height:1.4}
+.snapshotlist{display:grid;gap:8px;margin-top:10px}
+.snapshotitem{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;border:1px solid var(--line);border-radius:12px;padding:10px;background:#fff}
+.snapshotitem strong{display:block;font-size:13px}.snapshotitem span{display:block;font-size:11px;color:var(--muted);margin-top:3px}
+.snapshotitem button{border:0;background:#eef3f0;border-radius:9px;padding:8px;font-size:11px;font-weight:900}
+
+
+:root[data-theme="dark"]{
+  --bg:#111714;--panel:#18201c;--ink:#eef5f1;--muted:#9baba4;
+  --green:#3a9b7e;--green2:#1f3c33;--gold:#e5b85a;--line:#2f3a35;
+  --danger:#ef857a;--shadow:0 8px 28px rgba(0,0,0,.25)
+}
+:root[data-theme="dark"] input,
+:root[data-theme="dark"] select,
+:root[data-theme="dark"] .btn,
+:root[data-theme="dark"] .pill,
+:root[data-theme="dark"] .archi,
+:root[data-theme="dark"] .routecard,
+:root[data-theme="dark"] .regioncard,
+:root[data-theme="dark"] .planregion,
+:root[data-theme="dark"] .planstep,
+:root[data-theme="dark"] .snapshotitem,
+:root[data-theme="dark"] .memberbtn,
+:root[data-theme="dark"] .matrix,
+:root[data-theme="dark"] .matrix td:first-child{background:#18201c;color:var(--ink)}
+:root[data-theme="dark"] .matrix th{background:#202a25;color:var(--ink)}
+:root[data-theme="dark"] .stat,
+:root[data-theme="dark"] .sessionstat,
+:root[data-theme="dark"] .qaitem{background:#202a25}
+:root[data-density="compact"] .archi{min-height:52px;padding:6px}
+:root[data-density="compact"] .check{width:37px;height:37px}
+:root[data-density="compact"] .name{font-size:14px}
+:root[data-density="compact"] .sub{font-size:11px}
+.settingrow{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;padding:11px 0;border-bottom:1px solid var(--line)}
+.settingrow:last-child{border-bottom:0}
+.settingrow strong{display:block;font-size:14px}.settingrow span{display:block;font-size:12px;color:var(--muted);margin-top:3px}
+.settingrow select{border:1px solid var(--line);border-radius:10px;padding:9px;background:var(--panel);color:var(--ink)}
+.versionline{font-size:11px;color:var(--muted);text-align:center;margin-top:10px}
+
+
+#appSplash{position:fixed;inset:0;z-index:9999;background:#0b0e0d url("./assets/splash-ocre-ombre-645x1398.jpg") center/cover no-repeat;display:grid;place-items:end center;transition:opacity .45s ease,visibility .45s ease}
+#appSplash.hide{opacity:0;visibility:hidden;pointer-events:none}
+#appSplash::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.08),rgba(0,0,0,.05) 60%,rgba(0,0,0,.45))}
+.splashLoader{position:relative;z-index:1;width:44px;height:44px;border:3px solid rgba(228,179,75,.25);border-top-color:#e4b34b;border-radius:50%;animation:spin .8s linear infinite;margin-bottom:calc(52px + env(safe-area-inset-bottom))}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+
+.releasebadge{display:inline-flex;align-items:center;gap:6px;background:rgba(215,168,76,.16);border:1px solid rgba(215,168,76,.35);color:#f0ca7b;border-radius:999px;padding:5px 8px;font-size:10px;font-weight:900}
+.topactions{display:flex;align-items:center;gap:7px}
+.iconbtn{width:34px;height:34px;border-radius:10px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.08);color:#fff;font-size:16px}
+.helpgrid{display:grid;gap:9px}
+.helpitem{border:1px solid var(--line);border-radius:13px;padding:11px;background:var(--panel)}
+.helpitem strong{display:block;font-size:13px}.helpitem span{display:block;font-size:12px;color:var(--muted);line-height:1.4;margin-top:3px}
+.storagewarn{display:none;background:#fff1e8;border:1px solid #e6b38e;color:#714325;border-radius:13px;padding:10px;font-size:12px;line-height:1.4;margin-bottom:10px}
+.storagewarn.show{display:block}
+
+</style>
+
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Ocre Companion">
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="./icons/icon-180.png">
+<link rel="apple-touch-startup-image" href="./assets/splash-ocre-ombre-1290x2796.jpg" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3)">
+<meta name="apple-mobile-web-app-title" content="Ocre Companion">
+
+</head>
+<body><div id="appSplash" aria-hidden="true"><div class="splashLoader"></div></div>
+<header>
+ <div class="headrow"><div><h1>Ocre Companion</h1><span class="releasebadge">1.0 RC3 · Rétro</span></div><div class="topactions"><button class="iconbtn" id="quickHelp" aria-label="Aide">?</button><button class="iconbtn" id="quickSettings" aria-label="Réglages">⚙</button></div></div><div class="saved" id="saved">Sauvegarde locale</div>
+ <div class="subtitle" id="activeLabel"></div>
+ <div class="progressbar"><div id="progressFill"></div></div>
+ <div class="progresstext" id="progressText"></div><div class="statusbar"><span class="statuspill" id="networkStatus">● En ligne</span><span class="statuspill" id="offlineReady">Hors ligne : vérification…</span><button class="installbtn hidden" id="installBtn">Installer</button></div>
+</header>
+
+<main><div class="storagewarn" id="storageWarning"><strong>Stockage local presque plein.</strong><br>Exporte une sauvegarde JSON avant de continuer.</div>
+ <section class="panel"><div class="viewtabs">
+   <button class="pill" data-view="hunter">Chasseur</button>
+   <button class="pill" data-view="farm">Farm</button>
+   <button class="pill" data-view="routes">Circuits</button>
+   <button class="pill" data-view="planner">Planifier</button>
+   <button class="pill" data-view="list">Liste</button>
+   <button class="pill" data-view="team">Équipe x8</button>
+   <button class="pill" data-view="dashboard">Stats</button>
+   <button class="pill" data-view="journal">Journal</button>
+ </div></section>
+
+ <section class="panel"><div class="ocretabs" id="ocretabs"></div></section>
+
+ <section id="dashboardView">
+   <section class="panel">
+    <div class="stats">
+      <div class="stat"><b id="dDone">0</b><span>Capturés</span></div>
+      <div class="stat"><b id="dLeft">286</b><span>Restants</span></div>
+      <div class="stat"><b id="dPct">0 %</b><span>Progression</span></div>
+    </div>
+    <div class="next" id="nextBox"></div>
+   </section>
+   <section class="panel">
+    <h2 style="font-size:17px;margin:0 0 10px">Progression par région</h2>
+    <div class="regiongrid" id="regiongrid"></div>
+   </section>
+ </section>
+
+ <section id="listView" class="hidden">
+  <section class="panel">
+   <div class="controls">
+    <input id="search" type="search" placeholder="Rechercher un archimonstre…">
+    <button class="btn" id="clearSearch">Effacer</button>
+   </div>
+   <label class="toggle"><input id="remainingOnly" type="checkbox"> Uniquement ceux qui restent</label>
+  </section>
+  <section class="panel"><div class="chips" id="chips"></div></section>
+  <div id="list"></div>
+ </section>
+
+ <section id="farmView" class="hidden">
+  <section class="panel farmwrap">
+   <div class="farmtop">
+    <select id="farmRegion"></select>
+    <button class="btn" id="farmRemaining">Restants</button>
+   </div>
+   <div class="farmcard" id="farmCard">
+    <div>
+     <div class="farmstep" id="farmStep"></div>
+     <div class="farmname" id="farmName"></div>
+     <div class="farmsub" id="farmSub"></div>
+     <div class="farmstatus" id="farmStatus"></div>
+    </div>
+    <div>
+     <div class="farmactions">
+      <button class="farmcapture" id="farmCapture">Capturé</button>
+      <button class="farmcapture team" id="farmCapture8">Capturé x8</button>
+     </div>
+     <div class="farmnav">
+      <button class="btn" id="farmPrev">← Précédent</button>
+      <button class="btn primary" id="farmNext">Suivant →</button>
+     </div>
+     <div class="quickbar">
+      <button class="btn" id="farmSkipRegion">Région suivante</button>
+      <button class="btn" id="farmOpenList">Voir la liste</button>
+     </div>
+     <div class="farmhint">Objectif : un appui sur “Capturé”, puis l’archi suivant s’affiche automatiquement.</div>
+    </div>
+   </div>
+   <div id="farmRoute" style="margin-top:13px"></div>
+  </section>
+ </section>
+
+
+ <section id="routesView" class="hidden">
+  <section class="panel">
+   <h2 style="font-size:17px;margin:0 0 6px">Circuits optimisés</h2>
+   <p class="datainfo">Les circuits suivent l’ordre géographique de la base actuelle. Les anciens cas non classés ont été réintégrés dans leurs circuits. Les quelques correspondances issues des familles Rétro sont conservées dans l’audit des données.</p>
+   <div class="routeplanner" id="routePlanner"></div>
+  </section>
+ </section>
+
+
+ <section id="teamView" class="hidden">
+  <section class="panel">
+   <h2 style="font-size:17px;margin:0 0 6px">Vue équipe — 8 Ocre</h2>
+   <p class="datainfo">Une ligne par archimonstre, une colonne par personnage. Touche une case pour la valider ou l’annuler.</p>
+   <div class="matrixfilters">
+    <select id="matrixRegion"></select>
+    <select id="matrixMode">
+     <option value="all">Tous</option>
+     <option value="incomplete">Incomplets seulement</option>
+     <option value="complete">Complets x8 seulement</option>
+    </select>
+   </div>
+   <div class="matrixwrap"><table class="matrix" id="teamMatrix"></table></div>
+  </section>
+ </section>
+
+
+ <section id="hunterView" class="hidden">
+  <section class="panel">
+   <div class="hunterbar">
+    <select id="hunterRegion"></select>
+    <button class="btn" id="hunterTeamBtn">Équipe active</button>
+   </div>
+   <div class="resume" id="hunterResume"></div><div id="plannedRouteSummary" class="datainfo" style="margin:0 2px 8px"></div><div class="sessionsummary"><div class="sessionstat"><b id="sessionCaptured">0</b><span>captures aujourd’hui</span></div><div class="sessionstat"><b id="sessionRegions">0</b><span>régions touchées</span></div><div class="sessionstat"><b id="sessionLast">—</b><span>dernière capture</span></div></div>
+   <div id="hunterCompletion" class="hidden"></div><div class="farmcard fadein" id="hunterCard">
+    <div>
+     <div class="farmstep" id="hunterStep"></div>
+     <div class="farmname" id="hunterName"></div>
+     <div class="farmsub" id="hunterSub"></div>
+     <div class="farmstatus" id="hunterStatus"></div>
+    </div>
+    <div>
+     <button class="farmcapture team" id="hunterCapture" style="width:100%;padding:19px">Capturé par l’équipe active</button>
+     <div class="farmnav">
+      <button class="btn" id="hunterPrev">← Précédent</button>
+      <button class="btn primary" id="hunterNext">Suivant →</button>
+     </div>
+    </div>
+   </div>
+  </section>
+ </section>
+
+ <section id="journalView" class="hidden">
+  <section class="panel">
+   <h2 style="font-size:17px;margin:0 0 6px">Journal de chasse</h2>
+   <p class="datainfo">Les dernières captures effectuées dans l’application.</p>
+   <div id="journalList"></div>
+  </section>
+ </section>
+
+
+ <section id="plannerView" class="hidden">
+  <section class="panel">
+   <h2 style="font-size:17px;margin:0 0 6px">Planificateur de tournée</h2>
+   <p class="planintro">Sélectionne les régions que tu veux faire aujourd’hui. L’application les remet dans l’ordre des circuits Rétro et ignore celles déjà terminées pour le personnage actif.</p>
+   <div class="planregions" id="planRegions"></div>
+   <div class="quickbar">
+    <button class="btn" id="planAllRemaining">Toutes les régions restantes</button>
+    <button class="btn" id="planClear">Effacer</button>
+   </div>
+   <button class="btn primary hidden" id="startPlannedRoute" style="width:100%;margin-top:12px">Démarrer toute la tournée</button><div class="planresult" id="planResult"></div>
+  </section>
+ </section>
+
+</main>
+
+<footer><div class="footerin">
+ <button class="btn" id="renameBtn">Noms</button>
+ <button class="btn" id="copyBtn">Copier</button>
+ <button class="btn" id="undoBtn">Annuler</button>
+ <button class="btn" id="exportBtn">Backup</button>
+ <button class="btn" id="moreBtn">Plus</button>
+</div></footer>
+
+<input type="file" id="fileInput" accept="application/json" hidden>
+
+<dialog id="onboardingDialog"><div class="modal">
+ <h3>Bienvenue dans Ocre Companion</h3>
+ <div class="onboard">
+  <div class="onstep"><div class="onnum">1</div><div><strong>Choisis ton personnage</strong><span>Les huit Ocre sont suivis séparément.</span></div></div>
+  <div class="onstep"><div class="onnum">2</div><div><strong>Reste dans Farm</strong><span>Un archi apparaît, tu touches “Capturé”, le suivant arrive.</span></div></div>
+  <div class="onstep"><div class="onnum">3</div><div><strong>Utilise x8 quand toute la team l’a</strong><span>Une seule action valide la capture pour les huit personnages.</span></div></div>
+  <div class="onstep"><div class="onnum">4</div><div><strong>Fais un backup de temps en temps</strong><span>Le fichier JSON protège ta progression.</span></div></div>
+ </div>
+ <button class="btn primary" id="finishOnboarding" style="width:100%;margin-top:14px">Commencer</button>
+</div></dialog>
+
+<dialog id="activeTeamDialog"><div class="modal">
+ <h3>Équipe active</h3>
+ <p class="small">Une capture en mode Chasseur sera cochée uniquement pour les personnages sélectionnés.</p>
+ <div class="membergrid" id="memberGrid"></div>
+ <button class="btn primary" id="saveActiveTeam" style="width:100%;margin-top:12px">Enregistrer</button>
+</div></dialog>
+
+
+
+
+<dialog id="helpDialog"><div class="modal">
+ <h3>Aide rapide</h3>
+ <div class="helpgrid">
+  <div class="helpitem"><strong>Mode Chasseur</strong><span>Choisis l’équipe active, valide une capture, puis passe automatiquement au prochain archimonstre manquant.</span></div>
+  <div class="helpitem"><strong>Planifier</strong><span>Sélectionne plusieurs régions : elles seront triées selon les circuits Dofus Rétro.</span></div>
+  <div class="helpitem"><strong>Équipe x8</strong><span>Vérifie d’un coup d’œil quels personnages possèdent chaque capture.</span></div>
+  <div class="helpitem"><strong>Backup</strong><span>Exporte régulièrement un fichier JSON. Il permet de restaurer toute la progression.</span></div>
+  <div class="helpitem"><strong>Installation iPhone</strong><span>Safari → Partager → Ajouter à l’écran d’accueil → Ouvrir comme app web.</span></div>
+ </div>
+ <button class="btn" onclick="helpDialog.close()" style="width:100%;margin-top:12px">Fermer</button>
+</div></dialog>
+
+<dialog id="settingsDialog"><div class="modal">
+ <h3>Réglages</h3>
+ <div class="settingrow"><div><strong>Thème</strong><span>Clair, sombre ou automatique.</span></div>
+  <select id="themeSelect"><option value="system">Automatique</option><option value="light">Clair</option><option value="dark">Sombre</option></select>
+ </div>
+ <div class="settingrow"><div><strong>Densité</strong><span>Affichage normal ou compact.</span></div>
+  <select id="densitySelect"><option value="normal">Normale</option><option value="compact">Compacte</option></select>
+ </div>
+ <div class="settingrow"><div><strong>Écran de démarrage</strong><span>Vue ouverte au lancement.</span></div>
+  <select id="startViewSelect"><option value="hunter">Chasseur</option><option value="farm">Farm</option><option value="planner">Planifier</option><option value="dashboard">Stats</option></select>
+ </div>
+ <button class="btn primary" id="saveSettings" style="width:100%;margin-top:12px">Enregistrer</button>
+ <button class="btn" id="replayOnboarding" style="width:100%;margin-top:8px">Revoir le guide de démarrage</button>
+ <button class="btn" onclick="settingsDialog.close()" style="width:100%;margin-top:8px">Fermer</button>
+ <div class="versionline">Ocre Companion 1.0 RC</div>
+</div></dialog>
+
+<dialog id="safetyDialog"><div class="modal">
+ <h3>Sauvegardes de sécurité</h3>
+ <p class="small">L’application crée automatiquement une copie locale avant les imports et les réinitialisations.</p>
+ <div class="snapshotlist" id="snapshotList"></div>
+ <button class="btn" id="makeSnapshot" style="width:100%;margin-top:10px">Créer une sauvegarde locale maintenant</button>
+ <button class="btn" onclick="safetyDialog.close()" style="width:100%;margin-top:8px">Fermer</button>
+</div></dialog>
+
+<dialog id="aboutDialog"><div class="modal">
+ <h3>À propos</h3>
+ <div class="qagrid">
+  <div class="qaitem"><b>286</b><span>archimonstres intégrés</span></div>
+  <div class="qaitem"><b>8</b><span>Ocre suivis séparément</span></div>
+  <div class="qaitem"><b id="storageState">OK</b><span>stockage local</span></div>
+  <div class="qaitem"><b id="cacheState">—</b><span>cache hors ligne</span></div><div class="qaitem"><b id="duplicateState">—</b><span>doublons de noms</span></div><div class="qaitem"><b id="regionState">—</b><span>régions détectées</span></div>
+ </div>
+ <p class="small"><strong>Version 1.0 RC3 — prête au déploiement.</strong> Les données restent sur l’appareil. La base ne contient plus de zone générique. Quelques anciens noms propres au contenu Rétro ont été classés à partir de leur famille de monstre.</p>
+ <button class="btn" onclick="aboutDialog.close()" style="width:100%">Fermer</button>
+</div></dialog>
+
+<dialog id="renameDialog"><div class="modal"><h3>Nommer les huit Ocre</h3><div id="nameFields"></div><button class="btn primary" id="saveNames">Enregistrer</button> <button class="btn" onclick="renameDialog.close()">Annuler</button></div></dialog>
+<dialog id="copyDialog"><div class="modal"><h3>Copier la progression</h3><p class="small">Copier la progression de l'Ocre actif vers un autre personnage.</p><select id="copyTarget"></select><button class="btn primary" id="doCopy">Copier</button> <button class="btn" onclick="copyDialog.close()">Annuler</button></div></dialog>
+<dialog id="moreDialog"><div class="modal"><h3>Outils</h3><button class="btn" id="settingsBtn" style="width:100%;margin-bottom:8px">Réglages</button><button class="btn" id="safetyBtn" style="width:100%;margin-bottom:8px">Sauvegardes de sécurité</button><button class="btn" id="aboutBtn" style="width:100%;margin-bottom:8px">État de l’application</button><button class="btn" id="csvBtn" style="width:100%;margin-bottom:8px">Exporter en CSV</button><button class="btn" id="importBtn" style="width:100%;margin-bottom:8px">Importer une sauvegarde</button><button class="btn danger" id="resetCurrentBtn" style="width:100%;margin-bottom:8px">Réinitialiser cet Ocre</button><button class="btn danger" id="resetAllBtn" style="width:100%">Tout réinitialiser</button><p class="small">La progression est enregistrée automatiquement sur cet appareil. Fais aussi une sauvegarde JSON de temps en temps.</p><div class="safetybox"><strong>Protection des données</strong><span>Une copie locale est créée automatiquement avant chaque import ou réinitialisation. Les cinq dernières sont conservées.</span></div><div class="installnote"><strong>Installation PWA :</strong><br>Une fois hébergée en HTTPS : Safari → Partager → Ajouter à l’écran d’accueil → Ouvrir comme app web.</div><p class="small"><strong>Audit données :</strong> les 286 noms sont présents. Les entrées classées « Zones spéciales » sont volontairement signalées comme à confirmer plutôt que présentées comme certaines.</p></div></dialog>
+
+<script>
+const ARCHIS=[{"order":1,"region":"Astrub & Amakna","subzone":"Amakna","name":"Chevaustine le Reconstruit","confidence":"verified"},{"order":1,"region":"Astrub & Amakna","subzone":"Amakna","name":"Larchimaide la Poussée","confidence":"verified"},{"order":1,"region":"Astrub & Amakna","subzone":"Amakna","name":"Neufedur le Flottant","confidence":"family"},{"order":1,"region":"Astrub & Amakna","subzone":"Amakna","name":"Rostensyl la Cuisinière","confidence":"verified"},{"order":1,"region":"Astrub & Amakna","subzone":"Astrub et alentours","name":"Arachitik la Souffreteuse","confidence":"verified"},{"order":1,"region":"Astrub & Amakna","subzone":"Ville, champs, forêt et souterrains","name":"Araknay la Galopante","confidence":"existing"},{"order":1,"region":"Astrub & Amakna","subzone":"Ville, champs, forêt et souterrains","name":"Arakozette l'Intrépide","confidence":"existing"},{"order":1,"region":"Astrub & Amakna","subzone":"Ville, champs, forêt et souterrains","name":"Arakule la Revancharde","confidence":"existing"},{"order":1,"region":"Astrub & Amakna","subzone":"Ville, champs, forêt et souterrains","name":"Bandapar l'Exclu","confidence":"existing"},{"order":1,"region":"Astrub & Amakna","subzone":"Ville, champs, forêt et souterrains","name":"Boudalf le Blanc","confidence":"existing"},{"order":1,"region":"Astrub & Amakna","subzone":"Ville, champs, forêt et souterrains","name":"Boudur le Raide","confidence":"existing"},{"order":1,"region":"Astrub & Amakna","subzone":"Ville, champs, forêt et souterrains","name":"Boufdégou le Refoulant","confidence":"existing"},{"order":1,"region":"Astrub & Amakna","subzone":"Ville, champs, forêt et souterrains","name":"Bouflet le Puéril","confidence":"existing"},{"order":1,"region":"Astrub & Amakna","subzone":"Ville, champs, forêt et souterrains","name":"Boulgourvil le Lointain","confidence":"existing"},{"order":1,"region":"Astrub & Amakna","subzone":"Ville, champs, forêt et souterrains","name":"Bulleur le Dormeur","confidence":"existing"},{"order":1,"region":"Astrub & Amakna","subzone":"Ville, champs, forêt et souterrains","name":"Gelanal le Huileux","confidence":"existing"},{"order":1,"region":"Astrub & Amakna","subzone":"Ville, champs, forêt et souterrains","name":"Gelaviv le Glaçon","confidence":"existing"},{"order":1,"region":"Astrub & Amakna","subzone":"Ville, champs, forêt et souterrains","name":"Geloliaine l'Aérien","confidence":"existing"},{"order":1,"region":"Astrub & Amakna","subzone":"Ville, champs, forêt et souterrains","name":"Kwoanneur le Frimeur","confidence":"existing"},{"order":1,"region":"Astrub & Amakna","subzone":"Ville, champs, forêt et souterrains","name":"Larvapstrè le Subjectif","confidence":"existing"},{"order":1,"region":"Astrub & Amakna","subzone":"Ville, champs, forêt et souterrains","name":"Mosketére le Dévoué","confidence":"existing"},{"order":1,"region":"Astrub & Amakna","subzone":"Ville, champs, forêt et souterrains","name":"Nerdeubeu le Flagellant","confidence":"existing"},{"order":1,"region":"Astrub & Amakna","subzone":"Ville, champs, forêt et souterrains","name":"Pioufe la Maquillée","confidence":"existing"},{"order":1,"region":"Astrub & Amakna","subzone":"Ville, champs, forêt et souterrains","name":"Pioukas la Plante","confidence":"existing"},{"order":1,"region":"Astrub & Amakna","subzone":"Ville, champs, forêt et souterrains","name":"Pioulbrineur le Mercenaire","confidence":"existing"},{"order":1,"region":"Astrub & Amakna","subzone":"Ville, champs, forêt et souterrains","name":"Pioulette la Coquine","confidence":"existing"},{"order":1,"region":"Astrub & Amakna","subzone":"Ville, champs, forêt et souterrains","name":"Pioussokrim le Délétère","confidence":"existing"},{"order":1,"region":"Astrub & Amakna","subzone":"Ville, champs, forêt et souterrains","name":"Pioustone le Problème","confidence":"existing"},{"order":1,"region":"Astrub & Amakna","subzone":"Ville, champs, forêt et souterrains","name":"Pissdane l'Insipide","confidence":"existing"},{"order":1,"region":"Astrub & Amakna","subzone":"Ville, champs, forêt et souterrains","name":"Roz la Magicienne","confidence":"existing"},{"order":1,"region":"Astrub & Amakna","subzone":"Ville, champs, forêt et souterrains","name":"Serpistol l'Illustre","confidence":"existing"},{"order":1,"region":"Astrub & Amakna","subzone":"Ville, champs, forêt et souterrains","name":"Sourizoto le Collant","confidence":"existing"},{"order":1,"region":"Astrub & Amakna","subzone":"Ville, champs, forêt et souterrains","name":"Tofuldebeu l'Explosif","confidence":"existing"},{"order":1,"region":"Astrub & Amakna","subzone":"Ville, champs, forêt et souterrains","name":"Tofumanchou l'Empereur","confidence":"existing"},{"order":1,"region":"Astrub & Amakna","subzone":"Ville, champs, forêt et souterrains","name":"Tofurapin le Pétri","confidence":"existing"},{"order":1,"region":"Astrub & Amakna","subzone":"Ville, champs, forêt et souterrains","name":"Tour le Vice","confidence":"existing"},{"order":2,"region":"Forêts d'Amakna","subzone":"Abraknydes et Champas","name":"Abrakadnuzar","confidence":"existing"},{"order":2,"region":"Forêts d'Amakna","subzone":"Abraknydes et Champas","name":"Abrakanette l'Encapsulé","confidence":"existing"},{"order":2,"region":"Forêts d'Amakna","subzone":"Abraknydes et Champas","name":"Abrakildas le Vénérable","confidence":"existing"},{"order":2,"region":"Forêts d'Amakna","subzone":"Abraknydes et Champas","name":"Abrakine le Sombre","confidence":"existing"},{"order":2,"region":"Forêts d'Amakna","subzone":"Abraknydes et Champas","name":"Abraklette le Fondant","confidence":"existing"},{"order":2,"region":"Forêts d'Amakna","subzone":"Abraknydes et Champas","name":"Abrakroc l'Édenté","confidence":"existing"},{"order":2,"region":"Forêts d'Amakna","subzone":"Abraknydes et Champas","name":"Chamchie le Difficile","confidence":"existing"},{"order":2,"region":"Forêts d'Amakna","subzone":"Abraknydes et Champas","name":"Champayr le Disjoncté","confidence":"existing"},{"order":2,"region":"Forêts d'Amakna","subzone":"Abraknydes et Champas","name":"Champayt l'Odorant","confidence":"existing"},{"order":2,"region":"Forêts d'Amakna","subzone":"Abraknydes et Champas","name":"Tronkoneuz la Tranchante","confidence":"existing"},{"order":2,"region":"Forêts d'Amakna","subzone":"Forêt Maléfique","name":"Citassaté le Service","confidence":"family"},{"order":2,"region":"Forêts d'Amakna","subzone":"Forêt des Abraknydes","name":"Chamdblé le Cultivé","confidence":"verified"},{"order":2,"region":"Forêts d'Amakna","subzone":"Forêt des Abraknydes","name":"Chamflay le Ballonné","confidence":"verified"},{"order":3,"region":"Sufokia","subzone":"Plages et calanques","name":"Craraboss le Féérique","confidence":"existing"},{"order":3,"region":"Sufokia","subzone":"Plages et calanques","name":"Pichakoté le Dégoûtant","confidence":"existing"},{"order":3,"region":"Sufokia","subzone":"Plages et calanques","name":"Pichdourse le Puissant","confidence":"existing"},{"order":3,"region":"Sufokia","subzone":"Plages et calanques","name":"Pichduitre le Totem","confidence":"existing"},{"order":3,"region":"Sufokia","subzone":"Plages et calanques","name":"Picht le Brioché","confidence":"existing"},{"order":3,"region":"Sufokia","subzone":"Plages et calanques","name":"Pichtoire l'Érudit","confidence":"existing"},{"order":4,"region":"Cania & Bonta","subzone":"Blops et Biblops","name":"Bi le Partageur","confidence":"existing"},{"order":4,"region":"Cania & Bonta","subzone":"Blops et Biblops","name":"Bilvoezé le Bonimenteur","confidence":"existing"},{"order":4,"region":"Cania & Bonta","subzone":"Blops et Biblops","name":"Bistou le Quêteur","confidence":"existing"},{"order":4,"region":"Cania & Bonta","subzone":"Blops et Biblops","name":"Bistou le Rieur","confidence":"existing"},{"order":4,"region":"Cania & Bonta","subzone":"Blops et Biblops","name":"Blof l'Apathique","confidence":"existing"},{"order":4,"region":"Cania & Bonta","subzone":"Blops et Biblops","name":"Bloporte le Veule","confidence":"existing"},{"order":4,"region":"Cania & Bonta","subzone":"Blops et Biblops","name":"Blordur l'Infect","confidence":"existing"},{"order":4,"region":"Cania & Bonta","subzone":"Blops et Biblops","name":"Blorie l'Assourdissante","confidence":"existing"},{"order":4,"region":"Cania & Bonta","subzone":"Cité de Bonta","name":"Arabord la Cruche","confidence":"verified"},{"order":4,"region":"Cania & Bonta","subzone":"Plaine de Cania","name":"Maître Onom le Régulier","confidence":"verified"},{"order":4,"region":"Cania & Bonta","subzone":"Plaine de Cania","name":"Rauligo le Sale","confidence":"verified"},{"order":4,"region":"Cania & Bonta","subzone":"Plaines, craqueleurs et routes","name":"Crakmitaine le Faucheur","confidence":"existing"},{"order":4,"region":"Cania & Bonta","subzone":"Plaines, craqueleurs et routes","name":"Cramikaz le Suicidaire","confidence":"existing"},{"order":4,"region":"Cania & Bonta","subzone":"Plaines, craqueleurs et routes","name":"Craquetou le Fissuré","confidence":"existing"},{"order":4,"region":"Cania & Bonta","subzone":"Plaines, craqueleurs et routes","name":"Craquetuss le Piquant","confidence":"existing"},{"order":4,"region":"Cania & Bonta","subzone":"Plaines, craqueleurs et routes","name":"Crathdogue le Cruel","confidence":"existing"},{"order":4,"region":"Cania & Bonta","subzone":"Plaines, craqueleurs et routes","name":"Kanasukr le Mielleux","confidence":"existing"},{"order":4,"region":"Cania & Bonta","subzone":"Plaines, craqueleurs et routes","name":"Milipatte la Griffe","confidence":"existing"},{"order":4,"region":"Cania & Bonta","subzone":"Plaines, craqueleurs et routes","name":"Preskapwal le Tendancieux","confidence":"existing"},{"order":4,"region":"Cania & Bonta","subzone":"Plaines, craqueleurs et routes","name":"Sampi l'Éternel","confidence":"existing"},{"order":4,"region":"Cania & Bonta","subzone":"Plaines, craqueleurs et routes","name":"Sangria le Fruité","confidence":"existing"},{"order":4,"region":"Cania & Bonta","subzone":"Plaines, craqueleurs et routes","name":"Trooyé l'Oxydé","confidence":"existing"},{"order":4,"region":"Cania & Bonta","subzone":"Porkass / ferme","name":"Cavordemal le Sorcier","confidence":"existing"},{"order":4,"region":"Cania & Bonta","subzone":"Porkass / ferme","name":"Chonstip la Passagère","confidence":"existing"},{"order":4,"region":"Cania & Bonta","subzone":"Porkass / ferme","name":"Farlon l'Enfant","confidence":"existing"},{"order":4,"region":"Cania & Bonta","subzone":"Porkass / ferme","name":"Porfavor le Quémandeur","confidence":"existing"},{"order":5,"region":"Plaine des Scarafeuilles","subzone":"Scarafeuilles et abords","name":"Scapé l'Épée","confidence":"existing"},{"order":5,"region":"Plaine des Scarafeuilles","subzone":"Scarafeuilles et abords","name":"Scaramel le Fondant","confidence":"existing"},{"order":5,"region":"Plaine des Scarafeuilles","subzone":"Scarafeuilles et abords","name":"Scaratyn l'Huître","confidence":"existing"},{"order":5,"region":"Plaine des Scarafeuilles","subzone":"Scarafeuilles et abords","name":"Scarfayss le Balafré","confidence":"existing"},{"order":5,"region":"Plaine des Scarafeuilles","subzone":"Scarafeuilles et abords","name":"Scarouarze l'Épopée","confidence":"existing"},{"order":5,"region":"Plaine des Scarafeuilles","subzone":"Scarafeuilles et abords","name":"Scorpitène l'Enflammé","confidence":"existing"},{"order":6,"region":"Campement des Bworks","subzone":"Bworks et gobelins","name":"Barchwork le Multicolore","confidence":"existing"},{"order":6,"region":"Campement des Bworks","subzone":"Bworks et gobelins","name":"Bworkasse le Dégoûtant","confidence":"existing"},{"order":6,"region":"Campement des Bworks","subzone":"Bworks et gobelins","name":"Bwormage le Respectueux","confidence":"existing"},{"order":6,"region":"Campement des Bworks","subzone":"Bworks et gobelins","name":"Gobstiniais le Têtu","confidence":"existing"},{"order":7,"region":"Brâkmar & Sidimote","subzone":"Brâkmar — Égouts · Landes, façade et égouts","name":"Chamitant le Dilettante","confidence":"existing"},{"order":7,"region":"Brâkmar & Sidimote","subzone":"Brâkmar — Égouts · Landes, façade et égouts","name":"Crognan le Barbare","confidence":"existing"},{"order":7,"region":"Brâkmar & Sidimote","subzone":"Brâkmar — Égouts · Landes, façade et égouts","name":"Cromikay le Néophyte","confidence":"existing"},{"order":7,"region":"Brâkmar & Sidimote","subzone":"Brâkmar — Égouts · Landes, façade et égouts","name":"Kolforthe l'Indécollable","confidence":"existing"},{"order":7,"region":"Brâkmar & Sidimote","subzone":"Brâkmar — Égouts · Landes, façade et égouts","name":"Milipussien le Géant","confidence":"existing"},{"order":7,"region":"Brâkmar & Sidimote","subzone":"Brâkmar — Égouts · Landes, façade et égouts","name":"Radoutable le Craint","confidence":"existing"},{"order":7,"region":"Brâkmar & Sidimote","subzone":"Brâkmar — Égouts · Landes, façade et égouts","name":"Ratlbol l'Aigri","confidence":"existing"},{"order":7,"region":"Brâkmar & Sidimote","subzone":"Brâkmar — Égouts · Landes, façade et égouts","name":"Ratéhaifaim le Professeur","confidence":"existing"},{"order":7,"region":"Brâkmar & Sidimote","subzone":"Cimetières — Brâkmar · Cimetières et cryptes","name":"Bandson le Tonitruant","confidence":"existing"},{"order":7,"region":"Brâkmar & Sidimote","subzone":"Cimetières — Brâkmar · Cimetières et cryptes","name":"Chafalfer l'Optimiste","confidence":"existing"},{"order":7,"region":"Brâkmar & Sidimote","subzone":"Cimetières — Brâkmar · Cimetières et cryptes","name":"Chafemal le Bagarreur","confidence":"existing"},{"order":7,"region":"Brâkmar & Sidimote","subzone":"Cimetières — Brâkmar · Cimetières et cryptes","name":"Chaffoin le Sournois","confidence":"existing"},{"order":7,"region":"Brâkmar & Sidimote","subzone":"Cimetières — Brâkmar · Cimetières et cryptes","name":"Chafmarcel le Fêtard","confidence":"existing"},{"order":7,"region":"Brâkmar & Sidimote","subzone":"Cimetières — Brâkmar · Cimetières et cryptes","name":"Chafrit le Barbare","confidence":"existing"},{"order":7,"region":"Brâkmar & Sidimote","subzone":"Cimetières — Brâkmar · Cimetières et cryptes","name":"Corpat le Vampire","confidence":"existing"},{"order":7,"region":"Brâkmar & Sidimote","subzone":"Cimetières — Brâkmar · Cimetières et cryptes","name":"Dragonienne l'Économe","confidence":"existing"},{"order":7,"region":"Brâkmar & Sidimote","subzone":"Cimetières — Brâkmar · Cimetières et cryptes","name":"Dragtonien le Malvoyant","confidence":"existing"},{"order":7,"region":"Brâkmar & Sidimote","subzone":"Cimetières — Brâkmar · Cimetières et cryptes","name":"Fanburn le Viril","confidence":"existing"},{"order":7,"region":"Brâkmar & Sidimote","subzone":"Cimetières — Brâkmar · Cimetières et cryptes","name":"Fandanleuil le Précis","confidence":"existing"},{"order":7,"region":"Brâkmar & Sidimote","subzone":"Cimetières — Brâkmar · Cimetières et cryptes","name":"Fandouich l'Hautain","confidence":"existing"},{"order":7,"region":"Brâkmar & Sidimote","subzone":"Cimetières — Brâkmar · Cimetières et cryptes","name":"Fanhnatur le Simple","confidence":"existing"},{"order":7,"region":"Brâkmar & Sidimote","subzone":"Cimetières — Brâkmar · Cimetières et cryptes","name":"Fanhopruno le Gourmet","confidence":"existing"},{"order":7,"region":"Brâkmar & Sidimote","subzone":"Cimetières — Brâkmar · Cimetières et cryptes","name":"Fanjipann le Sucré","confidence":"existing"},{"order":7,"region":"Brâkmar & Sidimote","subzone":"Cimetières — Brâkmar · Cimetières et cryptes","name":"Fanjo le Pilote","confidence":"existing"},{"order":7,"region":"Brâkmar & Sidimote","subzone":"Cimetières — Brâkmar · Cimetières et cryptes","name":"Fanlabiz le Véloce","confidence":"existing"},{"order":7,"region":"Brâkmar & Sidimote","subzone":"Cimetières — Brâkmar · Cimetières et cryptes","name":"Fanlagoe le Comique","confidence":"existing"},{"order":7,"region":"Brâkmar & Sidimote","subzone":"Cimetières — Brâkmar · Cimetières et cryptes","name":"Fanlmy l'Acuité","confidence":"existing"},{"order":7,"region":"Brâkmar & Sidimote","subzone":"Cimetières — Brâkmar · Cimetières et cryptes","name":"Fansiss la Brêle","confidence":"existing"},{"order":7,"region":"Brâkmar & Sidimote","subzone":"Cimetières — Brâkmar · Cimetières et cryptes","name":"Fansissla l'Âne","confidence":"existing"},{"order":7,"region":"Brâkmar & Sidimote","subzone":"Cimetières — Brâkmar · Cimetières et cryptes","name":"Fanstatik l'Étonnant","confidence":"existing"},{"order":7,"region":"Brâkmar & Sidimote","subzone":"Cimetières — Brâkmar · Cimetières et cryptes","name":"Fantassein le Soldat","confidence":"existing"},{"order":7,"region":"Brâkmar & Sidimote","subzone":"Cimetières — Brâkmar · Cimetières et cryptes","name":"Fantoch le Pantin","confidence":"existing"},{"order":7,"region":"Brâkmar & Sidimote","subzone":"Cimetières — Brâkmar · Cimetières et cryptes","name":"Fantrask le Rêveur","confidence":"existing"},{"order":7,"region":"Brâkmar & Sidimote","subzone":"Cimetières — Brâkmar · Cimetières et cryptes","name":"Garsim le Mort","confidence":"existing"},{"order":7,"region":"Brâkmar & Sidimote","subzone":"Cimetières — Brâkmar · Cimetières et cryptes","name":"Larvonika l'Instrument","confidence":"existing"},{"order":7,"region":"Brâkmar & Sidimote","subzone":"Cimetières — Brâkmar · Cimetières et cryptes","name":"Maître Amboat le Moqueur","confidence":"existing"},{"order":7,"region":"Brâkmar & Sidimote","subzone":"Cimetières — Brâkmar · Cimetières et cryptes","name":"Onihylis le Destructeur","confidence":"existing"},{"order":7,"region":"Brâkmar & Sidimote","subzone":"Cimetières — Brâkmar · Cimetières et cryptes","name":"Osuxion le Vampirique","confidence":"existing"},{"order":7,"region":"Brâkmar & Sidimote","subzone":"Cimetières — Brâkmar · Cimetières et cryptes","name":"Ribibi le Cher","confidence":"existing"},{"order":7,"region":"Brâkmar & Sidimote","subzone":"Cimetières — Brâkmar · Cimetières et cryptes","name":"Vampunor le Glacial","confidence":"existing"},{"order":7,"region":"Brâkmar & Sidimote","subzone":"Cité de Brâkmar","name":"Forboyar l'Énigmatique","confidence":"verified"},{"order":7,"region":"Brâkmar & Sidimote","subzone":"Cité de Brâkmar","name":"Minsinistre l'Élu","confidence":"verified"},{"order":7,"region":"Brâkmar & Sidimote","subzone":"Landes de Sidimote","name":"Chalan le Commerçant","confidence":"verified"},{"order":7,"region":"Brâkmar & Sidimote","subzone":"Landes de Sidimote","name":"Ougaould le Parasite","confidence":"verified"},{"order":8,"region":"Dragoeufs","subzone":"Village, sanctuaire et souterrains","name":"Dragalgan l'Effervescent","confidence":"existing"},{"order":8,"region":"Dragoeufs","subzone":"Village, sanctuaire et souterrains","name":"Dragdikal le Décisif","confidence":"existing"},{"order":8,"region":"Dragoeufs","subzone":"Village, sanctuaire et souterrains","name":"Drageaufol la Joyeuse","confidence":"existing"},{"order":8,"region":"Dragoeufs","subzone":"Village, sanctuaire et souterrains","name":"Dragioli le Succulent","confidence":"existing"},{"order":8,"region":"Dragoeufs","subzone":"Village, sanctuaire et souterrains","name":"Dragkouine la Déguisée","confidence":"existing"},{"order":8,"region":"Dragoeufs","subzone":"Village, sanctuaire et souterrains","name":"Dragma le Bouillant","confidence":"existing"},{"order":8,"region":"Dragoeufs","subzone":"Village, sanctuaire et souterrains","name":"Dragminster le Magicien","confidence":"existing"},{"order":8,"region":"Dragoeufs","subzone":"Village, sanctuaire et souterrains","name":"Dragmoclaiss le Fataliste","confidence":"existing"},{"order":8,"region":"Dragoeufs","subzone":"Village, sanctuaire et souterrains","name":"Dragnostik le Sceptique","confidence":"existing"},{"order":8,"region":"Dragoeufs","subzone":"Village, sanctuaire et souterrains","name":"Dragobert le Monarque","confidence":"existing"},{"order":8,"region":"Dragoeufs","subzone":"Village, sanctuaire et souterrains","name":"Dragoeth le Penseur","confidence":"existing"},{"order":8,"region":"Dragoeufs","subzone":"Village, sanctuaire et souterrains","name":"Dragoo le Cramoisi","confidence":"existing"},{"order":8,"region":"Dragoeufs","subzone":"Village, sanctuaire et souterrains","name":"Dragsta le Détendu","confidence":"existing"},{"order":8,"region":"Dragoeufs","subzone":"Village, sanctuaire et souterrains","name":"Dragstayr le Fonceur","confidence":"existing"},{"order":8,"region":"Dragoeufs","subzone":"Village, sanctuaire et souterrains","name":"Dragstik le Frustré","confidence":"existing"},{"order":8,"region":"Dragoeufs","subzone":"Village, sanctuaire et souterrains","name":"Dragstore le Généraliste","confidence":"existing"},{"order":8,"region":"Dragoeufs","subzone":"Village, sanctuaire et souterrains","name":"Dragtarus le Bellâtre","confidence":"existing"},{"order":8,"region":"Dragoeufs","subzone":"Village, sanctuaire et souterrains","name":"Dragtopaile l'Excavateur","confidence":"existing"},{"order":8,"region":"Dragoeufs","subzone":"Village, sanctuaire et souterrains","name":"Dragtula l'Ancien","confidence":"existing"},{"order":8,"region":"Dragoeufs","subzone":"Village, sanctuaire et souterrains","name":"Dragybuss le Sucré","confidence":"existing"},{"order":8,"region":"Dragoeufs","subzone":"Village, sanctuaire et souterrains","name":"Draquetteur le Voleur","confidence":"existing"},{"order":9,"region":"Montagne des Koalaks","subzone":"Lacs, canyon, vallée et cimetière primitif","name":"Drakolage le Tentateur","confidence":"existing"},{"order":9,"region":"Montagne des Koalaks","subzone":"Lacs, canyon, vallée et cimetière primitif","name":"Fossamoel le Juteux","confidence":"existing"},{"order":9,"region":"Montagne des Koalaks","subzone":"Lacs, canyon, vallée et cimetière primitif","name":"Guerrite le Veilleur","confidence":"existing"},{"order":9,"region":"Montagne des Koalaks","subzone":"Lacs, canyon, vallée et cimetière primitif","name":"Kido l'Âtre","confidence":"existing"},{"order":9,"region":"Montagne des Koalaks","subzone":"Lacs, canyon, vallée et cimetière primitif","name":"Kilimanj'haro le Grimpeur","confidence":"existing"},{"order":9,"region":"Montagne des Koalaks","subzone":"Lacs, canyon, vallée et cimetière primitif","name":"Koalaboi le Calorifère","confidence":"existing"},{"order":9,"region":"Montagne des Koalaks","subzone":"Lacs, canyon, vallée et cimetière primitif","name":"Koalastrof la Naturelle","confidence":"existing"},{"order":9,"region":"Montagne des Koalaks","subzone":"Lacs, canyon, vallée et cimetière primitif","name":"Koalvissie le Chauve","confidence":"existing"},{"order":9,"region":"Montagne des Koalaks","subzone":"Lacs, canyon, vallée et cimetière primitif","name":"Koamag'oel le Défiguré","confidence":"existing"},{"order":9,"region":"Montagne des Koalaks","subzone":"Lacs, canyon, vallée et cimetière primitif","name":"Mamakomou l'Âge","confidence":"existing"},{"order":9,"region":"Montagne des Koalaks","subzone":"Lacs, canyon, vallée et cimetière primitif","name":"Momikonos la Bandelette","confidence":"existing"},{"order":9,"region":"Montagne des Koalaks","subzone":"Lacs, canyon, vallée et cimetière primitif","name":"Mufguedin le Suprême","confidence":"existing"},{"order":9,"region":"Montagne des Koalaks","subzone":"Lacs, canyon, vallée et cimetière primitif","name":"Muloufok l'Hilarant","confidence":"existing"},{"order":9,"region":"Montagne des Koalaks","subzone":"Lacs, canyon, vallée et cimetière primitif","name":"Pangraive le Militant","confidence":"existing"},{"order":9,"region":"Montagne des Koalaks","subzone":"Lacs, canyon, vallée et cimetière primitif","name":"Piradain le Pingre","confidence":"existing"},{"order":9,"region":"Montagne des Koalaks","subzone":"Lacs, canyon, vallée et cimetière primitif","name":"Pékeutar le Tireur","confidence":"existing"},{"order":9,"region":"Montagne des Koalaks","subzone":"Lacs, canyon, vallée et cimetière primitif","name":"Wara l'Amer","confidence":"existing"},{"order":9,"region":"Montagne des Koalaks","subzone":"Lacs, canyon, vallée et cimetière primitif","name":"Warkolad l'Étreinte","confidence":"existing"},{"order":9,"region":"Montagne des Koalaks","subzone":"Montagne des Koalaks","name":"Boostif l'Affamé","confidence":"verified"},{"order":9,"region":"Montagne des Koalaks","subzone":"Montagne des Koalaks","name":"Crok le Beau","confidence":"verified"},{"order":9,"region":"Montagne des Koalaks","subzone":"Montagne des Koalaks","name":"Crolnareff l'Exilé","confidence":"verified"},{"order":9,"region":"Montagne des Koalaks","subzone":"Montagne des Koalaks","name":"Doktopuss le Maléfique","confidence":"verified"},{"order":9,"region":"Montagne des Koalaks","subzone":"Montagne des Koalaks","name":"Draglida la Disparue","confidence":"verified"},{"order":9,"region":"Montagne des Koalaks","subzone":"Montagne des Koalaks","name":"Dragnoute l'Irascible","confidence":"verified"},{"order":9,"region":"Montagne des Koalaks","subzone":"Montagne des Koalaks","name":"Koakofrui le Confit","confidence":"verified"},{"order":9,"region":"Montagne des Koalaks","subzone":"Montagne des Koalaks","name":"Koamaembair le Coulant","confidence":"verified"},{"order":9,"region":"Montagne des Koalaks","subzone":"Montagne des Koalaks","name":"Koarmit la Batracienne","confidence":"verified"},{"order":9,"region":"Montagne des Koalaks","subzone":"Montagne des Koalaks","name":"Koaskette la Chapelière","confidence":"verified"},{"order":9,"region":"Montagne des Koalaks","subzone":"Montagne des Koalaks","name":"Koasossyal le Psychopathe","confidence":"verified"},{"order":9,"region":"Montagne des Koalaks","subzone":"Montagne des Koalaks","name":"Maître Koantik le Théoricien","confidence":"verified"},{"order":10,"region":"Île des Wabbits","subzone":"Wabbits et souterrains","name":"Grandilok le Clameur","confidence":"existing"},{"order":10,"region":"Île des Wabbits","subzone":"Wabbits et souterrains","name":"Tiwa'Missou le Gâteux","confidence":"existing"},{"order":10,"region":"Île des Wabbits","subzone":"Wabbits et souterrains","name":"Tiwalpé le Dévêtu","confidence":"existing"},{"order":10,"region":"Île des Wabbits","subzone":"Wabbits et souterrains","name":"Wabbitud le Constant","confidence":"existing"},{"order":10,"region":"Île des Wabbits","subzone":"Wabbits et souterrains","name":"Wagnagnah le Sanglant","confidence":"existing"},{"order":10,"region":"Île des Wabbits","subzone":"Wabbits et souterrains","name":"Watdogue le Bien Nommé","confidence":"existing"},{"order":10,"region":"Île des Wabbits","subzone":"Wabbits et souterrains","name":"Wokènrôl le Danseur","confidence":"existing"},{"order":10,"region":"Île des Wabbits","subzone":"Île des Wabbits","name":"Tiwoflan le Lâche","confidence":"verified"},{"order":11,"region":"Île de Moon","subzone":"Plage, jungle et bateau pirate","name":"Barebourd le Comte","confidence":"existing"},{"order":11,"region":"Île de Moon","subzone":"Plage, jungle et bateau pirate","name":"Boombata le Garde","confidence":"existing"},{"order":11,"region":"Île de Moon","subzone":"Plage, jungle et bateau pirate","name":"Caboume l'Artilleur","confidence":"existing"},{"order":11,"region":"Île de Moon","subzone":"Plage, jungle et bateau pirate","name":"Kannibal le Lecteur","confidence":"existing"},{"order":11,"region":"Île de Moon","subzone":"Plage, jungle et bateau pirate","name":"Kannisterik le Forcené","confidence":"existing"},{"order":11,"region":"Île de Moon","subzone":"Plage, jungle et bateau pirate","name":"Kannémik le Maigre","confidence":"existing"},{"order":11,"region":"Île de Moon","subzone":"Plage, jungle et bateau pirate","name":"Kapota la Fraise","confidence":"existing"},{"order":11,"region":"Île de Moon","subzone":"Plage, jungle et bateau pirate","name":"Koktèle le Secoué","confidence":"existing"},{"order":11,"region":"Île de Moon","subzone":"Plage, jungle et bateau pirate","name":"Nakuneuye le Borgne","confidence":"existing"},{"order":11,"region":"Île de Moon","subzone":"Plage, jungle et bateau pirate","name":"NodKoku le Trahi","confidence":"existing"},{"order":11,"region":"Île de Moon","subzone":"Plage, jungle et bateau pirate","name":"Tikosto le Mousse","confidence":"existing"},{"order":11,"region":"Île de Moon","subzone":"Plage, jungle et bateau pirate","name":"Trukul le Lent","confidence":"existing"},{"order":11,"region":"Île de Moon","subzone":"Île de Moon","name":"Gloubibou le Gars","confidence":"verified"},{"order":12,"region":"Île du Minotoror","subzone":"Labyrinthe du Minotoror","name":"Germinol l'Indigent","confidence":"verified"},{"order":12,"region":"Île du Minotoror","subzone":"Labyrinthe du Minotoror","name":"Krapahut le Randonneur","confidence":"verified"},{"order":13,"region":"Pandala","subzone":"Bambous et villages de Pandala","name":"Bambono le Divin","confidence":"family"},{"order":13,"region":"Pandala","subzone":"Braconniers et villages de Pandala","name":"Bramin le Bicéphale","confidence":"family"},{"order":13,"region":"Pandala","subzone":"Bulbes et bambous de Pandala","name":"Bulgig le Danseur","confidence":"family"},{"order":13,"region":"Pandala","subzone":"Bulbes et bambous de Pandala","name":"Bulsavon le Gonflé","confidence":"family"},{"order":13,"region":"Pandala","subzone":"Bulbes, tortues et bordures","name":"Buldeflore le Pénétrant","confidence":"existing"},{"order":13,"region":"Pandala","subzone":"Bulbes, tortues et bordures","name":"Fourapin le Chaud","confidence":"existing"},{"order":13,"region":"Pandala","subzone":"Bulbes, tortues et bordures","name":"Mandalo l'Aqueuse","confidence":"existing"},{"order":13,"region":"Pandala","subzone":"Bulbes, tortues et bordures","name":"Minoskour le Sauveur","confidence":"existing"},{"order":13,"region":"Pandala","subzone":"Bulbes, tortues et bordures","name":"Tortenssia la Fleurie","confidence":"existing"},{"order":13,"region":"Pandala","subzone":"Bulbes, tortues et bordures","name":"Torthur la Lutte","confidence":"existing"},{"order":13,"region":"Pandala","subzone":"Bulbes, tortues et bordures","name":"Tortilleur le Coulé","confidence":"existing"},{"order":13,"region":"Pandala","subzone":"Bulbes, tortues et bordures","name":"Tortorak le Cornu","confidence":"existing"},{"order":13,"region":"Pandala","subzone":"Kitsous de Pandala","name":"Kitsoudbra le Malodorant","confidence":"family"},{"order":13,"region":"Pandala","subzone":"Kitsous de Pandala","name":"Kitsoufre l'Explosif","confidence":"family"},{"order":13,"region":"Pandala","subzone":"Kitsous de Pandala","name":"Kitsoupierre le Récipient","confidence":"family"},{"order":13,"region":"Pandala","subzone":"Kitsous de Pandala","name":"Kitsoupopulère le Généreux","confidence":"family"},{"order":13,"region":"Pandala","subzone":"Plantes et villages de Pandala","name":"Cooligane le Névrosé","confidence":"family"},{"order":13,"region":"Pandala","subzone":"Villages, bordures et Firefoux","name":"Bambouské le Camouflé","confidence":"existing"},{"order":13,"region":"Pandala","subzone":"Villages, bordures et Firefoux","name":"Faufoll la Joyeuse","confidence":"existing"},{"order":13,"region":"Pandala","subzone":"Villages, bordures et Firefoux","name":"Mahoku le Botté","confidence":"existing"},{"order":13,"region":"Pandala","subzone":"Villages, bordures et Firefoux","name":"Pandaniagl la Saoule","confidence":"existing"},{"order":13,"region":"Pandala","subzone":"Villages, bordures et Firefoux","name":"Pandimaensh l'Animateur","confidence":"existing"},{"order":13,"region":"Pandala","subzone":"Villages, bordures et Firefoux","name":"Pandimy le Contagieux","confidence":"existing"},{"order":13,"region":"Pandala","subzone":"Villages, bordures et Firefoux","name":"Pandive le Végétarien","confidence":"existing"},{"order":13,"region":"Pandala","subzone":"Villages, bordures et Firefoux","name":"Pandouille le Titubant","confidence":"existing"},{"order":13,"region":"Pandala","subzone":"Villages, bordures et Firefoux","name":"Poolopo la Traditionnelle","confidence":"existing"},{"order":13,"region":"Pandala","subzone":"Villages, bordures et Firefoux","name":"Soryonara le Poli","confidence":"existing"},{"order":13,"region":"Pandala","subzone":"Villages, bordures et Firefoux","name":"YokaiKoral le Duel","confidence":"existing"},{"order":14,"region":"Île de Grobe","subzone":"Île de Grobe","name":"Fanfancisco le Cosmopolite","confidence":"verified"},{"order":14,"region":"Île de Grobe","subzone":"Île de Grobe","name":"Léopoldor le Barde","confidence":"family"},{"order":15,"region":"Île d'Otomaï","subzone":"Plage de Corail","name":"Cruskof le Rustre","confidence":"verified"},{"order":15,"region":"Île d'Otomaï","subzone":"Plage de Corail","name":"Crusmeyer le Pervers","confidence":"verified"},{"order":15,"region":"Île d'Otomaï","subzone":"Plage, jungle, tourbière, Hakam, Zoths/Fungus","name":"Abrinos le Clair","confidence":"existing"},{"order":15,"region":"Île d'Otomaï","subzone":"Plage, jungle, tourbière, Hakam, Zoths/Fungus","name":"Bitoven le Musicien","confidence":"existing"},{"order":15,"region":"Île d'Otomaï","subzone":"Plage, jungle, tourbière, Hakam, Zoths/Fungus","name":"Bouliver le Géant","confidence":"existing"},{"order":15,"region":"Île d'Otomaï","subzone":"Plage, jungle, tourbière, Hakam, Zoths/Fungus","name":"Brouste l'Humiliant","confidence":"existing"},{"order":15,"region":"Île d'Otomaï","subzone":"Plage, jungle, tourbière, Hakam, Zoths/Fungus","name":"Chamiléro le Malchanceux","confidence":"existing"},{"order":15,"region":"Île d'Otomaï","subzone":"Plage, jungle, tourbière, Hakam, Zoths/Fungus","name":"Chamoute le Duveteux","confidence":"existing"},{"order":15,"region":"Île d'Otomaï","subzone":"Plage, jungle, tourbière, Hakam, Zoths/Fungus","name":"Champmé le Méchant","confidence":"existing"},{"order":15,"region":"Île d'Otomaï","subzone":"Plage, jungle, tourbière, Hakam, Zoths/Fungus","name":"Champolyon le Polyglotte","confidence":"existing"},{"order":15,"region":"Île d'Otomaï","subzone":"Plage, jungle, tourbière, Hakam, Zoths/Fungus","name":"Champoul l'Illuminé","confidence":"existing"},{"order":15,"region":"Île d'Otomaï","subzone":"Plage, jungle, tourbière, Hakam, Zoths/Fungus","name":"Corboyard l'Énigmatique","confidence":"existing"},{"order":15,"region":"Île d'Otomaï","subzone":"Plage, jungle, tourbière, Hakam, Zoths/Fungus","name":"Crustensyl le Pragmatique","confidence":"existing"},{"order":15,"region":"Île d'Otomaï","subzone":"Plage, jungle, tourbière, Hakam, Zoths/Fungus","name":"Crustterus l'Organique","confidence":"existing"},{"order":15,"region":"Île d'Otomaï","subzone":"Plage, jungle, tourbière, Hakam, Zoths/Fungus","name":"Diskord le Belliqueux","confidence":"existing"},{"order":15,"region":"Île d'Otomaï","subzone":"Plage, jungle, tourbière, Hakam, Zoths/Fungus","name":"Don Kizoth l'Obstiné","confidence":"existing"},{"order":15,"region":"Île d'Otomaï","subzone":"Plage, jungle, tourbière, Hakam, Zoths/Fungus","name":"Floanna la Blonde","confidence":"existing"},{"order":15,"region":"Île d'Otomaï","subzone":"Plage, jungle, tourbière, Hakam, Zoths/Fungus","name":"Gastroth la Contagieuse","confidence":"existing"},{"order":15,"region":"Île d'Otomaï","subzone":"Plage, jungle, tourbière, Hakam, Zoths/Fungus","name":"Guerumoth le Collant","confidence":"existing"},{"order":15,"region":"Île d'Otomaï","subzone":"Plage, jungle, tourbière, Hakam, Zoths/Fungus","name":"Kaskapointhe la Couverte","confidence":"existing"},{"order":15,"region":"Île d'Otomaï","subzone":"Plage, jungle, tourbière, Hakam, Zoths/Fungus","name":"Meuroup le Prêtre","confidence":"existing"},{"order":15,"region":"Île d'Otomaï","subzone":"Plage, jungle, tourbière, Hakam, Zoths/Fungus","name":"Ouassébo l'Esthète","confidence":"existing"},{"order":15,"region":"Île d'Otomaï","subzone":"Plage, jungle, tourbière, Hakam, Zoths/Fungus","name":"Ouature la Mobile","confidence":"existing"},{"order":15,"region":"Île d'Otomaï","subzone":"Plage, jungle, tourbière, Hakam, Zoths/Fungus","name":"Palmbytch la Bronzée","confidence":"existing"},{"order":15,"region":"Île d'Otomaï","subzone":"Plage, jungle, tourbière, Hakam, Zoths/Fungus","name":"Palmiche le Serein","confidence":"existing"},{"order":15,"region":"Île d'Otomaï","subzone":"Plage, jungle, tourbière, Hakam, Zoths/Fungus","name":"Palmiflette le Convivial","confidence":"existing"},{"order":15,"region":"Île d'Otomaï","subzone":"Plage, jungle, tourbière, Hakam, Zoths/Fungus","name":"Palmito le Menteur","confidence":"existing"},{"order":15,"region":"Île d'Otomaï","subzone":"Plage, jungle, tourbière, Hakam, Zoths/Fungus","name":"Serpistule le Purulent","confidence":"existing"},{"order":15,"region":"Île d'Otomaï","subzone":"Plage, jungle, tourbière, Hakam, Zoths/Fungus","name":"Sparoket le Lanceur","confidence":"existing"},{"order":15,"region":"Île d'Otomaï","subzone":"Plage, jungle, tourbière, Hakam, Zoths/Fungus","name":"Toufou le Benêt","confidence":"existing"},{"order":15,"region":"Île d'Otomaï","subzone":"Plage, jungle, tourbière, Hakam, Zoths/Fungus","name":"Tourbiket le Virevoletant","confidence":"existing"},{"order":15,"region":"Île d'Otomaï","subzone":"Plage, jungle, tourbière, Hakam, Zoths/Fungus","name":"Toutouf le Velu","confidence":"existing"},{"order":15,"region":"Île d'Otomaï","subzone":"Plage, jungle, tourbière, Hakam, Zoths/Fungus","name":"Tromplamor le Survivant","confidence":"existing"},{"order":15,"region":"Île d'Otomaï","subzone":"Plage, jungle, tourbière, Hakam, Zoths/Fungus","name":"Écorfé la Vive","confidence":"existing"},{"order":15,"region":"Île d'Otomaï","subzone":"Village des Zoths","name":"Seripoth l'Ennemi","confidence":"verified"},{"order":15,"region":"Île d'Otomaï","subzone":"Île d'Otomaï","name":"Chiendanlémin l'Illusionniste","confidence":"verified"},{"order":15,"region":"Île d'Otomaï","subzone":"Île d'Otomaï","name":"Ouashouash l'Exubérant","confidence":"verified"},{"order":15,"region":"Île d'Otomaï","subzone":"Île d'Otomaï","name":"Roy le Merlin","confidence":"verified"},{"order":16,"region":"Temples de classe","subzone":"Dopeuls","name":"Aboudbra le Porteur","confidence":"existing"},{"order":16,"region":"Temples de classe","subzone":"Dopeuls","name":"Ameur la Laide","confidence":"existing"},{"order":16,"region":"Temples de classe","subzone":"Dopeuls","name":"Codenlgaz le Problème","confidence":"existing"},{"order":16,"region":"Temples de classe","subzone":"Dopeuls","name":"Ginsenk le Stimulant","confidence":"existing"},{"order":16,"region":"Temples de classe","subzone":"Dopeuls","name":"Kiroyal le Sirupeux","confidence":"existing"},{"order":16,"region":"Temples de classe","subzone":"Dopeuls","name":"Let le Rond","confidence":"existing"},{"order":16,"region":"Temples de classe","subzone":"Dopeuls","name":"Nelvin le Boulet","confidence":"existing"},{"order":16,"region":"Temples de classe","subzone":"Dopeuls","name":"Nipulnislip l'Exhibitionniste","confidence":"existing"},{"order":16,"region":"Temples de classe","subzone":"Dopeuls","name":"Susbewl l'Hypocrite","confidence":"existing"}];
+const PRIORITY_NAMES=["Ougaould le Parasite", "Draglida la Disparue", "Dragnoute l'Irascible", "Seripoth l'Ennemi", "Bramin le Bicéphale", "Maître Koantik le Théoricien", "Maître Onom le Régulier", "Roy le Merlin", "Kitsoupopulère le Généreux", "Koasossyal le Psychopathe"];
+const ROUTE_NOTES={
+  1:"Astrub puis Amakna, sans grand déplacement.",
+  2:"Forêt des Abraknydes puis Forêt Maléfique.",
+  3:"Sufokia et les plages en une boucle.",
+  4:"Cania puis détour par Bonta si nécessaire.",
+  5:"Plaine des Scarafeuilles.",
+  6:"Campement des Bworks.",
+  7:"Brâkmar, égouts, cimetières puis Sidimote.",
+  8:"Village des Dragoeufs puis sanctuaire.",
+  9:"Lacs, canyon, vallée puis cimetière primitif.",
+  10:"Île des Wabbits en une seule visite.",
+  11:"Moon : plage, jungle puis bateau pirate.",
+  12:"Labyrinthe du Minotoror.",
+  13:"Pandala : bordures, bulbes, kitsous et Firefoux.",
+  14:"Île de Grobe.",
+  15:"Otomaï : plage, jungle, tourbière, Hakam puis Zoths.",
+  16:"Tour des temples de classe."
+};
+
+const KEY="ocre_companion_ultimate_v16";
+const regions=[...new Set(ARCHIS.map(a=>a.region))];
+
+function fresh(){
+ return{active:0,names:["Crâ 1","Crâ 2","Énu","Panda","Iop","Éni","Osa","Sacri"],done:Array.from({length:8},()=>Array(ARCHIS.length).fill(false)),region:"Toutes",remainingOnly:false,view:"hunter",farmRegion:"Toutes",farmIndex:0,farmOnlyRemaining:true,hunterRegion:"Toutes",hunterIndex:0,activeTeam:[0,1,2,3,4,5,6,7],journal:[]};
+}
+let state;
+function loadState(){
+ const keys=[KEY,"ocre_companion_ultimate_v15","ocre_companion_ultimate_v14","ocre_companion_ultimate_v13","ocre_companion_ultimate_v12","ocre_companion_ultimate_v11","ocre_companion_ultimate_v10","ocre_companion_ultimate_v9","ocre_companion_ultimate_v8","ocre_companion_ultimate_v7","ocre_companion_ultimate_v6","ocre_companion_ultimate_v5","ocre_companion_ultimate_v4","ocre_companion_ultimate_v3","ocre_companion_ultimate_v2","ocre_companion_v1"];
+ for(const k of keys){
+  try{
+   const s=JSON.parse(localStorage.getItem(k));
+   if(s&&s.done&&s.done.length===8&&s.done[0].length===ARCHIS.length)return s;
+  }catch(e){}
+ }
+ return fresh();
+}
+state=loadState();
+if(state.farmRegion===undefined)state.farmRegion="Toutes";
+if(state.farmIndex===undefined)state.farmIndex=0;
+if(state.farmOnlyRemaining===undefined)state.farmOnlyRemaining=true;
+if(state.matrixRegion===undefined)state.matrixRegion="Toutes";
+if(state.matrixMode===undefined)state.matrixMode="all";
+if(state.history===undefined)state.history=[];
+if(state.onboarded===undefined)state.onboarded=false;
+if(!["hunter","farm","routes","planner","list","team","dashboard","journal"].includes(state.view))state.view="hunter";
+if(state.lastBackup===undefined)state.lastBackup=null;
+if(state.hunterRegion===undefined)state.hunterRegion="Toutes";
+if(state.hunterIndex===undefined)state.hunterIndex=0;
+if(!Array.isArray(state.activeTeam)||!state.activeTeam.length)state.activeTeam=[0,1,2,3,4,5,6,7];
+if(!Array.isArray(state.journal))state.journal=[];
+if(!Array.isArray(state.plannedRegions))state.plannedRegions=[];
+if(!Array.isArray(state.snapshots))state.snapshots=[];
+if(!state.theme)state.theme="system";
+if(!state.density)state.density="normal";
+if(!state.startView)state.startView="hunter";
+const $=id=>document.getElementById(id), esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
+function save(){localStorage.setItem(KEY,JSON.stringify(state));$("saved").textContent="Sauvegardé à "+new Date().toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"});}
+function toast(msg){const t=$("toast");t.textContent=msg;t.classList.add("show");clearTimeout(toast.timer);toast.timer=setTimeout(()=>t.classList.remove("show"),1800);}
+function haptic(ms=18){try{if(navigator.vibrate)navigator.vibrate(ms);}catch(e){}}
+function orderedPlannedRegions(){
+ return state.plannedRegions
+   .filter(r=>regions.includes(r))
+   .sort((a,b)=>regionRemaining(a).order-regionRemaining(b).order||a.localeCompare(b,"fr"));
+}
+function nextPlannedRegion(current){
+ const route=orderedPlannedRegions().filter(r=>regionRemaining(r).left>0);
+ if(!route.length)return null;
+ const idx=route.indexOf(current);
+ return route[(idx>=0?idx+1:0)%route.length]||route[0];
+}
+function recordChange(person,index,oldValue){state.history.push({person,index,oldValue,time:Date.now()});if(state.history.length>30)state.history.shift();}
+function toggleDone(person,index,value,log=true){
+ const old=state.done[person][index];
+ const next=value===undefined?!old:value;
+ if(old===next)return;
+ recordChange(person,index,old);
+ state.done[person][index]=next;
+ if(log&&next){
+   state.journal.unshift({time:Date.now(),person,archi:index,region:ARCHIS[index].region});
+   if(state.journal.length>100)state.journal=state.journal.slice(0,100);
+ }
+}
+
+
+function snapshotLabel(reason){
+ const d=new Date();
+ return `${reason} · ${d.toLocaleDateString("fr-FR")} ${d.toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"})}`;
+}
+function createSnapshot(reason="Sauvegarde manuelle"){
+ const copy=JSON.parse(JSON.stringify({...state,snapshots:[]}));
+ state.snapshots.unshift({time:Date.now(),label:snapshotLabel(reason),data:copy});
+ if(state.snapshots.length>5)state.snapshots=state.snapshots.slice(0,5);
+ save();
+}
+function restoreSnapshot(index){
+ const snap=state.snapshots[index];
+ if(!snap)return;
+ const preserved=[...state.snapshots];
+ state=JSON.parse(JSON.stringify(snap.data));
+ state.snapshots=preserved;
+ save();renderAll();toast("Sauvegarde restaurée");
+}
+function renderSnapshots(){
+ if(!state.snapshots.length){
+  $("snapshotList").innerHTML='<div class="empty">Aucune sauvegarde locale disponible.</div>';
+  return;
+ }
+ $("snapshotList").innerHTML=state.snapshots.map((s,i)=>`<div class="snapshotitem"><div><strong>${esc(s.label)}</strong><span>${new Date(s.time).toLocaleString("fr-FR")}</span></div><button data-restore-snapshot="${i}">Restaurer</button></div>`).join("");
+ document.querySelectorAll("[data-restore-snapshot]").forEach(b=>b.onclick=()=>{
+  const i=+b.dataset.restoreSnapshot;
+  if(confirm("Remplacer la progression actuelle par cette sauvegarde ?")){restoreSnapshot(i);$("safetyDialog").close();}
+ });
+}
+
+
+
+function estimateStateSize(){
+ try{return new Blob([JSON.stringify(state)]).size;}catch(e){return 0;}
+}
+function updateStorageHealth(){
+ const size=estimateStateSize();
+ const warn=size>3_500_000;
+ $("storageWarning").classList.toggle("show",warn);
+ return size;
+}
+
+function applySettings(){
+ const resolved=state.theme==="system"?(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"):state.theme;
+ document.documentElement.dataset.theme=resolved;
+ document.documentElement.dataset.density=state.density;
+}
+function openSettings(){
+ $("themeSelect").value=state.theme;
+ $("densitySelect").value=state.density;
+ $("startViewSelect").value=state.startView;
+ $("settingsDialog").showModal();
+}
+
+function doneCount(){return state.done[state.active].filter(Boolean).length}
+function regionInfo(region){
+ let total=0,done=0;
+ ARCHIS.forEach((a,i)=>{if(a.region===region){total++;if(state.done[state.active][i])done++;}});
+ return{total,done,pct:total?Math.round(done/total*100):0};
+}
+function renderProgress(){
+ const d=doneCount(),pct=Math.round(d/ARCHIS.length*1000)/10;
+ $("progressFill").style.width=pct+"%";$("progressText").textContent=`${d} / ${ARCHIS.length} · ${pct} %`;
+ $("activeLabel").textContent=`${state.names[state.active]} · ${ARCHIS.length} archimonstres`;
+ $("dDone").textContent=d;$("dLeft").textContent=ARCHIS.length-d;$("dPct").textContent=pct+" %";
+}
+function renderOcreTabs(){
+ $("ocretabs").innerHTML=state.names.map((n,i)=>`<button class="pill ${i===state.active?"active":""}" data-i="${i}">${esc(n)}</button>`).join("");
+ document.querySelectorAll("#ocretabs [data-i]").forEach(b=>b.onclick=()=>{state.active=+b.dataset.i;save();renderAll();});
+}
+function renderDashboard(){
+ let next=regions.find(r=>regionInfo(r).done<regionInfo(r).total);
+ if(!next)$("nextBox").innerHTML="<small>TERMINÉ</small><strong>🎉 Tous les archimonstres sont capturés</strong><p>Direction le Kralamoure !</p>";
+ else{
+  const inf=regionInfo(next);
+  $("nextBox").innerHTML=`<small>PROCHAINE TOURNÉE CONSEILLÉE</small><strong>${esc(next)}</strong><p>${inf.total-inf.done} archimonstre(s) restant(s) dans cette région.</p>`;
+  $("nextBox").onclick=()=>{state.region=next;state.view="list";save();renderAll();};
+ }
+ $("regiongrid").innerHTML=regions.map(r=>{const x=regionInfo(r);return `<button class="regioncard ${x.done===x.total?"done":""}" data-region="${esc(r)}"><strong>${esc(r)}</strong><div class="mini"><i style="width:${x.pct}%"></i></div><span>${x.done} / ${x.total} · ${x.pct} %</span></button>`}).join("");
+ document.querySelectorAll("[data-region]").forEach(b=>b.onclick=()=>{state.region=b.dataset.region;state.view="list";save();renderAll();});
+}
+function renderChips(){
+ const all=["Toutes",...regions];
+ $("chips").innerHTML=all.map(r=>`<button class="pill ${r===state.region?"active":""}" data-r="${esc(r)}">${esc(r)}</button>`).join("");
+ document.querySelectorAll("[data-r]").forEach(b=>b.onclick=()=>{state.region=b.dataset.r;save();renderList();renderChips();});
+}
+function renderList(){
+ const q=$("search").value.trim().toLowerCase(),groups=new Map();
+ ARCHIS.forEach((a,i)=>{
+  if(state.region!=="Toutes"&&a.region!==state.region)return;
+  if(state.remainingOnly&&state.done[state.active][i])return;
+  if(q&&!(`${a.name} ${a.region} ${a.subzone}`.toLowerCase().includes(q)))return;
+  if(!groups.has(a.region))groups.set(a.region,[]);groups.get(a.region).push([a,i]);
+ });
+ let out="";
+ for(const[region,items]of groups){
+  const inf=regionInfo(region);
+  out+=`<section class="zone"><div class="zonehead"><h2>${esc(region)}</h2><span class="zonecount">${inf.done} / ${inf.total}</span></div>`;
+  for(const[a,i]of items){
+   const d=state.done[state.active][i];
+   out+=`<div class="archi ${d?"done":""}"><button class="check" data-check="${i}">${d?"✓":""}</button><div><div class="name">${esc(a.name)}${PRIORITY_NAMES.includes(a.name)?'<span class="priority">PRIORITÉ</span>':''}</div><div class="sub">${esc(a.subzone)}</div>${a.confidence==="family"?'<div class="auditbadge">Famille Rétro</div>':''}</div><button class="x8" data-all="${i}">x8</button></div>`;
+  } out+="</section>";
+ }
+ $("list").innerHTML=out||'<div class="empty">Aucun archimonstre ne correspond aux filtres.</div>';
+ document.querySelectorAll("[data-check]").forEach(b=>b.onclick=()=>{let i=+b.dataset.check;toggleDone(state.active,i);save();haptic();renderAll();});
+ document.querySelectorAll("[data-all]").forEach(b=>b.onclick=()=>{let i=+b.dataset.all,target=!state.done.every(x=>x[i]);state.done.forEach((x,p)=>toggleDone(p,i,target));save();haptic(25);renderAll();});
+}
+
+function farmItems(){
+ let arr=ARCHIS.map((a,i)=>[a,i]).filter(([a,i])=>state.farmRegion==="Toutes"||a.region===state.farmRegion);
+ if(state.farmOnlyRemaining)arr=arr.filter(([a,i])=>!state.done[state.active][i]);
+ return arr;
+}
+function renderFarm(){
+ $("farmRegion").innerHTML=["Toutes",...regions].map(r=>`<option value="${esc(r)}" ${r===state.farmRegion?"selected":""}>${esc(r)}</option>`).join("");
+ $("farmRemaining").textContent=state.farmOnlyRemaining?"Restants":"Tous";
+ $("farmRemaining").classList.toggle("primary",state.farmOnlyRemaining);
+ const arr=farmItems();
+ if(!arr.length){
+  $("farmCard").classList.add("farmdone");
+  $("farmStep").textContent="TOURNÉE TERMINÉE";
+  $("farmName").textContent="🎉 Plus aucun archimonstre";
+  $("farmSub").textContent=state.farmRegion==="Toutes"?"Les 286 sont capturés pour ce personnage.":"Cette région est terminée.";
+  $("farmStatus").textContent=state.names[state.active];
+  $("farmCapture").disabled=true;$("farmCapture8").disabled=true;$("farmPrev").disabled=true;$("farmNext").disabled=true;
+  $("farmRoute").innerHTML="";
+  return;
+ }
+ state.farmIndex=Math.max(0,Math.min(state.farmIndex,arr.length-1));
+ const [a,i]=arr[state.farmIndex],done=state.done[state.active][i];
+ $("farmCard").classList.toggle("farmdone",done);$("farmCard").classList.toggle("compact",window.innerHeight<750);
+ $("farmStep").textContent=`${state.farmIndex+1} / ${arr.length} · ${a.region}`;
+ $("farmName").textContent=a.name;
+ $("farmSub").textContent=a.subzone;
+ $("farmStatus").textContent=done?`✓ Capturé par ${state.names[state.active]}`:`À capturer · ${state.names[state.active]}`;
+ $("farmCapture").textContent=done?"Annuler":"Capturé";
+ $("farmCapture").disabled=false;$("farmCapture8").disabled=false;$("farmPrev").disabled=arr.length<2;$("farmNext").disabled=arr.length<2;
+ $("farmCapture").onclick=()=>{toggleDone(state.active,i);if(state.farmOnlyRemaining)state.farmIndex=Math.min(state.farmIndex,Math.max(0,farmItems().length-1));save();renderAll();};
+ $("farmCapture8").onclick=()=>{const target=!state.done.every(x=>x[i]);state.done.forEach((x,p)=>toggleDone(p,i,target));if(state.farmOnlyRemaining)state.farmIndex=Math.min(state.farmIndex,Math.max(0,farmItems().length-1));save();renderAll();};
+ $("farmPrev").onclick=()=>{state.farmIndex=(state.farmIndex-1+arr.length)%arr.length;save();renderFarm();};
+ $("farmNext").onclick=()=>{state.farmIndex=(state.farmIndex+1)%arr.length;save();renderFarm();};
+ const subzones=[...new Set(ARCHIS.filter(x=>state.farmRegion==="Toutes"||x.region===state.farmRegion).map(x=>x.subzone))];
+ $("farmRoute").innerHTML=subzones.map((s,n)=>`<div class="route"><strong>${n+1}. ${esc(s)}</strong><span>${ARCHIS.filter(x=>(state.farmRegion==="Toutes"||x.region===state.farmRegion)&&x.subzone===s).length} archimonstre(s)</span></div>`).join("");
+}
+
+
+function renderRoutes(){
+ const orders=[...new Set(ARCHIS.map(a=>a.order))].sort((a,b)=>a-b);
+ $("routePlanner").innerHTML=orders.map(ord=>{
+   const subset=ARCHIS.map((a,i)=>[a,i]).filter(([a])=>a.order===ord);
+   const done=subset.filter(([a,i])=>state.done[state.active][i]).length;
+   const regionsHere=[...new Set(subset.map(([a])=>a.region))];
+   const active=regionsHere.includes(state.farmRegion)||regionsHere.includes(state.region);
+   return `<div class="routecard ${active?"active":""}">
+      <div class="routehead">
+        <div><strong>${ord}. ${esc(regionsHere.join(" / "))}</strong><div class="sub">${esc(ROUTE_NOTES[ord]||"Circuit régional")}</div></div>
+        <span>${done} / ${subset.length}</span>
+      </div>
+      <div class="mini"><i style="width:${subset.length?Math.round(done/subset.length*100):0}%"></i></div>
+      <div class="routeactions">
+        <button class="btn" data-route-list="${ord}">Voir la liste</button>
+        <button class="btn primary" data-route-farm="${ord}">Lancer le farm</button>
+      </div>
+   </div>`;
+ }).join("");
+ document.querySelectorAll("[data-route-list]").forEach(b=>b.onclick=()=>{
+   const ord=+b.dataset.routeList;
+   const first=ARCHIS.find(a=>a.order===ord);
+   state.region=first.region;state.view="list";save();renderAll();
+ });
+ document.querySelectorAll("[data-route-farm]").forEach(b=>b.onclick=()=>{
+   const ord=+b.dataset.routeFarm;
+   const first=ARCHIS.find(a=>a.order===ord);
+   state.farmRegion=first.region;state.farmIndex=0;state.view="farm";save();renderAll();
+ });
+}
+
+
+function renderTeam(){
+ $("matrixRegion").innerHTML=["Toutes",...regions].map(r=>`<option value="${esc(r)}" ${r===state.matrixRegion?"selected":""}>${esc(r)}</option>`).join("");
+ $("matrixMode").value=state.matrixMode;
+ const indexed=ARCHIS.map((a,i)=>[a,i]).filter(([a,i])=>{
+   if(state.matrixRegion!=="Toutes"&&a.region!==state.matrixRegion)return false;
+   const n=state.done.reduce((s,d)=>s+(d[i]?1:0),0);
+   if(state.matrixMode==="incomplete"&&n===8)return false;
+   if(state.matrixMode==="complete"&&n!==8)return false;
+   return true;
+ });
+ let out="<thead><tr><th>Archimonstre</th>"+state.names.map(n=>`<th>${esc(n)}</th>`).join("")+"</tr></thead><tbody>";
+ for(const[a,i]of indexed){
+   out+=`<tr><td><strong>${esc(a.name)}</strong><span>${esc(a.region)} · ${esc(a.subzone)}</span></td>`;
+   for(let p=0;p<8;p++)out+=`<td><button class="mcheck ${state.done[p][i]?"done":""}" data-mp="${p}" data-mi="${i}">${state.done[p][i]?"✓":""}</button></td>`;
+   out+="</tr>";
+ }
+ out+=indexed.length?"</tbody>":'<tr><td colspan="9">Aucun résultat.</td></tr></tbody>';
+ $("teamMatrix").innerHTML=out;
+ document.querySelectorAll("[data-mp]").forEach(b=>b.onclick=()=>{
+   const p=+b.dataset.mp,i=+b.dataset.mi;toggleDone(p,i);save();renderAll();
+ });
+}
+
+
+function hunterItems(){
+ let arr=ARCHIS.map((a,i)=>[a,i]).filter(([a])=>state.hunterRegion==="Toutes"||a.region===state.hunterRegion);
+ return arr.filter(([a,i])=>state.activeTeam.some(p=>!state.done[p][i]));
+}
+function renderHunter(){
+ const today=new Date().toDateString();
+ const todayJournal=state.journal.filter(j=>new Date(j.time).toDateString()===today);
+ $("sessionCaptured").textContent=todayJournal.length;
+ $("sessionRegions").textContent=new Set(todayJournal.map(j=>j.region)).size;
+ $("sessionLast").textContent=todayJournal.length?ARCHIS[todayJournal[0].archi].name.split(" ")[0]:"—";
+ $("hunterRegion").innerHTML=["Toutes",...regions].map(r=>`<option value="${esc(r)}" ${r===state.hunterRegion?"selected":""}>${esc(r)}</option>`).join("");
+ const route=orderedPlannedRegions();
+ $("plannedRouteSummary").textContent=route.length?`Tournée planifiée : ${route.join(" → ")}`:"Aucune tournée personnalisée active.";
+ const arr=hunterItems();
+ const activeNames=state.activeTeam.map(p=>state.names[p]).join(", ");
+ $("hunterTeamBtn").textContent=`Équipe (${state.activeTeam.length})`;
+
+ if(!arr.length){
+   $("hunterCard").classList.add("hidden");
+   $("hunterCompletion").classList.remove("hidden");
+   const next=nextPlannedRegion(state.hunterRegion);
+   if(next && next!==state.hunterRegion){
+     $("hunterCompletion").innerHTML=`<div class="completecard fadein"><h3>✅ ${esc(state.hunterRegion==="Toutes"?"Tournée":state.hunterRegion)} terminée</h3><p>Prochaine destination planifiée : <strong>${esc(next)}</strong></p><button class="btn" id="goNextPlanned">Continuer la tournée</button></div>`;
+     $("goNextPlanned").onclick=()=>{state.hunterRegion=next;state.hunterIndex=0;save();haptic(28);renderAll();};
+   }else{
+     $("hunterCompletion").innerHTML=`<div class="completecard fadein"><h3>🎉 Rien ne manque</h3><p>${state.hunterRegion==="Toutes"?"Tous les archimonstres sont capturés pour l’équipe active.":"Cette région est terminée pour l’équipe active."}</p><button class="btn" id="openPlannerFromDone">Choisir une autre tournée</button></div>`;
+     $("openPlannerFromDone").onclick=()=>{state.view="planner";save();renderAll();};
+   }
+   $("hunterResume").innerHTML="<strong>Tout est à jour</strong><span>Change de région ou modifie l’équipe active.</span>";
+   return;
+ }
+
+ $("hunterCompletion").classList.add("hidden");
+ $("hunterCard").classList.remove("hidden","farmdone");
+ state.hunterIndex=Math.max(0,Math.min(state.hunterIndex,arr.length-1));
+ const [a,i]=arr[state.hunterIndex];
+ const missing=state.activeTeam.filter(p=>!state.done[p][i]);
+ $("hunterStep").textContent=`${state.hunterIndex+1} / ${arr.length} · ${a.region}`;
+ $("hunterName").textContent=a.name;
+ $("hunterSub").textContent=a.subzone;
+ $("hunterStatus").textContent=`Manque à ${missing.length} personnage(s) : ${missing.map(p=>state.names[p]).join(", ")}`;
+ $("hunterCapture").disabled=false;$("hunterPrev").disabled=arr.length<2;$("hunterNext").disabled=arr.length<2;
+ $("hunterResume").innerHTML=`<strong>Reprise : ${esc(a.region)}</strong><span>Prochain archimonstre conseillé : ${esc(a.name)}</span>`;
+ $("hunterCapture").onclick=()=>{
+   missing.forEach(p=>toggleDone(p,i,true,true));
+   state.hunterIndex=Math.min(state.hunterIndex,Math.max(0,hunterItems().length-1));
+   save();haptic(25);renderAll();toast(`Capturé pour ${missing.length} personnage(s)`);
+ };
+ $("hunterPrev").onclick=()=>{state.hunterIndex=(state.hunterIndex-1+arr.length)%arr.length;save();renderHunter();};
+ $("hunterNext").onclick=()=>{state.hunterIndex=(state.hunterIndex+1)%arr.length;save();renderHunter();};
+}
+function renderActiveTeam(){
+ $("memberGrid").innerHTML=state.names.map((n,i)=>`<button class="memberbtn ${state.activeTeam.includes(i)?"active":""}" data-member="${i}">${esc(n)}<small>${state.activeTeam.includes(i)?"Sélectionné":"Non sélectionné"}</small></button>`).join("");
+ document.querySelectorAll("[data-member]").forEach(b=>b.onclick=()=>{
+   const i=+b.dataset.member;
+   if(state.activeTeam.includes(i)){
+     if(state.activeTeam.length===1){toast("Il faut au moins un personnage");return;}
+     state.activeTeam=state.activeTeam.filter(x=>x!==i);
+   }else state.activeTeam.push(i);
+   state.activeTeam.sort((a,b)=>a-b);
+   renderActiveTeam();
+ });
+}
+function renderJournal(){
+ if(!state.journal.length){
+   $("journalList").innerHTML='<div class="empty">Aucune capture enregistrée pour le moment.</div>';
+   return;
+ }
+ $("journalList").innerHTML=state.journal.slice(0,50).map(j=>{
+   const a=ARCHIS[j.archi];
+   const d=new Date(j.time);
+   return `<div class="journalitem"><div class="journaltime">${d.toLocaleDateString("fr-FR",{day:"2-digit",month:"2-digit"})}<br>${d.toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"})}</div><div><strong>${esc(a.name)}</strong><span>${esc(state.names[j.person])} · ${esc(j.region)}</span></div></div>`;
+ }).join("");
+}
+
+
+function regionRemaining(region){
+ let total=0,done=0;
+ ARCHIS.forEach((a,i)=>{if(a.region===region){total++;if(state.done[state.active][i])done++;}});
+ return {total,done,left:total-done,order:Math.min(...ARCHIS.filter(a=>a.region===region).map(a=>a.order))};
+}
+function renderPlanner(){
+ $("planRegions").innerHTML=regions.map(r=>{
+   const x=regionRemaining(r),sel=state.plannedRegions.includes(r);
+   return `<button class="planregion ${sel?"active":""}" data-plan-region="${esc(r)}"><strong>${esc(r)}</strong><span>${x.left} restant(s) sur ${x.total}</span></button>`;
+ }).join("");
+ document.querySelectorAll("[data-plan-region]").forEach(b=>b.onclick=()=>{
+   const r=b.dataset.planRegion;
+   state.plannedRegions=state.plannedRegions.includes(r)?state.plannedRegions.filter(x=>x!==r):[...state.plannedRegions,r];
+   save();renderPlanner();
+ });
+ const selected=state.plannedRegions
+   .map(r=>({region:r,...regionRemaining(r)}))
+   .filter(x=>x.left>0)
+   .sort((a,b)=>a.order-b.order||a.region.localeCompare(b.region,"fr"));
+ $("startPlannedRoute").classList.toggle("hidden",!selected.length);
+ if(!selected.length){
+   $("planResult").innerHTML='<div class="planempty">Sélectionne au moins une région encore incomplète.</div>';
+ }else{
+   $("planResult").innerHTML=selected.map((x,n)=>`<div class="planstep"><div class="num">${n+1}</div><div><strong>${esc(x.region)}</strong><span>${x.left} archimonstre(s) restant(s)</span></div><button data-start-plan="${esc(x.region)}">GO</button></div>`).join("");
+   document.querySelectorAll("[data-start-plan]").forEach(b=>b.onclick=()=>{
+     state.hunterRegion=b.dataset.startPlan;
+     state.hunterIndex=0;
+     state.view="hunter";
+     save();renderAll();
+   });
+ }
+}
+
+function renderView(){
+ document.querySelectorAll("[data-view]").forEach(b=>b.classList.toggle("active",b.dataset.view===state.view));
+ $("dashboardView").classList.toggle("hidden",state.view!=="dashboard");$("listView").classList.toggle("hidden",state.view!=="list");$("farmView").classList.toggle("hidden",state.view!=="farm");$("routesView").classList.toggle("hidden",state.view!=="routes");$("teamView").classList.toggle("hidden",state.view!=="team");$("hunterView").classList.toggle("hidden",state.view!=="hunter");$("journalView").classList.toggle("hidden",state.view!=="journal");$("plannerView").classList.toggle("hidden",state.view!=="planner");
+}
+
+let deferredInstallPrompt=null;
+
+function runDataDiagnostics(){
+ const names=ARCHIS.map(a=>a.name);
+ const duplicates=names.filter((n,i)=>names.indexOf(n)!==i);
+ $("duplicateState").textContent=duplicates.length;
+ $("regionState").textContent=regions.length;
+ return {duplicates:[...new Set(duplicates)],regions:regions.length,total:ARCHIS.length};
+}
+
+function updateNetwork(){
+ const on=navigator.onLine;
+ $("networkStatus").textContent=on?"● En ligne":"● Hors ligne";
+ $("networkStatus").classList.toggle("offline",!on);
+}
+async function updateOfflineState(){
+ if(!("caches" in window)){$("offlineReady").textContent="Hors ligne indisponible";return;}
+ try{
+  const keys=await caches.keys();
+  const ready=keys.some(k=>k.startsWith("ocre-companion-"));
+  $("offlineReady").textContent=ready?"✓ Prêt hors ligne":"Hors ligne : chargement…";
+  $("cacheState").textContent=ready?"OK":"Non";
+ }catch(e){$("offlineReady").textContent="Cache non vérifié";$("cacheState").textContent="?";}
+}
+function backupReminder(){
+ if(!state.lastBackup)return;
+ const days=Math.floor((Date.now()-state.lastBackup)/86400000);
+ if(days>=7)toast(`Sauvegarde recommandée : ${days} jours`);
+}
+
+function renderAll(){applySettings();updateStorageHealth();renderView();renderOcreTabs();renderProgress();renderDashboard();renderChips();renderList();renderFarm();renderRoutes();renderTeam();renderHunter();renderJournal();renderPlanner();$("remainingOnly").checked=state.remainingOnly;updateNetwork();updateOfflineState();}
+document.querySelectorAll("[data-view]").forEach(b=>b.onclick=()=>{state.view=b.dataset.view;save();renderAll();});
+
+
+
+$("farmSkipRegion").onclick=()=>{
+ const current=state.farmRegion;
+ const start=Math.max(0,regions.indexOf(current));
+ for(let step=1;step<=regions.length;step++){
+   const next=regions[(start+step)%regions.length];
+   const left=ARCHIS.some((a,i)=>a.region===next&&!state.done[state.active][i]);
+   if(left){state.farmRegion=next;state.farmIndex=0;save();renderAll();toast(next);return;}
+ }
+ toast("Toutes les régions sont terminées");
+};
+$("farmOpenList").onclick=()=>{
+ state.region=state.farmRegion;
+ state.view="list";
+ save();
+ renderAll();
+};
+
+
+
+$("planAllRemaining").onclick=()=>{
+ state.plannedRegions=regions.filter(r=>regionRemaining(r).left>0);
+ save();renderPlanner();
+};
+$("planClear").onclick=()=>{state.plannedRegions=[];save();renderPlanner();};
+$("startPlannedRoute").onclick=()=>{
+ const route=orderedPlannedRegions().filter(r=>regionRemaining(r).left>0);
+ if(!route.length){toast("Aucune région incomplète");return;}
+ state.hunterRegion=route[0];state.hunterIndex=0;state.view="hunter";save();haptic(20);renderAll();
+};
+
+$("hunterRegion").onchange=e=>{state.hunterRegion=e.target.value;state.hunterIndex=0;save();renderHunter();};
+$("hunterTeamBtn").onclick=()=>{renderActiveTeam();$("activeTeamDialog").showModal();};
+$("saveActiveTeam").onclick=()=>{state.hunterIndex=0;save();$("activeTeamDialog").close();renderAll();};
+
+$("matrixRegion").onchange=e=>{state.matrixRegion=e.target.value;save();renderTeam();};
+$("matrixMode").onchange=e=>{state.matrixMode=e.target.value;save();renderTeam();};
+
+$("farmRegion").onchange=e=>{state.farmRegion=e.target.value;state.farmIndex=0;save();renderFarm();};
+$("farmRemaining").onclick=()=>{state.farmOnlyRemaining=!state.farmOnlyRemaining;state.farmIndex=0;save();renderFarm();};
+
+$("search").oninput=renderList;$("clearSearch").onclick=()=>{$("search").value="";renderList();};
+$("remainingOnly").onchange=e=>{state.remainingOnly=e.target.checked;save();renderList();};
+
+$("renameBtn").onclick=()=>{$("nameFields").innerHTML=state.names.map((n,i)=>`<input id="nm${i}" value="${esc(n)}" maxlength="18">`).join("");$("renameDialog").showModal();};
+$("saveNames").onclick=()=>{state.names=state.names.map((n,i)=>$("nm"+i).value.trim()||n);save();$("renameDialog").close();renderAll();};
+
+$("copyBtn").onclick=()=>{$("copyTarget").innerHTML=state.names.map((n,i)=>i===state.active?"":`<option value="${i}">${esc(n)}</option>`).join("");$("copyDialog").showModal();};
+$("doCopy").onclick=()=>{let t=+$("copyTarget").value;if(confirm(`Copier la progression de ${state.names[state.active]} vers ${state.names[t]} ?`)){state.done[t]=[...state.done[state.active]];save();$("copyDialog").close();renderAll();}};
+
+
+$("undoBtn").onclick=()=>{
+ const h=state.history.pop();
+ if(!h){toast("Aucune action à annuler");return;}
+ state.done[h.person][h.index]=h.oldValue;save();renderAll();toast("Dernière action annulée");
+};
+
+$("exportBtn").onclick=()=>{state.lastBackup=Date.now();save();const blob=new Blob([JSON.stringify({app:"Ocre Companion",version:"1.0-rc",exported:new Date().toISOString(),archimonstres:ARCHIS.length,state},null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="ocre-companion-ultimate.json";a.click();URL.revokeObjectURL(a.href);};
+$("moreBtn").onclick=()=>$("moreDialog").showModal();
+$("importBtn").onclick=()=>{$("moreDialog").close();$("fileInput").click();};
+$("fileInput").onchange=async e=>{try{createSnapshot("Avant import");const o=JSON.parse(await e.target.files[0].text()),s=o.state||o;if(!s.done||s.done.length!==8||!s.done.every(x=>Array.isArray(x)&&x.length===ARCHIS.length))throw 0;
+if(!Array.isArray(s.names)||s.names.length!==8)throw 0;
+state=s;
+if(!Array.isArray(state.snapshots))state.snapshots=[];
+if(!Array.isArray(state.journal))state.journal=[];
+save();renderAll();alert("Sauvegarde importée.");}catch(e){alert("Sauvegarde invalide.");}e.target.value="";};
+$("resetCurrentBtn").onclick=()=>{if(confirm("Réinitialiser uniquement cet Ocre ?")){createSnapshot("Avant réinitialisation Ocre");state.done[state.active]=Array(ARCHIS.length).fill(false);save();$("moreDialog").close();renderAll();}};
+$("resetAllBtn").onclick=()=>{if(confirm("Effacer toute la progression des huit Ocre ?")){createSnapshot("Avant réinitialisation totale");const oldSnapshots=[...state.snapshots];state=fresh();state.snapshots=oldSnapshots;save();$("moreDialog").close();renderAll();}};
+
+
+
+let waitingWorker=null;
+if("serviceWorker" in navigator){
+ navigator.serviceWorker.addEventListener("controllerchange",()=>location.reload());
+ navigator.serviceWorker.ready.then(reg=>{
+   if(reg.waiting){waitingWorker=reg.waiting;$("updateBar").classList.add("show");}
+   reg.addEventListener("updatefound",()=>{
+     const worker=reg.installing;
+     if(!worker)return;
+     worker.addEventListener("statechange",()=>{
+       if(worker.state==="installed"&&navigator.serviceWorker.controller){
+         waitingWorker=worker;$("updateBar").classList.add("show");
+       }
+     });
+   });
+ });
+}
+$("reloadUpdate").onclick=()=>{
+ if(waitingWorker)waitingWorker.postMessage({type:"SKIP_WAITING"});
+ else location.reload();
+};
+
+
+function exportCsv(){
+ const header=["Archimonstre","Région","Sous-zone",...state.names];
+ const lines=[header];
+ ARCHIS.forEach((a,i)=>lines.push([a.name,a.region,a.subzone,...state.done.map(d=>d[i]?"Oui":"Non")]));
+ const csv=lines.map(row=>row.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(";")).join("\n");
+ const blob=new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8"});
+ const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="ocre-companion.csv";a.click();URL.revokeObjectURL(a.href);
+ toast("CSV exporté");
+}
+
+
+window.addEventListener("load",()=>{
+ const splash=$("appSplash");
+ setTimeout(()=>splash?.classList.add("hide"),500);
+ setTimeout(()=>splash?.remove(),1100);
+});
+
+
+if(location.protocol==="file:"){
+ setTimeout(()=>toast("Pour l’installation PWA, héberge le dossier en HTTPS."),900);
+}
+
+window.addEventListener("online",updateNetwork);
+window.addEventListener("offline",updateNetwork);
+window.addEventListener("beforeinstallprompt",e=>{
+ e.preventDefault();deferredInstallPrompt=e;$("installBtn").classList.remove("hidden");
+});
+$("installBtn").onclick=async()=>{
+ if(!deferredInstallPrompt){toast("Utilise Safari → Partager → Ajouter à l’écran d’accueil");return;}
+ deferredInstallPrompt.prompt();
+ await deferredInstallPrompt.userChoice;
+ deferredInstallPrompt=null;$("installBtn").classList.add("hidden");
+};
+
+
+
+$("quickHelp").onclick=()=>$("helpDialog").showModal();
+$("quickSettings").onclick=()=>openSettings();
+
+$("settingsBtn").onclick=()=>{$("moreDialog").close();openSettings();};
+$("saveSettings").onclick=()=>{
+ state.theme=$("themeSelect").value;
+ state.density=$("densitySelect").value;
+ state.startView=$("startViewSelect").value;
+ save();applySettings();$("settingsDialog").close();toast("Réglages enregistrés");
+};
+$("replayOnboarding").onclick=()=>{$("settingsDialog").close();$("onboardingDialog").showModal();};
+matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change",()=>{if(state.theme==="system")applySettings();});
+
+$("safetyBtn").onclick=()=>{$("moreDialog").close();renderSnapshots();$("safetyDialog").showModal();};
+$("makeSnapshot").onclick=()=>{createSnapshot("Sauvegarde manuelle");renderSnapshots();toast("Sauvegarde locale créée");};
+$("csvBtn").onclick=()=>{$("moreDialog").close();exportCsv();};
+
+$("aboutBtn").onclick=()=>{
+ $("moreDialog").close();
+ try{localStorage.setItem("__test","1");localStorage.removeItem("__test");$("storageState").textContent="OK";}catch(e){$("storageState").textContent="Erreur";}
+ updateOfflineState();runDataDiagnostics();$("aboutDialog").showModal();
+};
+$("finishOnboarding").onclick=()=>{state.onboarded=true;save();$("onboardingDialog").close();};
+
+renderAll();
+if(!state.onboarded){state.view=state.startView;setTimeout(()=>$("onboardingDialog").showModal(),250);}
+setTimeout(backupReminder,700);
+</script>
+
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./service-worker.js").catch(() => {});
+  });
+}
+</script>
+
+<div class="toast" id="toast"></div><div class="updatebar" id="updateBar"><span>Une nouvelle version est prête.</span><button id="reloadUpdate">Mettre à jour</button></div>
+</body></html>

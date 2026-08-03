@@ -1,0 +1,38 @@
+{
+  "name": "Ocre Companion",
+  "short_name": "Ocre",
+  "description": "Tracker personnel hors ligne pour huit quêtes du Dofus Ocre.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0b0e0d",
+  "theme_color": "#17120d",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "id": "./",
+  "categories": [
+    "games",
+    "productivity"
+  ],
+  "lang": "fr",
+  "dir": "ltr"
+}

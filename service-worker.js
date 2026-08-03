@@ -1,4 +1,4 @@
-const CACHE = "ocre-companion-v16";
+const CACHE = "ocre-companion-v17-ocre-ombre";
 const ASSETS = [
   "./",
   "./index.html",

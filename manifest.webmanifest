@@ -1,11 +1,11 @@
 {
   "name": "Ocre Companion",
   "short_name": "Ocre",
-  "description": "Tracker personnel hors ligne pour huit quêtes du Dofus Ocre.",
+  "description": "Compagnon hors ligne pour suivre la quête du Dofus Ocre sur Dofus Rétro.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#0b0e0d",
+  "background_color": "#0c0b09",
   "theme_color": "#17120d",
   "orientation": "portrait-primary",
   "icons": [

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#173d34">
+<meta name="theme-color" content="#17120d">
 <title>Ocre Companion — Dofus Rétro</title>
 <style>
 :root{--bg:#f1eee8;--panel:#fffdf8;--ink:#231d16;--muted:#766b5d;--green:#6b4b23;--green2:#f3e6cd;--gold:#d7a84c;--line:#d6dfda;--danger:#a23b34;--shadow:0 8px 28px rgba(18,55,45,.09)}
@@ -230,6 +230,97 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
 .storagewarn{display:none;background:#fff1e8;border:1px solid #e6b38e;color:#714325;border-radius:13px;padding:10px;font-size:12px;line-height:1.4;margin-bottom:10px}
 .storagewarn.show{display:block}
 
+
+/* === Ocre Companion 1.1 — identité Ocre & Ombre === */
+:root{
+  --bg:#efe8dc;
+  --panel:#fffaf0;
+  --ink:#261d13;
+  --muted:#7d6e5b;
+  --green:#a86f18;
+  --green2:#f3dfb5;
+  --gold:#e2aa38;
+  --line:#d9c9ad;
+  --danger:#a74638;
+  --shadow:0 12px 34px rgba(50,31,9,.12);
+}
+body{
+  background:
+    radial-gradient(circle at 85% -10%,rgba(226,170,56,.16),transparent 34%),
+    linear-gradient(180deg,#f6efe4 0%,var(--bg) 100%);
+}
+header{
+  background:
+    radial-gradient(circle at 86% 0%,rgba(242,187,68,.24),transparent 32%),
+    linear-gradient(140deg,#17120d 0%,#2b2116 58%,#4a3215 100%);
+  border-bottom:1px solid rgba(232,179,72,.35);
+  box-shadow:0 12px 32px rgba(0,0,0,.28);
+}
+header::after{content:"";position:absolute;inset:auto 0 0;height:1px;background:linear-gradient(90deg,transparent,#e3ae43,transparent)}
+.progressbar{background:rgba(255,248,226,.16);box-shadow:inset 0 1px 2px rgba(0,0,0,.35)}
+.progressbar>div{background:linear-gradient(90deg,#9f6716,#f4c969 55%,#d79820);box-shadow:0 0 14px rgba(239,183,66,.42)}
+.panel{box-shadow:0 8px 26px rgba(55,34,11,.07)}
+.pill{transition:background .2s,border-color .2s,color .2s,box-shadow .2s}
+.pill.active{background:linear-gradient(135deg,#9f681d,#d49a2c);border-color:#e0ae51;color:#fff9e9;box-shadow:0 5px 14px rgba(139,86,13,.24)}
+.btn.primary{background:linear-gradient(135deg,#9f681d,#d49a2c);border-color:#dca747;color:#fffaf0;box-shadow:0 5px 14px rgba(139,86,13,.18)}
+.stat b,.sessionstat b,.qaitem b{color:#b97c1d}
+.mini i,.onnum,.planstep .num,.mcheck.done,.archi.done .check{background:linear-gradient(135deg,#9f681d,#d8a033);border-color:#d8a033}
+.farmcard,.completecard{background:
+ radial-gradient(circle at 80% 8%,rgba(242,190,70,.24),transparent 28%),
+ linear-gradient(145deg,#18130e,#3a2a17 65%,#6a4518);border:1px solid rgba(231,178,69,.34)}
+.releasebadge{background:rgba(226,170,56,.15);border-color:rgba(241,197,104,.48);color:#f3cc76}
+.iconbtn{border-color:rgba(245,213,145,.28);background:rgba(255,247,224,.08)}
+.updatebar{background:linear-gradient(135deg,#21180f,#543817);border:1px solid rgba(226,170,56,.42)}
+footer{background:rgba(24,19,14,.96);border-top-color:#4d3923}
+footer .btn{background:#241c14;color:#fff7e6;border-color:#59442d}
+footer .btn.primary{background:linear-gradient(135deg,#9f681d,#d49a2c);border-color:#dca747}
+
+:root[data-theme="dark"]{
+  --bg:#0c0b09;
+  --panel:#17130f;
+  --ink:#f6efe2;
+  --muted:#b4a58f;
+  --green:#c58a27;
+  --green2:#342716;
+  --gold:#e8b84f;
+  --line:#3a3025;
+  --danger:#ee897b;
+  --shadow:0 12px 34px rgba(0,0,0,.38);
+}
+:root[data-theme="dark"] body{
+  background:
+    radial-gradient(circle at 85% -8%,rgba(229,173,59,.12),transparent 31%),
+    linear-gradient(180deg,#0c0b09 0%,#100e0b 100%);
+}
+:root[data-theme="dark"] input,
+:root[data-theme="dark"] select,
+:root[data-theme="dark"] .btn,
+:root[data-theme="dark"] .pill,
+:root[data-theme="dark"] .archi,
+:root[data-theme="dark"] .routecard,
+:root[data-theme="dark"] .regioncard,
+:root[data-theme="dark"] .planregion,
+:root[data-theme="dark"] .planstep,
+:root[data-theme="dark"] .snapshotitem,
+:root[data-theme="dark"] .memberbtn,
+:root[data-theme="dark"] .matrix,
+:root[data-theme="dark"] .matrix td:first-child{background:#17130f;color:var(--ink)}
+:root[data-theme="dark"] .matrix th,
+:root[data-theme="dark"] .stat,
+:root[data-theme="dark"] .sessionstat,
+:root[data-theme="dark"] .qaitem{background:#211b14;color:var(--ink)}
+:root[data-theme="dark"] .pill.active,
+:root[data-theme="dark"] .memberbtn.active,
+:root[data-theme="dark"] .planregion.active{background:linear-gradient(135deg,#5a3b13,#9d691f);border-color:#d39b38;color:#fff5dc}
+:root[data-theme="dark"] .resume,
+:root[data-theme="dark"] .safetybox{background:linear-gradient(135deg,#241b10,#2c2113);border-color:#62491f;color:var(--ink)}
+:root[data-theme="dark"] .route{background:#1f1912}
+:root[data-theme="dark"] .planstep button,
+:root[data-theme="dark"] .snapshotitem button{background:#2a2117;color:var(--ink)}
+
+#appSplash{transition:opacity .48s ease,visibility .48s ease}
+.splashLoader{border-color:rgba(235,183,71,.22);border-top-color:#f0c45e;box-shadow:0 0 20px rgba(226,170,56,.18)}
+
 </style>
 
 <link rel="manifest" href="manifest.webmanifest">
@@ -246,7 +337,7 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
 </head>
 <body><div id="appSplash" aria-hidden="true"><div class="splashLoader"></div></div>
 <header>
- <div class="headrow"><div><h1>Ocre Companion</h1><span class="releasebadge">1.0 RC3 · Rétro</span></div><div class="topactions"><button class="iconbtn" id="quickHelp" aria-label="Aide">?</button><button class="iconbtn" id="quickSettings" aria-label="Réglages">⚙</button></div></div><div class="saved" id="saved">Sauvegarde locale</div>
+ <div class="headrow"><div><h1>Ocre Companion</h1><span class="releasebadge">1.1 · Ocre & Ombre</span></div><div class="topactions"><button class="iconbtn" id="quickHelp" aria-label="Aide">?</button><button class="iconbtn" id="quickSettings" aria-label="Réglages">⚙</button></div></div><div class="saved" id="saved">Sauvegarde locale</div>
  <div class="subtitle" id="activeLabel"></div>
  <div class="progressbar"><div id="progressFill"></div></div>
  <div class="progresstext" id="progressText"></div><div class="statusbar"><span class="statuspill" id="networkStatus">● En ligne</span><span class="statuspill" id="offlineReady">Hors ligne : vérification…</span><button class="installbtn hidden" id="installBtn">Installer</button></div>
@@ -478,7 +569,7 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
   <div class="qaitem"><b id="storageState">OK</b><span>stockage local</span></div>
   <div class="qaitem"><b id="cacheState">—</b><span>cache hors ligne</span></div><div class="qaitem"><b id="duplicateState">—</b><span>doublons de noms</span></div><div class="qaitem"><b id="regionState">—</b><span>régions détectées</span></div>
  </div>
- <p class="small"><strong>Version 1.0 RC3 — prête au déploiement.</strong> Les données restent sur l’appareil. La base ne contient plus de zone générique. Quelques anciens noms propres au contenu Rétro ont été classés à partir de leur famille de monstre.</p>
+ <p class="small"><strong>Version 1.1 — refonte Ocre & Ombre.</strong> Les données restent sur l’appareil. La base ne contient plus de zone générique. Quelques anciens noms propres au contenu Rétro ont été classés à partir de leur famille de monstre.</p>
  <button class="btn" onclick="aboutDialog.close()" style="width:100%">Fermer</button>
 </div></dialog>
 
@@ -1032,8 +1123,9 @@ function exportCsv(){
 
 window.addEventListener("load",()=>{
  const splash=$("appSplash");
- setTimeout(()=>splash?.classList.add("hide"),500);
- setTimeout(()=>splash?.remove(),1100);
+ const minimumSplashTime=1500;
+ setTimeout(()=>splash?.classList.add("hide"),minimumSplashTime);
+ setTimeout(()=>splash?.remove(),minimumSplashTime+500);
 });
 
 

@@ -1010,10 +1010,13 @@ if("serviceWorker" in navigator){
    });
  });
 }
-$("reloadUpdate").onclick=()=>{
- if(waitingWorker)waitingWorker.postMessage({type:"SKIP_WAITING"});
+const reloadUpdateButton = $("reloadUpdate");
+ if (reloadUpdateButton) {
+   reloadUpdateButton.onclick=()=>{
+  if(waitingWorker)waitingWorker.postMessage({type:"SKIP_WAITING"});
  else location.reload();
 };
+}
 
 
 function exportCsv(){

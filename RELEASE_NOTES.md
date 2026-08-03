@@ -1,7 +1,6 @@
-# Ocre Companion 1.2.1 — Correctif statistiques
+# Ocre Companion 1.2.2 — Capture individuelle
 
-- Les captures décochées sont désormais retirées du journal.
-- Les compteurs « captures aujourd’hui », « régions touchées » et « dernière capture » sont recalculés à partir des captures encore cochées.
-- Nettoyage automatique des anciennes entrées de journal devenues incohérentes.
-- Le bouton Annuler restaure aussi correctement les statistiques.
-- Cache PWA renouvelé pour forcer la mise à jour.
+- Le mode Chasseur ne valide plus un archimonstre pour toute l’équipe d’un coup.
+- Les personnages auxquels l’archimonstre manque sont affichés directement sur la carte.
+- Un appui sur un personnage valide uniquement sa capture.
+- Le journal et les statistiques restent recalculés automatiquement.

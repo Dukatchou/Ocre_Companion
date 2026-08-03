@@ -131,6 +131,12 @@ dialog{border:0;border-radius:18px;padding:0;max-width:530px;width:calc(100% - 2
 .memberbtn{border:1px solid var(--line);border-radius:13px;padding:10px;background:#fff;font-weight:800;text-align:left}
 .memberbtn.active{background:var(--green2);border-color:var(--green);color:#17483d}
 .memberbtn small{display:block;color:var(--muted);font-weight:600;margin-top:3px}
+.huntercapturebox{margin-top:14px;padding:14px;border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.035)}
+.huntercapturelabel{font-size:13px;font-weight:900;letter-spacing:.03em;color:var(--muted);margin-bottom:10px;text-transform:uppercase}
+.huntercapturegrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.hunterperson{border:1px solid var(--goldline);border-radius:14px;padding:13px 10px;background:linear-gradient(145deg,rgba(157,102,15,.22),rgba(62,42,18,.28));color:var(--text);font-size:15px;font-weight:900}
+.hunterperson:active{transform:scale(.98)}
+@media(min-width:700px){.huntercapturegrid{grid-template-columns:repeat(4,minmax(0,1fr))}}
 .journalitem{display:grid;grid-template-columns:56px 1fr;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
 .journalitem:last-child{border-bottom:0}
 .journaltime{font-size:11px;color:var(--muted);font-weight:800}
@@ -350,7 +356,7 @@ footer .btn.primary{background:linear-gradient(135deg,#9f681d,#d49a2c);border-co
 </head>
 <body><div id="appSplash" aria-hidden="true"><div class="splashLoader"></div></div>
 <header>
- <div class="headrow"><div><h1>Ocre Companion</h1><span class="releasebadge">1.2.1 · Correctif statistiques</span></div><div class="topactions"><button class="iconbtn" id="quickHelp" aria-label="Aide">?</button><button class="iconbtn" id="quickSettings" aria-label="Réglages">⚙</button></div></div><div class="saved" id="saved">Sauvegarde locale</div>
+ <div class="headrow"><div><h1>Ocre Companion</h1><span class="releasebadge">1.2.2 · Capture individuelle</span></div><div class="topactions"><button class="iconbtn" id="quickHelp" aria-label="Aide">?</button><button class="iconbtn" id="quickSettings" aria-label="Réglages">⚙</button></div></div><div class="saved" id="saved">Sauvegarde locale</div>
  <div class="subtitle" id="activeLabel"></div>
  <div class="progressbar"><div id="progressFill"></div></div>
  <div class="progresstext" id="progressText"></div><div class="statusbar"><span class="statuspill" id="networkStatus">● En ligne</span><span class="statuspill" id="offlineReady">Hors ligne : vérification…</span><button class="installbtn hidden" id="installBtn">Installer</button></div>
@@ -474,7 +480,10 @@ footer .btn.primary{background:linear-gradient(135deg,#9f681d,#d49a2c);border-co
      <div class="farmstatus" id="hunterStatus"></div>
     </div>
     <div>
-     <button class="farmcapture team" id="hunterCapture" style="width:100%;padding:19px">Capturé par l’équipe active</button>
+     <div class="huntercapturebox">
+      <div class="huntercapturelabel">Capturé par :</div>
+      <div class="huntercapturegrid" id="hunterCaptureGrid"></div>
+     </div>
      <div class="farmnav">
       <button class="btn" id="hunterPrev">← Précédent</button>
       <button class="btn primary" id="hunterNext">Suivant →</button>
@@ -523,7 +532,7 @@ footer .btn.primary{background:linear-gradient(135deg,#9f681d,#d49a2c);border-co
  <div class="onboard">
   <div class="onstep"><div class="onnum">1</div><div><strong>Choisis ton personnage</strong><span>Chaque profil possède ses propres personnages et sa propre progression.</span></div></div>
   <div class="onstep"><div class="onnum">2</div><div><strong>Reste dans Farm</strong><span>Un archi apparaît, tu touches “Capturé”, le suivant arrive.</span></div></div>
-  <div class="onstep"><div class="onnum">3</div><div><strong>Valide toute l’équipe en un appui</strong><span>Une seule action valide la capture pour tous les personnages du profil.</span></div></div>
+  <div class="onstep"><div class="onnum">3</div><div><strong>Choisis le personnage qui a capturé</strong><span>Un appui sur son nom valide uniquement sa capture.</span></div></div>
   <div class="onstep"><div class="onnum">4</div><div><strong>Fais un backup de temps en temps</strong><span>Le fichier JSON protège ta progression.</span></div></div>
  </div>
  <button class="btn primary" id="finishOnboarding" style="width:100%;margin-top:14px">Commencer</button>
@@ -564,7 +573,7 @@ Panda
 <dialog id="helpDialog"><div class="modal">
  <h3>Aide rapide</h3>
  <div class="helpgrid">
-  <div class="helpitem"><strong>Mode Chasseur</strong><span>Choisis l’équipe active, valide une capture, puis passe automatiquement au prochain archimonstre manquant.</span></div>
+  <div class="helpitem"><strong>Mode Chasseur</strong><span>Choisis l’équipe active, puis touche le personnage qui vient de capturer l’archimonstre.</span></div>
   <div class="helpitem"><strong>Planifier</strong><span>Sélectionne plusieurs régions : elles seront triées selon les circuits Dofus Rétro.</span></div>
   <div class="helpitem"><strong>Vue équipe</strong><span>Vérifie d’un coup d’œil quels personnages possèdent chaque capture.</span></div>
   <div class="helpitem"><strong>Backup</strong><span>Exporte régulièrement un fichier JSON. Il permet de restaurer toute la progression.</span></div>
@@ -989,13 +998,15 @@ function renderHunter(){
  $("hunterName").textContent=a.name;
  $("hunterSub").textContent=a.subzone;
  $("hunterStatus").textContent=`Manque à ${missing.length} personnage(s) : ${missing.map(p=>state.names[p]).join(", ")}`;
- $("hunterCapture").disabled=false;$("hunterPrev").disabled=arr.length<2;$("hunterNext").disabled=arr.length<2;
+ $("hunterPrev").disabled=arr.length<2;$("hunterNext").disabled=arr.length<2;
  $("hunterResume").innerHTML=`<strong>Reprise : ${esc(a.region)}</strong><span>Prochain archimonstre conseillé : ${esc(a.name)}</span>`;
- $("hunterCapture").onclick=()=>{
-   missing.forEach(p=>toggleDone(p,i,true,true));
+ $("hunterCaptureGrid").innerHTML=missing.map(p=>`<button class="hunterperson" data-hunter-person="${p}">${esc(state.names[p])}</button>`).join("");
+ document.querySelectorAll("[data-hunter-person]").forEach(b=>b.onclick=()=>{
+   const p=+b.dataset.hunterPerson;
+   toggleDone(p,i,true,true);
    state.hunterIndex=Math.min(state.hunterIndex,Math.max(0,hunterItems().length-1));
-   save();haptic(25);renderAll();toast(`Capturé pour ${missing.length} personnage(s)`);
- };
+   save();haptic(25);renderAll();toast(`Capturé par ${state.names[p]}`);
+ });
  $("hunterPrev").onclick=()=>{state.hunterIndex=(state.hunterIndex-1+arr.length)%arr.length;save();renderHunter();};
  $("hunterNext").onclick=()=>{state.hunterIndex=(state.hunterIndex+1)%arr.length;save();renderHunter();};
 }

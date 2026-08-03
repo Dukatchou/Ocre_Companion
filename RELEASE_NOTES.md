@@ -1,8 +1,10 @@
 # Ocre Companion 1.2 — Profils
 
-- Création de plusieurs profils indépendants (serveurs, Temporis, équipes, mono-compte).
-- Ajout, suppression et renommage libre des personnages, de 1 à 16 par profil.
-- Progression, équipe active, journal, circuits et réglages conservés séparément pour chaque profil.
-- Migration automatique de la progression v1.1 vers un profil « Profil actuel ».
-- Export et import JSON de l’ensemble des profils, avec compatibilité des anciennes sauvegardes.
-- Interface équipe adaptée dynamiquement au nombre de personnages.
+- Création de profils indépendants par serveur ou aventure.
+- Ajout de 1 à 16 personnages par profil.
+- Bascule rapide entre les profils depuis l’écran principal.
+- Modification et suppression des profils.
+- Progression, journal, statistiques et équipe active séparés.
+- Migration automatique de la progression v1.1 vers « Profil actuel ».
+- Export/import de l’ensemble des profils.
+- Cache PWA renouvelé pour forcer la mise à jour.

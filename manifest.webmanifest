@@ -1,7 +1,7 @@
 {
   "name": "Ocre Companion",
-  "short_name": "Ocre",
-  "description": "Compagnon hors ligne pour suivre la quête du Dofus Ocre sur Dofus Rétro.",
+  "short_name": "Ocre Companion",
+  "description": "Compagnon multi-profils pour suivre la quête du Dofus Ocre sur Dofus Rétro.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

@@ -1,1 +1,6 @@
-{"version":"1.2.0","name":"Profils","released":"2026-08-03"}
+{
+  "name": "Ocre Companion",
+  "version": "1.2.0",
+  "label": "Profils",
+  "build": "2026-08-03"
+}

@@ -1011,11 +1011,11 @@ if("serviceWorker" in navigator){
  });
 }
 const reloadUpdateButton = $("reloadUpdate");
- if (reloadUpdateButton) {
-   reloadUpdateButton.onclick=()=>{
+if (reloadUpdateButton) {
+ reloadUpdateButton.onclick=()=>{
   if(waitingWorker)waitingWorker.postMessage({type:"SKIP_WAITING"});
- else location.reload();
-};
+  else location.reload();
+ };
 }
 
 

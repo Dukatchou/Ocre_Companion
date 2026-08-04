@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#17130f">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icons/icon-180.png">
-<title>Ocre Companion Stable 1.0</title>
+<title>Ocre Companion 1.0.1 Hotfix</title>
 <style>
 :root{--bg:#15120f;--panel:#211c17;--panel2:#29221b;--gold:#d5ad57;--gold2:#f0d28b;--text:#f5eee4;--muted:#a99d8d;--line:#3a3026;--ok:#72c69b}
 *{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
@@ -47,7 +47,7 @@ nav button{max-width:180px;flex:1;border:0;background:transparent;color:var(--mu
 .badge{font-size:11px;padding:5px 8px;border-radius:99px;background:#17130f;color:var(--muted)}
 .badge.ok{color:#a7e2c2}.badge.warn{color:#f0d28b}.badge.hot{color:#efb0a0}
 .reco{border:1px solid var(--line);background:linear-gradient(145deg,#2a2117,#1c1713);border-radius:16px;padding:14px;margin-top:10px}
-.fab{position:fixed;right:18px;bottom:calc(88px + env(safe-area-inset-bottom));z-index:12;width:58px;height:58px;border-radius:18px;border:1px solid #8b6f38;background:var(--gold);color:#1a140d;font-size:30px;font-weight:900;box-shadow:0 12px 30px rgba(0,0,0,.35)}
+.fab{position:fixed;z-index:12;right:18px;bottom:calc(88px + env(safe-area-inset-bottom));z-index:12;width:58px;height:58px;border-radius:18px;border:1px solid #8b6f38;background:var(--gold);color:#1a140d;font-size:30px;font-weight:900;box-shadow:0 12px 30px rgba(0,0,0,.35)}
 .qty-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:12px}
 .qty-grid button{border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:13px;padding:14px;font-weight:800}
 .qty-grid button.active{border-color:var(--gold);color:var(--gold2);box-shadow:0 0 0 1px #806531 inset}
@@ -256,7 +256,7 @@ nav button{max-width:180px;flex:1;border:0;background:transparent;color:var(--mu
 <body>
 <div class="shell">
 <header>
- <div class="brand"><h1><b>Ocre</b> Companion</h1><span class="pill">Stable 1.0</span></div>
+ <div class="brand"><h1><b>Ocre</b> Companion</h1><span class="pill">1.0.1 Hotfix</span></div>
  <div class="sub" id="saveState">Sauvegarde locale</div><div class="sub" id="advLabel"></div>
 </header>
 
@@ -1012,9 +1012,35 @@ function setupPwaUpdateFlow(){
  }).catch(()=>{})
 }
 
+
+function showModal(id){
+ const modal=document.getElementById(id);
+ if(!modal){console.error("Fenêtre introuvable :",id);return false}
+ modal.classList.add("show");
+ document.body.style.overflow="hidden";
+ return true
+}
+function closeModal(id){
+ const modal=document.getElementById(id);
+ if(!modal)return false;
+ modal.classList.remove("show");
+ if(!document.querySelector(".modal.show"))document.body.style.overflow="";
+ return true
+}
+
 function current(){return app.adventures.find(a=>a.id===app.activeId)}
 function engine(){return OcreEngine.create({quest:QUEST,archimonsters:DB.archimonsters,adventure:current()})}
-function save(){localStorage.setItem(KEY,JSON.stringify(app));document.getElementById("saveState").textContent="Sauvegardé à "+new Date().toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"});updateAll()}
+function save(){
+ try{
+  localStorage.setItem(KEY,JSON.stringify(app));
+  const state=document.getElementById("saveState");
+  if(state)state.textContent="Sauvegardé à "+new Date().toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"});
+ }catch(error){
+  console.error("Échec de sauvegarde",error);
+  alert("La sauvegarde locale a échoué. Exporte une sauvegarde d’urgence.");
+ }
+ updateAll()
+}
 function stageDone(n){return engine().stageDone(n)}
 function stageComplete(n){return engine().stageComplete(n)}
 function total(){const x=engine().totals();return [x.completed,x.total]}
@@ -1049,18 +1075,38 @@ function renderDashboard(){
  const r=dashboardRecommendation(),box=document.getElementById("dashboardRecommendation");
  box.innerHTML=`<div class="smart-card priority"><div class="row between"><div><div class="smart-title">${esc(r.title)}</div><div class="smart-text">${esc(r.text)}</div></div><span class="pill">Priorité</span></div><button class="primary" onclick="${r.action==='stage'?`openStage(${cur.step})`:`go('${r.action}')`}">${esc(r.label)}</button></div>`;
 }
+function safeRender(name,fn){
+ try{fn()}catch(error){console.error("Erreur de rendu — "+name,error)}
+}
 function updateAll(){
- const cur=QUEST[current().currentStep-1]||QUEST[0];document.getElementById("advLabel").textContent=current().name+" · "+current().team.length+" personnage"+(current().team.length>1?"s":"");
- document.getElementById("heroStep").textContent="Étape "+current().currentStep;
- document.getElementById("heroKind").textContent=cur.kind;
+ const cur=QUEST[current().currentStep-1]||QUEST[0];
+ const advLabel=document.getElementById("advLabel");
+ if(advLabel)advLabel.textContent=current().name+" · "+current().team.length+" personnage"+(current().team.length>1?"s":"");
+ const heroStep=document.getElementById("heroStep"),heroKind=document.getElementById("heroKind");
+ if(heroStep)heroStep.textContent="Étape "+current().currentStep;
+ if(heroKind)heroKind.textContent=cur.kind;
  const [d,t]=total(),pct=t?Math.round(d/t*100):0;
- document.getElementById("globalBar").style.width=pct+"%";
- document.getElementById("globalText").textContent=pct+" %";
- document.getElementById("globalCount").textContent=d+" / "+t;
- document.getElementById("nextProgress").textContent=stageDone(cur.step)+"/"+cur.objectives.length;
- document.getElementById("nextPreview").textContent=cur.objectives.filter((_,i)=>!current().done[cur.step][i]).slice(0,3).join(" · ")||"Étape terminée";
- renderSteps();renderInventory();renderJournal();renderAdventures();renderTeam();renderHunter();renderCustomLists();renderStats();renderEncyclopedia();renderAssistant();renderAuditWorkshop();renderHomeBestRoute();renderPersonalGoals();renderPeriodSummary();renderAuditedRecords();renderMonthlySummary();renderSessionCalendar();renderYearCalendar();renderYearComparison();renderAnnualRecords();renderProjectCompletion();renderStageGoals();renderInAppReminders();renderDashboard();
- if(document.getElementById("stage").classList.contains("active"))renderStage();
+ const globalBar=document.getElementById("globalBar"),globalText=document.getElementById("globalText"),globalCount=document.getElementById("globalCount");
+ if(globalBar)globalBar.style.width=pct+"%";
+ if(globalText)globalText.textContent=pct+" %";
+ if(globalCount)globalCount.textContent=d+" / "+t;
+ const nextProgress=document.getElementById("nextProgress"),nextPreview=document.getElementById("nextPreview");
+ if(nextProgress)nextProgress.textContent=stageDone(cur.step)+"/"+cur.objectives.length;
+ if(nextPreview)nextPreview.textContent=cur.objectives.filter((_,i)=>!current().done[cur.step][i]).slice(0,3).join(" · ")||"Étape terminée";
+
+ const jobs=[
+  ["Étapes",renderSteps],["Inventaire",renderInventory],["Journal",renderJournal],
+  ["Aventures",renderAdventures],["Équipe",renderTeam],["Chasse",renderHunter],
+  ["Circuits",renderCustomLists],["Statistiques",renderStats],["Bestiaire",renderEncyclopedia],
+  ["Assistant",renderAssistant],["Audit",renderAuditWorkshop],["Accueil parcours",renderHomeBestRoute],
+  ["Objectifs",renderPersonalGoals],["Périodes",renderPeriodSummary],["Records audités",renderAuditedRecords],
+  ["Résumé mensuel",renderMonthlySummary],["Calendrier",renderSessionCalendar],["Année",renderYearCalendar],
+  ["Comparaison annuelle",renderYearComparison],["Records annuels",renderAnnualRecords],
+  ["Achèvement",renderProjectCompletion],["Objectifs d’étapes",renderStageGoals],
+  ["Rappels",renderInAppReminders],["Accueil",renderDashboard]
+ ];
+ jobs.forEach(([name,fn])=>safeRender(name,fn));
+ if(document.getElementById("stage")?.classList.contains("active"))safeRender("Étape ouverte",renderStage);
 }
 function go(id,btn){
  const page=document.getElementById(id);if(!page){console.warn("Page introuvable :",id);return}
@@ -1100,14 +1146,19 @@ function renderStage(){
 }
 function setStageFilter(value){stageFilter=value;renderStage()}
 function toggleObjective(step,i){
- current().done[step][i]=!current().done[step][i];
- if(stageComplete(step)&&current().currentStep===step&&step<35)current().currentStep=step+1;
+ const a=current();
+ a.done[step][i]=!a.done[step][i];
+ if(!a.done[step][i]&&a.currentStep>step)a.currentStep=step;
+ else if(stageComplete(step)&&a.currentStep===step&&step<35)a.currentStep=step+1;
+ renderStage();
  save();
 }
 function toggleWholeStage(){
- const q=QUEST[selectedStep-1],target=!stageComplete(q.step);
- current().done[q.step]=current().done[q.step].map(()=>target);
- if(target&&current().currentStep<=q.step&&q.step<35)current().currentStep=q.step+1;
+ const q=QUEST[selectedStep-1],a=current(),target=!stageComplete(q.step);
+ a.done[q.step]=a.done[q.step].map(()=>target);
+ if(target&&a.currentStep<=q.step&&q.step<35)a.currentStep=q.step+1;
+ if(!target&&a.currentStep>q.step)a.currentStep=q.step;
+ renderStage();
  save();
 }
 function openSync(){
@@ -1404,7 +1455,11 @@ function smartRecommendationForDuration(minutes){
  if(r.type==="current"||r.type==="hunt")return{title:r.title,text:r.text,button:r.button,action:`openStage(${r.step})`};
  return{title:r.title,text:r.text,button:r.button,action:"go('quest')"};
 }
-function setPlayDuration(minutes){current().playDuration=minutes;save();}
+function setPlayDuration(minutes){
+ current().playDuration=minutes;
+ safeRender("Assistant",renderAssistant);
+ save();
+}
 function auditedGroups(field){
  const map=new Map();DB.archimonsters.forEach(a=>{
   const values=field==='family'?(a.family?[a.family]:[]):(a.zones||[]);
@@ -1416,7 +1471,12 @@ function renderAssistant(){
  const a=current(),duration=a.playDuration||60,[done,total]=total(),pct=total?Math.round(done/total*100):0,inventory=smartInventoryAnalysis();
  document.getElementById("smartProgress").textContent=pct+" %";
  document.querySelectorAll("#durationTabs button").forEach((b,i)=>b.classList.toggle("active",[30,60,120,240][i]===duration));
- const rec=smartRecommendationForDuration(duration);
+ let rec;
+ try{rec=smartRecommendationForDuration(duration)}
+ catch(error){
+  console.error("Assistant indisponible",error);
+  rec={title:"Continuer l’étape active",text:"Une partie de l’analyse avancée a rencontré une erreur, mais la quête reste accessible.",button:"Voir l’étape",action:`openStage(${a.currentStep})`}
+ }
  main.innerHTML=`<div class="smart-card priority"><div class="row between"><div><div class="smart-title">${esc(rec.title)}</div><div class="smart-text">${esc(rec.text)}</div></div><span class="pill">Priorité</span></div><button class="primary" onclick="${rec.action}">${esc(rec.button)}</button></div>`;
  document.getElementById("smartStockPill").textContent=inventory.total+" pierres";
  document.getElementById("smartUsable").textContent=inventory.usable;

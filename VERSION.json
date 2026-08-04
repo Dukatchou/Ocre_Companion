@@ -1,8 +1,8 @@
 {
-  "version": "1.0.0",
-  "name": "Ocre Companion Stable 1.0",
+  "version": "1.0.1",
+  "name": "Ocre Companion 1.0.1 — Correctif d’utilisation",
   "date": "2026-08-04",
   "schemaVersion": 14,
   "game": "Dofus Rétro",
-  "status": "stable"
+  "status": "hotfix"
 }

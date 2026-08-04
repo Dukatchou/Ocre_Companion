@@ -1,19 +1,11 @@
-# Ocre Companion Stable 1.0
+# Ocre Companion 1.0.1 — Correctif d’utilisation
 
-Première version stable d’Ocre Companion pour Dofus Rétro.
-
-- Suivi exact des 35 étapes de l’Éternelle Moisson.
-- Base de 299 monstres, 51 boss et 286 archimonstres.
-- Plusieurs aventures et équipes jusqu’à huit personnages.
-- Inventaire quantitatif, doublons et journal.
-- Assistant de rendu et détection des étapes terminables.
-- Bestiaire relationnel et atelier d’audit.
-- Mode Chasse 2.0, circuits et sessions chronométrées.
-- Statistiques, tendances, comparaisons et records personnels.
-- Objectifs personnels et objectifs de progression de quête.
-- Calendriers mensuel et annuel.
-- Imports, exports et sauvegardes d’urgence.
-- Migration unifiée vers le schéma 14.
-- Diagnostic local et réparation des sauvegardes.
-- PWA installable, mises à jour contrôlées et mode hors ligne.
-- Données exclusivement Dofus Rétro.
+- « Tout valider » met immédiatement à jour les coches.
+- Chaque objectif validé peut être décoché.
+- Décocher une ancienne étape replace correctement l’étape active.
+- Le bouton flottant « + » ouvre la fenêtre d’ajout de capture.
+- Les fonctions d’ouverture et de fermeture des fenêtres ont été restaurées.
+- Les durées de l’Assistant actualisent immédiatement la recommandation.
+- Une erreur dans un module secondaire ne bloque plus toute l’interface.
+- L’étape actuellement ouverte est rafraîchie après chaque sauvegarde.
+- L’Assistant affiche une recommandation de secours en cas d’erreur.

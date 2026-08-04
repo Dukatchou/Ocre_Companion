@@ -77,7 +77,13 @@ nav button{max-width:180px;flex:1;border:0;background:transparent;color:var(--mu
 @media(max-width:520px){.filter-grid{grid-template-columns:1fr}}
 @media(min-width:720px){.modal{align-items:center}.fab{right:calc((100vw - 760px)/2 + 18px)}}
 
-.counter{display:flex;align-items:center;gap:8px}.counter button{width:36px;height:36px;border-radius:10px;border:1px solid var(--line);background:#17130f;color:var(--gold2);font-size:20px}.count{min-width:32px;text-align:center;font-weight:800}.inv-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 0;border-bottom:1px solid var(--line)}.inv-row:last-child{border:0}.adventure{border:1px solid var(--line);background:var(--panel2);border-radius:15px;padding:13px;margin-top:10px}.adventure.active{border-color:var(--gold)}.chars{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}.char{font-size:12px;border-radius:99px;padding:6px 9px;background:#17130f;color:var(--muted)}textarea{font:inherit}
+.counter{display:flex;align-items:center;gap:8px}.counter button{width:36px;height:36px;border-radius:10px;border:1px solid var(--line);background:#17130f;color:var(--gold2);font-size:20px}.count{min-width:32px;text-align:center;font-weight:800}.inv-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 0;border-bottom:1px solid var(--line)}.inv-row:last-child{border:0}.adventure{border:1px solid var(--line);background:var(--panel2);border-radius:15px;padding:13px;margin-top:10px}.adventure.active{border-color:var(--gold)}.chars{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}.char{font-size:12px;border-radius:99px;padding:6px 9px;background:#17130f;color:var(--muted)}
+.profile-card{border:1px solid var(--line);background:var(--panel2);border-radius:15px;padding:14px;margin-top:10px}
+.member-row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;border-bottom:1px solid var(--line);padding:11px 0}
+.member-row:last-child{border-bottom:0}.member-actions{display:flex;gap:7px;flex-wrap:wrap}
+.duration-feedback{border:1px solid var(--gold);background:#211a13;border-radius:13px;padding:11px;margin-top:10px}
+.duration-feedback strong{display:block}.duration-feedback span{display:block;color:var(--muted);font-size:12px;margin-top:4px}
+textarea{font:inherit}
 
 .ency-toolbar{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px}
 .ency-status{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}

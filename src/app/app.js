@@ -14,9 +14,11 @@ function blankDone(){const d={};QUEST.forEach(q=>d[q.step]=Array(q.objectives.le
 function makeAdventure(name){return{id:Date.now()+Math.random(),name:name||"Mon aventure",game:"Dofus Rétro",currentStep:1,done:blankDone(),inventory:{},journal:[],team:["Personnage 1"],favorites:{},notes:{},huntLists:[],pinnedRoutes:{},huntSessions:[],activeHuntSession:null,lastHuntPlan:null,personalGoals:[],inAppReminders:true,archived:false,createdAt:Date.now(),playDuration:60}}
 function normalizeDone(done){const out=blankDone();if(!done||typeof done!=="object")return out;QUEST.forEach(q=>{const src=Array.isArray(done[q.step])?done[q.step]:[];out[q.step]=q.objectives.map((_,i)=>!!src[i])});return out}
 function normalizeAdventure(a,index=0){const base=makeAdventure(a?.name||`Aventure ${index+1}`),m={...base,...(a||{})};m.id=a?.id||base.id;m.game="Dofus Rétro";m.currentStep=Math.min(35,Math.max(1,Number(a?.currentStep)||1));m.done=normalizeDone(a?.done);m.inventory=(a?.inventory&&typeof a.inventory==="object")?a.inventory:{};Object.keys(m.inventory).forEach(k=>m.inventory[k]=Math.max(0,Number(m.inventory[k])||0));m.journal=Array.isArray(a?.journal)?a.journal.slice(0,500):[];m.team=Array.isArray(a?.team)&&a.team.length?a.team.slice(0,8):["Personnage 1"];m.favorites=(a?.favorites&&typeof a.favorites==="object")?a.favorites:{};m.notes=(a?.notes&&typeof a.notes==="object")?a.notes:{};m.huntLists=Array.isArray(a?.huntLists)?a.huntLists:[];m.pinnedRoutes=(a?.pinnedRoutes&&typeof a.pinnedRoutes==="object")?a.pinnedRoutes:{};m.huntSessions=Array.isArray(a?.huntSessions)?a.huntSessions.slice(0,500):[];m.activeHuntSession=a?.activeHuntSession||null;m.lastHuntPlan=a?.lastHuntPlan||null;m.personalGoals=Array.isArray(a?.personalGoals)?a.personalGoals:[];m.auditWorkflow=(a?.auditWorkflow&&typeof a.auditWorkflow==="object")?a.auditWorkflow:{};m.inAppReminders=a?.inAppReminders!==false;m.playDuration=[30,60,120,240].includes(Number(a?.playDuration))?Number(a.playDuration):60;m.archived=!!a?.archived;m.schemaVersion=14;return m}
-function normalizeApp(x){const source=(x&&typeof x==="object")?x:{};let adventures=Array.isArray(source.adventures)?source.adventures:[];if(!adventures.length&&source.currentStep)adventures=[source];if(!adventures.length)adventures=[makeAdventure("Mon aventure")];adventures=adventures.map(normalizeAdventure);const requested=source.activeAdventureId??source.activeId,activeId=adventures.some(a=>String(a.id)===String(requested))?requested:adventures[0].id;return{schemaVersion:14,activeId,activeAdventureId:activeId,adventures,auditOverrides:(source.auditOverrides&&typeof source.auditOverrides==="object")?source.auditOverrides:{}}}
+function normalizeApp(x){const source=(x&&typeof x==="object")?x:{};let adventures=Array.isArray(source.adventures)?source.adventures:[];if(!adventures.length&&source.currentStep)adventures=[source];if(!adventures.length)adventures=[makeAdventure("Mon aventure")];adventures=adventures.map(normalizeAdventure);const requested=source.activeAdventureId??source.activeId,activeId=adventures.some(a=>String(a.id)===String(requested))?requested:adventures[0].id;adventures.forEach(a=>{if(a.name==="Thomas — Rétro")a.name="Mon aventure"});
+ const profileName=(typeof source.profileName==="string"&&source.profileName.trim())?source.profileName.trim():"Mon profil";
+ return{schemaVersion:14,profileName,activeId,activeAdventureId:activeId,adventures,auditOverrides:(source.auditOverrides&&typeof source.auditOverrides==="object")?source.auditOverrides:{}}}
 function migrationReport(raw){const n=normalizeApp(raw);return{from:raw?.schemaVersion||raw?.version||"ancienne",to:14,adventures:n.adventures.length,sessions:n.adventures.reduce((s,a)=>s+(a.huntSessions||[]).length,0),goals:n.adventures.reduce((s,a)=>s+(a.personalGoals||[]).length,0),generatedAt:new Date().toISOString()}}
-function loadApp(){try{const x=JSON.parse(localStorage.getItem(KEY));if(x)return normalizeApp(x)}catch(e){}const a=makeAdventure("Thomas — Rétro");return normalizeApp({activeId:a.id,adventures:[a],auditOverrides:{}})}
+function loadApp(){try{const x=JSON.parse(localStorage.getItem(KEY));if(x)return normalizeApp(x)}catch(e){}const a=makeAdventure("Mon aventure");return normalizeApp({profileName:"Mon profil",activeId:a.id,adventures:[a],auditOverrides:{}})}
 function applyAuditOverrides(){
  const overrides=app.auditOverrides||{};
  CREATURES.forEach(c=>{const o=overrides[c.id]||overrides[c.name];if(!o)return;["family","race","levelMin","levelMax","recommendedZone","image"].forEach(k=>{if(o[k]!==undefined)c[k]=o[k]});if(Array.isArray(o.zones))c.zones=[...o.zones];c.audit={...(c.audit||{}),family:c.family?"user-verified":"pending",zones:c.zones?.length?"user-verified":"pending",levels:c.levelMin?"user-verified":"pending",source:o.source||c.audit?.source||"Correction locale"};});
@@ -140,7 +142,7 @@ function safeRender(name,fn){
 function updateAll(){
  const cur=QUEST[current().currentStep-1]||QUEST[0];
  const advLabel=document.getElementById("advLabel");
- if(advLabel)advLabel.textContent=current().name+" · "+current().team.length+" personnage"+(current().team.length>1?"s":"");
+ if(advLabel)advLabel.textContent=(app.profileName||"Mon profil")+" · "+current().name+" · "+current().team.length+" personnage"+(current().team.length>1?"s":"");
  const heroStep=document.getElementById("heroStep"),heroKind=document.getElementById("heroKind");
  if(heroStep)heroStep.textContent="Étape "+current().currentStep;
  if(heroKind)heroKind.textContent=cur.kind;
@@ -516,7 +518,9 @@ function smartRecommendationForDuration(minutes){
 }
 function setPlayDuration(minutes){
  current().playDuration=minutes;
- safeRender("Assistant",renderAssistant);
+ renderAssistant();
+ const target=document.getElementById("durationFeedback");
+ if(target)target.scrollIntoView({behavior:"smooth",block:"nearest"});
  save();
 }
 function auditedGroups(field){
@@ -530,13 +534,16 @@ function renderAssistant(){
  const a=current(),duration=a.playDuration||60,[done,total]=total(),pct=total?Math.round(done/total*100):0,inventory=smartInventoryAnalysis();
  document.getElementById("smartProgress").textContent=pct+" %";
  document.querySelectorAll("#durationTabs button").forEach((b,i)=>b.classList.toggle("active",[30,60,120,240][i]===duration));
+ const durationLabel=duration===30?"30 minutes":duration===60?"1 heure":duration===120?"2 heures":"la soirée";
+ const feedback=document.getElementById("durationFeedback");
+ if(feedback)feedback.innerHTML=`<strong>Plan sélectionné : ${durationLabel}</strong><span>L’assistant adapte sa priorité au temps disponible. La recommandation peut rester identique si la même action reste la plus rentable.</span>`;
  let rec;
  try{rec=smartRecommendationForDuration(duration)}
  catch(error){
   console.error("Assistant indisponible",error);
   rec={title:"Continuer l’étape active",text:"Une partie de l’analyse avancée a rencontré une erreur, mais la quête reste accessible.",button:"Voir l’étape",action:`openStage(${a.currentStep})`}
  }
- main.innerHTML=`<div class="smart-card priority"><div class="row between"><div><div class="smart-title">${esc(rec.title)}</div><div class="smart-text">${esc(rec.text)}</div></div><span class="pill">Priorité</span></div><button class="primary" onclick="${rec.action}">${esc(rec.button)}</button></div>`;
+ main.innerHTML=`<div class="smart-card priority"><div class="row between"><div><div class="smart-title">${esc(rec.title)}</div><div class="smart-text">${esc(rec.text)}</div></div><span class="pill">${durationLabel}</span></div><button class="primary" onclick="${rec.action}">${esc(rec.button)}</button></div>`;
  document.getElementById("smartStockPill").textContent=inventory.total+" pierres";
  document.getElementById("smartUsable").textContent=inventory.usable;
  document.getElementById("smartExchangeable").textContent=inventory.duplicates;
@@ -1362,8 +1369,42 @@ function importAdventure(event){
   app.adventures.push(normalized);app.activeId=normalized.id;selectedStep=normalized.currentStep;save();go('home')
  }catch(e){alert('Fichier d’aventure invalide.')}event.target.value=''};reader.readAsText(file)
 }
-function renderTeam(){const b=document.getElementById('teamView');if(!b)return;b.innerHTML=current().team.map(c=>`<span class="char">${esc(c)}</span>`).join('')}
-function editTeam(){const value=prompt('Noms des personnages, séparés par des virgules (8 maximum) :',current().team.join(', '));if(value===null)return;const names=value.split(',').map(x=>x.trim()).filter(Boolean).slice(0,8);current().team=names.length?names:['Personnage 1'];save()}
+function renderTeam(){
+ const b=document.getElementById("teamView"),p=document.getElementById("profileNameView");
+ if(p)p.textContent=app.profileName||"Mon profil";
+ if(!b)return;
+ b.innerHTML=current().team.length?current().team.map(c=>`<span class="char">${esc(c)}</span>`).join(""):'<span class="muted">Aucun personnage</span>'
+}
+function openProfileTeamModal(){
+ document.getElementById("profileNameInput").value=app.profileName||"Mon profil";
+ document.getElementById("adventureNameInput").value=current().name||"Mon aventure";
+ renderTeamEditor();
+ showModal("profileTeamModal")
+}
+function renderTeamEditor(){
+ const box=document.getElementById("teamEditor");if(!box)return;
+ box.innerHTML=current().team.map((name,i)=>`<div class="member-row"><input value="${esc(name)}" oninput="setTeamMemberName(${i},this.value)" aria-label="Nom du personnage ${i+1}"><div class="member-actions"><button class="secondary danger" onclick="removeTeamMember(${i})">Supprimer</button></div></div>`).join("")||'<p class="muted">Aucun personnage. Ajoute-en un.</p>'
+}
+function setTeamMemberName(index,value){current().team[index]=value}
+function addTeamMember(){
+ if(current().team.length>=8){alert("L’équipe est limitée à 8 personnages.");return}
+ current().team.push("Personnage "+(current().team.length+1));renderTeamEditor()
+}
+function removeTeamMember(index){
+ current().team.splice(index,1);
+ if(!current().team.length)current().team=["Personnage 1"];
+ renderTeamEditor()
+}
+function saveProfileAndTeam(){
+ const profile=document.getElementById("profileNameInput").value.trim();
+ const adventure=document.getElementById("adventureNameInput").value.trim();
+ app.profileName=profile||"Mon profil";
+ current().name=adventure||"Mon aventure";
+ current().team=current().team.map(x=>String(x).trim()).filter(Boolean).slice(0,8);
+ if(!current().team.length)current().team=["Personnage 1"];
+ closeModal("profileTeamModal");save()
+}
+function editTeam(){openProfileTeamModal()}
 function js(s){return String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'")}
 
 function esc(s){return s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}

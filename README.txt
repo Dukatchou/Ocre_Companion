@@ -46,3 +46,6 @@ Nouveauté v14 : réglages de thème/densité, écran de démarrage configurable
 Nouveauté v15 : icône finale « L’Ocre », splash screen « Ocre & Ombre », palette or/anthracite et assets iPhone intégrés.
 
 Version 1.3.0 : guide de reconnaissance des archimonstres.
+
+
+Version 1.5.0 : reprise de progression par page de quête.

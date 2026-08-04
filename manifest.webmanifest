@@ -34,5 +34,6 @@
     "productivity"
   ],
   "lang": "fr",
-  "dir": "ltr"
+  "dir": "ltr",
+  "version": "1.4.0"
 }

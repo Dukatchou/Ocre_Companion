@@ -1,8 +1,8 @@
-# Ocre Companion 1.3.0 — Guide des archimonstres
+# Ocre Companion 1.5.0 — Reprise de progression
 
-- Une fiche de reconnaissance est disponible pour chacun des 286 archimonstres.
-- La liste affiche maintenant le monstre ou la famille à rechercher.
-- La recherche accepte aussi les types de monstres (larve, bouftou, gobelin, etc.).
-- Chaque fiche indique région, sous-zone, description et conseil de chasse.
-- Correspondances exactes intégrées pour les archimonstres les plus courants ; les autres utilisent une famille indicative clairement signalée.
-- La progression locale et les profils existants restent compatibles.
+- Ajout d’un assistant « Reprendre une quête déjà commencée ».
+- Choisir la page actuelle valide automatiquement toutes les pages précédentes.
+- Application possible au personnage actif ou à toute l’équipe.
+- Les captures déjà cochées ne sont jamais retirées.
+- Une sauvegarde locale est créée avant chaque synchronisation.
+- La synchronisation peut être modifiée depuis L’Éternelle Moisson ou les Réglages.

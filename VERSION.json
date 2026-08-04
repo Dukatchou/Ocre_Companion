@@ -1,9 +1,9 @@
 {
-  "version": "1.0.6",
-  "name": "Ocre Companion 1.0.6 — Correctif mises à jour",
+  "version": "1.1.0-beta.1",
+  "name": "Ocre Companion 1.1.0 Bêta — Profils & Équipes",
   "date": "2026-08-05",
-  "schemaVersion": 14,
+  "schemaVersion": 15,
   "game": "Dofus Rétro",
-  "status": "hotfix",
-  "releaseNotes": "Correction complète du service worker et du système de mise à jour intégré."
+  "status": "beta",
+  "releaseNotes": "Réécriture complète de la gestion des profils et des équipes."
 }

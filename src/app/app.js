@@ -11,7 +11,7 @@ let selectedStep=current().currentStep||1;
 let stageFilter="all";
 
 function blankDone(){const d={};QUEST.forEach(q=>d[q.step]=Array(q.objectives.length).fill(false));return d}
-function makeAdventure(name){return{id:Date.now()+Math.random(),name:name||"Mon aventure",game:"Dofus Rétro",currentStep:1,done:blankDone(),inventory:{},journal:[],team:["Personnage 1"],favorites:{},notes:{},huntLists:[],pinnedRoutes:{},huntSessions:[],activeHuntSession:null,lastHuntPlan:null,personalGoals:[],inAppReminders:true,archived:false,createdAt:Date.now(),playDuration:60}}
+function makeAdventure(name){return{id:Date.now()+Math.random(),name:name||"Mon aventure",game:"Dofus Rétro",currentStep:1,done:blankDone(),inventory:{},journal:[],team:["Personnage 1"],activeCharacterIndex:0,favorites:{},notes:{},huntLists:[],pinnedRoutes:{},huntSessions:[],activeHuntSession:null,lastHuntPlan:null,personalGoals:[],inAppReminders:true,archived:false,createdAt:Date.now(),playDuration:60}}
 function normalizeDone(done){const out=blankDone();if(!done||typeof done!=="object")return out;QUEST.forEach(q=>{const src=Array.isArray(done[q.step])?done[q.step]:[];out[q.step]=q.objectives.map((_,i)=>!!src[i])});return out}
 function normalizeAdventure(a,index=0){const base=makeAdventure(a?.name||`Aventure ${index+1}`),m={...base,...(a||{})};m.id=a?.id||base.id;m.game="Dofus Rétro";m.currentStep=Math.min(35,Math.max(1,Number(a?.currentStep)||1));m.done=normalizeDone(a?.done);m.inventory=(a?.inventory&&typeof a.inventory==="object")?a.inventory:{};Object.keys(m.inventory).forEach(k=>m.inventory[k]=Math.max(0,Number(m.inventory[k])||0));m.journal=Array.isArray(a?.journal)?a.journal.slice(0,500):[];m.team=Array.isArray(a?.team)&&a.team.length?a.team.slice(0,8):["Personnage 1"];m.favorites=(a?.favorites&&typeof a.favorites==="object")?a.favorites:{};m.notes=(a?.notes&&typeof a.notes==="object")?a.notes:{};m.huntLists=Array.isArray(a?.huntLists)?a.huntLists:[];m.pinnedRoutes=(a?.pinnedRoutes&&typeof a.pinnedRoutes==="object")?a.pinnedRoutes:{};m.huntSessions=Array.isArray(a?.huntSessions)?a.huntSessions.slice(0,500):[];m.activeHuntSession=a?.activeHuntSession||null;m.lastHuntPlan=a?.lastHuntPlan||null;m.personalGoals=Array.isArray(a?.personalGoals)?a.personalGoals:[];m.auditWorkflow=(a?.auditWorkflow&&typeof a.auditWorkflow==="object")?a.auditWorkflow:{};m.inAppReminders=a?.inAppReminders!==false;m.playDuration=[30,60,120,240].includes(Number(a?.playDuration))?Number(a.playDuration):60;m.archived=!!a?.archived;m.schemaVersion=14;return m}
 function normalizeApp(x){const source=(x&&typeof x==="object")?x:{};let adventures=Array.isArray(source.adventures)?source.adventures:[];if(!adventures.length&&source.currentStep)adventures=[source];if(!adventures.length)adventures=[makeAdventure("Mon aventure")];adventures=adventures.map(normalizeAdventure);const requested=source.activeAdventureId??source.activeId,activeId=adventures.some(a=>String(a.id)===String(requested))?requested:adventures[0].id;adventures.forEach(a=>{if(a.name==="Thomas — Rétro")a.name="Mon aventure"});
@@ -58,7 +58,7 @@ function repairLocalData(){
 }
 function exportEmergencyBackup(){downloadJson({type:"ocre-companion-emergency-backup",version:"13.1",generatedAt:new Date().toISOString(),app},"ocre-companion-sauvegarde-urgence-v13-1.json")}
 
-const APP_VERSION="1.0.6";
+const APP_VERSION="1.1.0";
 const VERSION_MANIFEST_URL="./VERSION.json";
 let waitingServiceWorker=null;
 let availableRemoteVersion=null;
@@ -305,7 +305,10 @@ function safeRender(name,fn){
 function updateAll(){
  const cur=QUEST[current().currentStep-1]||QUEST[0];
  const advLabel=document.getElementById("advLabel");
- if(advLabel)advLabel.textContent=(app.profileName||"Mon profil")+" · "+current().name+" · "+current().team.length+" personnage"+(current().team.length>1?"s":"");
+ if(advLabel){
+  const a=current(),activeName=a.team[Math.min(Math.max(Number(a.activeCharacterIndex)||0,0),Math.max(0,a.team.length-1))]||"Personnage 1";
+  advLabel.textContent=(app.profileName||"Mon profil")+" · "+a.name+" · "+activeName+" · "+a.team.length+" personnage"+(a.team.length>1?"s":"")
+ }
  const heroStep=document.getElementById("heroStep"),heroKind=document.getElementById("heroKind");
  if(heroStep)heroStep.textContent="Étape "+current().currentStep;
  if(heroKind)heroKind.textContent=cur.kind;
@@ -1530,12 +1533,151 @@ function importAdventure(event){
   app.adventures.push(normalized);app.activeId=normalized.id;selectedStep=normalized.currentStep;save();go('home')
  }catch(e){alert('Fichier d’aventure invalide.')}event.target.value=''};reader.readAsText(file)
 }
+let profileTeamDraft=null;
+
 function renderTeam(){
- const b=document.getElementById("teamView"),p=document.getElementById("profileNameView");
- if(p)p.textContent=app.profileName||"Mon profil";
- if(!b)return;
- b.innerHTML=current().team.length?current().team.map(c=>`<span class="char">${esc(c)}</span>`).join(""):'<span class="muted">Aucun personnage</span>'
+ const a=current();
+ const profileNode=document.getElementById("profileNameView");
+ const adventureNode=document.getElementById("adventureNameView");
+ const activeNode=document.getElementById("activeCharacterView");
+ const teamNode=document.getElementById("teamView");
+
+ if(profileNode)profileNode.textContent=app.profileName||"Mon profil";
+ if(adventureNode)adventureNode.textContent=a.name||"Mon aventure";
+
+ const activeIndex=Math.min(Math.max(Number(a.activeCharacterIndex)||0,0),Math.max(0,a.team.length-1));
+ const activeName=a.team[activeIndex]||"Personnage 1";
+ if(activeNode)activeNode.textContent="Personnage actif : "+activeName;
+
+ if(teamNode){
+  teamNode.innerHTML=a.team.map((name,index)=>`
+   <span class="character-chip ${index===activeIndex?"active":""}">
+    ${esc(name)}${index===activeIndex?" · actif":""}
+   </span>
+  `).join("")
+ }
 }
+
+function openProfileTeamModal(){
+ const a=current();
+ profileTeamDraft={
+  profileName:app.profileName||"Mon profil",
+  adventureName:a.name||"Mon aventure",
+  team:[...(a.team||["Personnage 1"])],
+  activeCharacterIndex:Math.min(Math.max(Number(a.activeCharacterIndex)||0,0),Math.max(0,(a.team||[]).length-1))
+ };
+ document.getElementById("profileNameInput").value=profileTeamDraft.profileName;
+ document.getElementById("adventureNameInput").value=profileTeamDraft.adventureName;
+ renderTeamEditor();
+ showModal("profileTeamModal")
+}
+
+function cancelProfileTeamEdit(){
+ profileTeamDraft=null;
+ closeModal("profileTeamModal")
+}
+
+function renderTeamEditor(){
+ const box=document.getElementById("teamEditor");
+ if(!box||!profileTeamDraft)return;
+
+ if(!profileTeamDraft.team.length){
+  profileTeamDraft.team=["Personnage 1"];
+  profileTeamDraft.activeCharacterIndex=0
+ }
+
+ box.innerHTML=profileTeamDraft.team.map((name,index)=>{
+  const active=index===profileTeamDraft.activeCharacterIndex;
+  return `<div class="team-member-card">
+   <div class="team-member-head">
+    <div class="team-member-index">${index+1}</div>
+    <input class="team-member-name" value="${esc(name)}" oninput="renameDraftTeamMember(${index},this.value)" aria-label="Nom du personnage ${index+1}">
+    ${active?'<span class="active-character-pill">Actif</span>':`<button class="secondary" onclick="setDraftActiveCharacter(${index})">Rendre actif</button>`}
+   </div>
+   <div class="team-member-actions">
+    <button class="secondary" onclick="moveDraftTeamMember(${index},-1)" ${index===0?"disabled":""}>↑ Monter</button>
+    <button class="secondary" onclick="moveDraftTeamMember(${index},1)" ${index===profileTeamDraft.team.length-1?"disabled":""}>↓ Descendre</button>
+    <button class="secondary danger" onclick="removeTeamMember(${index})" ${profileTeamDraft.team.length===1?"disabled":""}>Supprimer</button>
+   </div>
+  </div>`
+ }).join("")
+}
+
+function addTeamMember(){
+ if(!profileTeamDraft)return;
+ if(profileTeamDraft.team.length>=8){
+  alert("L’équipe est limitée à 8 personnages.");
+  return
+ }
+ profileTeamDraft.team.push("Personnage "+(profileTeamDraft.team.length+1));
+ renderTeamEditor()
+}
+
+function renameDraftTeamMember(index,value){
+ if(!profileTeamDraft||!profileTeamDraft.team[index])return;
+ profileTeamDraft.team[index]=value
+}
+
+function removeTeamMember(index){
+ if(!profileTeamDraft||profileTeamDraft.team.length<=1)return;
+ profileTeamDraft.team.splice(index,1);
+ if(profileTeamDraft.activeCharacterIndex===index){
+  profileTeamDraft.activeCharacterIndex=Math.max(0,index-1)
+ }else if(profileTeamDraft.activeCharacterIndex>index){
+  profileTeamDraft.activeCharacterIndex--
+ }
+ renderTeamEditor()
+}
+
+function setDraftActiveCharacter(index){
+ if(!profileTeamDraft)return;
+ profileTeamDraft.activeCharacterIndex=index;
+ renderTeamEditor()
+}
+
+function moveDraftTeamMember(index,direction){
+ if(!profileTeamDraft)return;
+ const target=index+direction;
+ if(target<0||target>=profileTeamDraft.team.length)return;
+
+ const [member]=profileTeamDraft.team.splice(index,1);
+ profileTeamDraft.team.splice(target,0,member);
+
+ if(profileTeamDraft.activeCharacterIndex===index){
+  profileTeamDraft.activeCharacterIndex=target
+ }else if(profileTeamDraft.activeCharacterIndex===target){
+  profileTeamDraft.activeCharacterIndex=index
+ }
+ renderTeamEditor()
+}
+
+function saveProfileAndTeam(){
+ if(!profileTeamDraft)return;
+ const a=current();
+
+ const profileName=(document.getElementById("profileNameInput").value||"").trim()||"Mon profil";
+ const adventureName=(document.getElementById("adventureNameInput").value||"").trim()||"Mon aventure";
+ const team=profileTeamDraft.team
+  .map(name=>String(name||"").trim())
+  .filter(Boolean)
+  .slice(0,8);
+
+ app.profileName=profileName;
+ a.name=adventureName;
+ a.team=team.length?team:["Personnage 1"];
+ a.activeCharacterIndex=Math.min(
+  Math.max(Number(profileTeamDraft.activeCharacterIndex)||0,0),
+  a.team.length-1
+ );
+
+ profileTeamDraft=null;
+ closeModal("profileTeamModal");
+ save()
+}
+
+function editTeam(){openProfileTeamModal()}
+
+
 function openProfileTeamModal(){
  document.getElementById("profileNameInput").value=app.profileName||"Mon profil";
  document.getElementById("adventureNameInput").value=current().name||"Mon aventure";

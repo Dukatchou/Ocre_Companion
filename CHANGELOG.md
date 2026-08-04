@@ -316,3 +316,12 @@
 - La fenêtre se ferme automatiquement lorsque la version annoncée est déjà installée.
 - Délai de rechargement renforcé pour laisser le nouveau service worker prendre le contrôle.
 - Toutes les fonctions Profils & Équipes de la bêta 1 sont conservées.
+
+## 1.1.0-beta.3 — Correctif équipe
+
+- Suppression de l’ancien éditeur d’équipe resté en double dans le JavaScript.
+- Le doublon écrasait le nouveau bouton « Modifier ».
+- Une seule définition de chaque fonction Profils & Équipes subsiste.
+- Ajout d’un contrôle défensif lors de l’ouverture de l’éditeur.
+- Conservation de l’ajout, du renommage, de la suppression, du personnage actif et de la réorganisation.
+- Conservation du système de mise à jour corrigé de la bêta 2.

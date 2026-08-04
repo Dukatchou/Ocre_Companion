@@ -58,7 +58,7 @@ function repairLocalData(){
 }
 function exportEmergencyBackup(){downloadJson({type:"ocre-companion-emergency-backup",version:"13.1",generatedAt:new Date().toISOString(),app},"ocre-companion-sauvegarde-urgence-v13-1.json")}
 
-const APP_VERSION="1.1.0-beta.2";
+const APP_VERSION="1.1.0-beta.3";
 const VERSION_MANIFEST_URL="./VERSION.json";
 let waitingServiceWorker=null;
 let availableRemoteVersion=null;
@@ -1585,17 +1585,32 @@ function renderTeam(){
 }
 
 function openProfileTeamModal(){
- const a=current();
- profileTeamDraft={
-  profileName:app.profileName||"Mon profil",
-  adventureName:a.name||"Mon aventure",
-  team:[...(a.team||["Personnage 1"])],
-  activeCharacterIndex:Math.min(Math.max(Number(a.activeCharacterIndex)||0,0),Math.max(0,(a.team||[]).length-1))
- };
- document.getElementById("profileNameInput").value=profileTeamDraft.profileName;
- document.getElementById("adventureNameInput").value=profileTeamDraft.adventureName;
- renderTeamEditor();
- showModal("profileTeamModal")
+ try{
+  const a=current();
+  const modal=document.getElementById("profileTeamModal");
+  const profileInput=document.getElementById("profileNameInput");
+  const adventureInput=document.getElementById("adventureNameInput");
+  const editor=document.getElementById("teamEditor");
+
+  if(!modal||!profileInput||!adventureInput||!editor){
+   throw new Error("Interface Profils & Équipes incomplète")
+  }
+
+  profileTeamDraft={
+   profileName:app.profileName||"Mon profil",
+   adventureName:a.name||"Mon aventure",
+   team:[...(a.team||["Personnage 1"])],
+   activeCharacterIndex:Math.min(Math.max(Number(a.activeCharacterIndex)||0,0),Math.max(0,(a.team||[]).length-1))
+  };
+
+  profileInput.value=profileTeamDraft.profileName;
+  adventureInput.value=profileTeamDraft.adventureName;
+  renderTeamEditor();
+  showModal("profileTeamModal")
+ }catch(error){
+  console.error("Ouverture Profils & Équipes impossible",error);
+  alert("Impossible d’ouvrir l’éditeur Profils & Équipes. Recharge l’application puis réessaie.")
+ }
 }
 
 function cancelProfileTeamEdit(){
@@ -1704,36 +1719,7 @@ function saveProfileAndTeam(){
 function editTeam(){openProfileTeamModal()}
 
 
-function openProfileTeamModal(){
- document.getElementById("profileNameInput").value=app.profileName||"Mon profil";
- document.getElementById("adventureNameInput").value=current().name||"Mon aventure";
- renderTeamEditor();
- showModal("profileTeamModal")
-}
-function renderTeamEditor(){
- const box=document.getElementById("teamEditor");if(!box)return;
- box.innerHTML=current().team.map((name,i)=>`<div class="member-row"><input value="${esc(name)}" oninput="setTeamMemberName(${i},this.value)" aria-label="Nom du personnage ${i+1}"><div class="member-actions"><button class="secondary danger" onclick="removeTeamMember(${i})">Supprimer</button></div></div>`).join("")||'<p class="muted">Aucun personnage. Ajoute-en un.</p>'
-}
-function setTeamMemberName(index,value){current().team[index]=value}
-function addTeamMember(){
- if(current().team.length>=8){alert("L’équipe est limitée à 8 personnages.");return}
- current().team.push("Personnage "+(current().team.length+1));renderTeamEditor()
-}
-function removeTeamMember(index){
- current().team.splice(index,1);
- if(!current().team.length)current().team=["Personnage 1"];
- renderTeamEditor()
-}
-function saveProfileAndTeam(){
- const profile=document.getElementById("profileNameInput").value.trim();
- const adventure=document.getElementById("adventureNameInput").value.trim();
- app.profileName=profile||"Mon profil";
- current().name=adventure||"Mon aventure";
- current().team=current().team.map(x=>String(x).trim()).filter(Boolean).slice(0,8);
- if(!current().team.length)current().team=["Personnage 1"];
- closeModal("profileTeamModal");save()
-}
-function editTeam(){openProfileTeamModal()}
+
 function js(s){return String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'")}
 
 function esc(s){return s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}

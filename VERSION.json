@@ -1,9 +1,9 @@
 {
-  "version": "1.1.0-beta.2",
-  "name": "Ocre Companion 1.1.0 Bêta 2 — Correctif mise à jour",
+  "version": "1.1.0-beta.3",
+  "name": "Ocre Companion 1.1.0 Bêta 3 — Correctif Profils & Équipes",
   "date": "2026-08-05",
   "schemaVersion": 15,
   "game": "Dofus Rétro",
   "status": "beta",
-  "releaseNotes": "Correction de la boucle qui reproposait continuellement une mise à jour déjà installée."
+  "releaseNotes": "Suppression de l’ancien éditeur qui écrasait le nouveau module Profils & Équipes."
 }

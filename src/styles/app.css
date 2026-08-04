@@ -217,6 +217,18 @@ textarea{font:inherit}
 .diagnostic-card b{display:block;font-size:21px;margin-top:5px}
 .update-banner{position:fixed;left:12px;right:12px;bottom:calc(82px + env(safe-area-inset-bottom));z-index:20;background:#2a2117;border:1px solid var(--gold);border-radius:15px;padding:12px;box-shadow:0 12px 30px rgba(0,0,0,.45);display:none}
 .update-banner.show{display:block}
+.update-overlay{position:fixed;inset:0;z-index:100;background:rgba(10,8,7,.88);display:none;align-items:center;justify-content:center;padding:20px}
+.update-overlay.show{display:flex}
+.update-dialog{width:min(100%,460px);background:var(--panel);border:1px solid var(--gold);border-radius:22px;padding:22px;box-shadow:0 24px 70px rgba(0,0,0,.55)}
+.update-dialog h2{margin:6px 0 10px}
+.update-dialog .version-line{display:flex;justify-content:space-between;gap:12px;margin-top:14px;padding:12px;border:1px solid var(--line);border-radius:14px;background:var(--panel2)}
+.update-dialog .actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
+.update-progress{display:none;margin-top:14px}
+.update-progress.show{display:block}
+.update-progress-bar{height:9px;background:#17130f;border-radius:99px;overflow:hidden}
+.update-progress-bar span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width .25s}
+.update-status{font-size:12px;color:var(--muted);margin-top:7px}
+
 .release-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}.release-item{border:1px solid var(--line);background:var(--panel2);border-radius:14px;padding:13px}.release-item.ok{border-color:var(--ok)}.release-item.warn{border-color:#806531}.release-item strong{display:block}.release-item small{display:block;color:var(--muted);margin-top:5px;line-height:1.4}.restore-zone{border:1px dashed var(--line);border-radius:14px;padding:14px;margin-top:12px}.rc-badge{font-size:11px;border-radius:99px;padding:5px 8px;background:#17130f;color:var(--gold2)}@media(max-width:420px){.release-grid{grid-template-columns:1fr}.card{padding:13px}.sheet{max-height:92vh}.search,select,input,textarea{font-size:16px}}
 @media(max-width:420px){nav{gap:4px;padding-left:5px;padding-right:5px}nav button{font-size:10px;padding:8px 5px}.more-grid,.diagnostic-grid{grid-template-columns:1fr}}
 

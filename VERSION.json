@@ -1,8 +1,9 @@
 {
-  "version": "1.0.4",
-  "name": "Ocre Companion 1.0.4 — Tableau de bord fiable",
+  "version": "1.0.5",
+  "name": "Ocre Companion 1.0.5 — Mise à jour intégrée",
   "date": "2026-08-05",
   "schemaVersion": 14,
   "game": "Dofus Rétro",
-  "status": "hotfix"
+  "status": "hotfix",
+  "releaseNotes": "Ajout d’un écran de mise à jour intégré. Les prochaines versions pourront être installées sans supprimer ni réinstaller la PWA."
 }

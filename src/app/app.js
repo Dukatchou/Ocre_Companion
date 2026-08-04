@@ -106,7 +106,14 @@ function stageDone(n){return engine().stageDone(n)}
 function stageComplete(n){return engine().stageComplete(n)}
 function total(){const x=engine().totals();return [x.completed,x.total]}
 function firstIncomplete(){return engine().firstIncomplete()}
-function dashboardArchiStats(){const x=engine().progressByKind("Archimonstres");return{done:x.completed,total:x.total,remaining:x.remaining}}
+function dashboardArchiStats(){
+ let done=0,total=0;
+ QUEST.filter(q=>q.kind==="Archimonstres").forEach(q=>{
+  total+=q.objectives.length;
+  done+=(current().done[q.step]||[]).slice(0,q.objectives.length).filter(Boolean).length
+ });
+ return{done,total,remaining:Math.max(0,total-done)}
+}
 function dashboardStockStats(){return engine().stockStats()}
 function dashboardReadyStages(){return engine().readyStages().map(x=>QUEST[x.step-1])}
 function dashboardRecommendation(){
@@ -120,8 +127,7 @@ function dashboardRecommendation(){
  return {title:"Progression à jour",text:"Continue l’étape active ou ouvre le mode Chasse pour sélectionner tes prochaines cibles.",action:"hunter",label:"Ouvrir la chasse"};
 }
 function renderDashboard(){
- const a=current(),cur=QUEST[a.currentStep-1]||QUEST[0],[done,total]=total(),pct=total?Math.round(done/total*100):0;
- const arch=dashboardArchiStats(),stock=dashboardStockStats(),ready=dashboardReadyStages(),completed=QUEST.filter(q=>stageComplete(q.step)).length;
+ const a=current(),[done,total]=total(),arch=dashboardArchiStats(),stock=dashboardStockStats(),ready=dashboardReadyStages(),completed=QUEST.filter(q=>stageComplete(q.step)).length;
  document.getElementById("dashboardAdventure").textContent=a.name;
  document.getElementById("dashboardGame").textContent=a.game||"Dofus Rétro";
  document.getElementById("dashboardStages").textContent=completed+" / 35 étapes";
@@ -131,10 +137,6 @@ function renderDashboard(){
  document.getElementById("dashDuplicates").textContent=stock.duplicates+" doublon"+(stock.duplicates>1?"s":"");
  document.getElementById("dashReadyStages").textContent=ready.length;
  document.getElementById("dashTeam").textContent=a.team.length;
- const stagePct=cur.objectives.length?Math.round(stageDone(cur.step)/cur.objectives.length*100):0;
- document.getElementById("currentStageBar").style.width=stagePct+"%";
- const r=dashboardRecommendation(),box=document.getElementById("dashboardRecommendation");
- box.innerHTML=`<div class="smart-card priority"><div class="row between"><div><div class="smart-title">${esc(r.title)}</div><div class="smart-text">${esc(r.text)}</div></div><span class="pill">Priorité</span></div><button class="primary" onclick="${r.action==='stage'?`openStage(${cur.step})`:`go('${r.action}')`}">${esc(r.label)}</button></div>`;
 }
 function safeRender(name,fn){
  try{fn()}catch(error){console.error("Erreur de rendu — "+name,error)}
@@ -151,10 +153,6 @@ function updateAll(){
  if(globalBar)globalBar.style.width=pct+"%";
  if(globalText)globalText.textContent=pct+" %";
  if(globalCount)globalCount.textContent=d+" / "+t;
- const nextProgress=document.getElementById("nextProgress"),nextPreview=document.getElementById("nextPreview");
- if(nextProgress)nextProgress.textContent=stageDone(cur.step)+"/"+cur.objectives.length;
- if(nextPreview)nextPreview.textContent=cur.objectives.filter((_,i)=>!current().done[cur.step][i]).slice(0,3).join(" · ")||"Étape terminée";
-
  const jobs=[
   ["Étapes",renderSteps],["Inventaire",renderInventory],["Journal",renderJournal],
   ["Aventures",renderAdventures],["Équipe",renderTeam],["Chasse",renderHunter],
@@ -240,8 +238,10 @@ function applySync(){
 
 function archiQuestDone(name){
  const a=ARCHIS.find(x=>x.name===name);if(!a)return false;
- const q=QUEST[a.step-1],i=q.objectives.indexOf(name);
- return i>=0&&current().done[a.step][i];
+ const step=Number(a.questStage||a.step||0),q=QUEST.find(x=>x.step===step);
+ if(!q)return false;
+ const i=q.objectives.indexOf(name);
+ return i>=0&&!!(current().done[step]||[])[i]
 }
 function setHuntFilter(v){huntFilter=v;renderHunter()}
 function initHuntSelectors(){

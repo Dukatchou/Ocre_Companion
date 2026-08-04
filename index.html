@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#17130f">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icons/icon-180.png">
-<title>Ocre Companion 1.0.2 — Profils et équipes</title>
+<title>Ocre Companion 1.0.3 — Tableau de bord</title>
 <style>
 :root{--bg:#15120f;--panel:#211c17;--panel2:#29221b;--gold:#d5ad57;--gold2:#f0d28b;--text:#f5eee4;--muted:#a99d8d;--line:#3a3026;--ok:#72c69b}
 *{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
@@ -262,7 +262,7 @@ textarea{font:inherit}
 <body>
 <div class="shell">
 <header>
- <div class="brand"><h1><b>Ocre</b> Companion</h1><span class="pill">1.0.2 Profils</span></div>
+ <div class="brand"><h1><b>Ocre</b> Companion</h1><span class="pill">1.0.3 Correctif</span></div>
  <div class="sub" id="saveState">Sauvegarde locale</div><div class="sub" id="advLabel"></div>
 </header>
 
@@ -284,17 +284,6 @@ textarea{font:inherit}
    <div class="dashboard-kpi"><span>Étapes terminables</span><b id="dashReadyStages">0</b><small>avec l’inventaire actuel</small></div>
    <div class="dashboard-kpi"><span>Équipe</span><b id="dashTeam">1</b><small>personnage actif</small></div>
   </div>
- </div>
-
- <div class="card">
-  <div class="dashboard-section-title"><strong>Priorité recommandée</strong><button class="secondary" onclick="go('assistantPage')">Assistant</button></div>
-  <div id="dashboardRecommendation"></div>
- </div>
-
- <div class="card">
-  <div class="dashboard-section-title"><strong>À faire maintenant</strong><span class="pill" id="nextProgress">0/0</span></div>
-  <div id="nextPreview" class="muted" style="margin-top:10px"></div>
-  <div class="mini-progress"><span id="currentStageBar" style="width:0%"></span></div>
  </div>
 
  <div class="card">
@@ -719,7 +708,7 @@ textarea{font:inherit}
   <div class="eyebrow">Ocre Companion</div><h2 style="margin:5px 0">Plus d’outils</h2>
   <div class="more-grid">
    <button class="more-item" onclick="go('adventures')"><strong>Aventures</strong><small>Profils, équipes, imports et exports.</small></button>
-   <button class="more-item" onclick="go('assistantPage')"><strong>Assistant Ocre</strong><small>Étapes terminables et priorités.</small></button>
+   <button class="more-item" onclick="go('assistantPage')"><strong>Assistant Ocre</strong><small>Module expérimental, non essentiel au suivi.</small></button>
    <button class="more-item" onclick="go('encyclopedia')"><strong>Bestiaire</strong><small>Monstres, boss et archimonstres.</small></button>
    <button class="more-item" onclick="go('stats')"><strong>Statistiques</strong><small>Progression, doublons et activité.</small></button>
    <button class="more-item" onclick="go('auditWorkshop')"><strong>Atelier d’audit</strong><small>Compléter et vérifier les données Rétro.</small></button>
@@ -1073,7 +1062,14 @@ function stageDone(n){return engine().stageDone(n)}
 function stageComplete(n){return engine().stageComplete(n)}
 function total(){const x=engine().totals();return [x.completed,x.total]}
 function firstIncomplete(){return engine().firstIncomplete()}
-function dashboardArchiStats(){const x=engine().progressByKind("Archimonstres");return{done:x.completed,total:x.total,remaining:x.remaining}}
+function dashboardArchiStats(){
+ let done=0,total=0;
+ QUEST.filter(q=>q.kind==="Archimonstres").forEach(q=>{
+  total+=q.objectives.length;
+  done+=(current().done[q.step]||[]).slice(0,q.objectives.length).filter(Boolean).length
+ });
+ return{done,total,remaining:Math.max(0,total-done)}
+}
 function dashboardStockStats(){return engine().stockStats()}
 function dashboardReadyStages(){return engine().readyStages().map(x=>QUEST[x.step-1])}
 function dashboardRecommendation(){
@@ -1087,8 +1083,7 @@ function dashboardRecommendation(){
  return {title:"Progression à jour",text:"Continue l’étape active ou ouvre le mode Chasse pour sélectionner tes prochaines cibles.",action:"hunter",label:"Ouvrir la chasse"};
 }
 function renderDashboard(){
- const a=current(),cur=QUEST[a.currentStep-1]||QUEST[0],[done,total]=total(),pct=total?Math.round(done/total*100):0;
- const arch=dashboardArchiStats(),stock=dashboardStockStats(),ready=dashboardReadyStages(),completed=QUEST.filter(q=>stageComplete(q.step)).length;
+ const a=current(),[done,total]=total(),arch=dashboardArchiStats(),stock=dashboardStockStats(),ready=dashboardReadyStages(),completed=QUEST.filter(q=>stageComplete(q.step)).length;
  document.getElementById("dashboardAdventure").textContent=a.name;
  document.getElementById("dashboardGame").textContent=a.game||"Dofus Rétro";
  document.getElementById("dashboardStages").textContent=completed+" / 35 étapes";
@@ -1098,10 +1093,6 @@ function renderDashboard(){
  document.getElementById("dashDuplicates").textContent=stock.duplicates+" doublon"+(stock.duplicates>1?"s":"");
  document.getElementById("dashReadyStages").textContent=ready.length;
  document.getElementById("dashTeam").textContent=a.team.length;
- const stagePct=cur.objectives.length?Math.round(stageDone(cur.step)/cur.objectives.length*100):0;
- document.getElementById("currentStageBar").style.width=stagePct+"%";
- const r=dashboardRecommendation(),box=document.getElementById("dashboardRecommendation");
- box.innerHTML=`<div class="smart-card priority"><div class="row between"><div><div class="smart-title">${esc(r.title)}</div><div class="smart-text">${esc(r.text)}</div></div><span class="pill">Priorité</span></div><button class="primary" onclick="${r.action==='stage'?`openStage(${cur.step})`:`go('${r.action}')`}">${esc(r.label)}</button></div>`;
 }
 function safeRender(name,fn){
  try{fn()}catch(error){console.error("Erreur de rendu — "+name,error)}
@@ -1118,10 +1109,6 @@ function updateAll(){
  if(globalBar)globalBar.style.width=pct+"%";
  if(globalText)globalText.textContent=pct+" %";
  if(globalCount)globalCount.textContent=d+" / "+t;
- const nextProgress=document.getElementById("nextProgress"),nextPreview=document.getElementById("nextPreview");
- if(nextProgress)nextProgress.textContent=stageDone(cur.step)+"/"+cur.objectives.length;
- if(nextPreview)nextPreview.textContent=cur.objectives.filter((_,i)=>!current().done[cur.step][i]).slice(0,3).join(" · ")||"Étape terminée";
-
  const jobs=[
   ["Étapes",renderSteps],["Inventaire",renderInventory],["Journal",renderJournal],
   ["Aventures",renderAdventures],["Équipe",renderTeam],["Chasse",renderHunter],
@@ -1207,8 +1194,10 @@ function applySync(){
 
 function archiQuestDone(name){
  const a=ARCHIS.find(x=>x.name===name);if(!a)return false;
- const q=QUEST[a.step-1],i=q.objectives.indexOf(name);
- return i>=0&&current().done[a.step][i];
+ const step=Number(a.questStage||a.step||0),q=QUEST.find(x=>x.step===step);
+ if(!q)return false;
+ const i=q.objectives.indexOf(name);
+ return i>=0&&!!(current().done[step]||[])[i]
 }
 function setHuntFilter(v){huntFilter=v;renderHunter()}
 function initHuntSelectors(){

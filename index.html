@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#17130f">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icons/icon-180.png">
-<title>Ocre Companion 1.0.3 — Tableau de bord</title>
+<title>Ocre Companion 1.0.4 — Tableau de bord fiable</title>
 <style>
 :root{--bg:#15120f;--panel:#211c17;--panel2:#29221b;--gold:#d5ad57;--gold2:#f0d28b;--text:#f5eee4;--muted:#a99d8d;--line:#3a3026;--ok:#72c69b}
 *{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
@@ -262,7 +262,7 @@ textarea{font:inherit}
 <body>
 <div class="shell">
 <header>
- <div class="brand"><h1><b>Ocre</b> Companion</h1><span class="pill">1.0.3 Correctif</span></div>
+ <div class="brand"><h1><b>Ocre</b> Companion</h1><span class="pill">1.0.4 Correctif</span></div>
  <div class="sub" id="saveState">Sauvegarde locale</div><div class="sub" id="advLabel"></div>
 </header>
 
@@ -279,7 +279,7 @@ textarea{font:inherit}
  <div class="card">
   <div class="dashboard-section-title"><strong>Vue immédiate</strong><span class="pill">Mise à jour en direct</span></div>
   <div class="dashboard-grid">
-   <div class="dashboard-kpi"><span>Archis restants</span><b id="dashArchiRemaining">286</b><small id="dashArchiProgress">0 / 286 validés</small></div>
+   <div class="dashboard-kpi"><span>Archis restants</span><b id="dashArchiRemaining">286</b><small id="dashArchiProgress">Calcul en cours…</small></div>
    <div class="dashboard-kpi"><span>Pierres en stock</span><b id="dashStock">0</b><small id="dashDuplicates">0 doublon</small></div>
    <div class="dashboard-kpi"><span>Étapes terminables</span><b id="dashReadyStages">0</b><small>avec l’inventaire actuel</small></div>
    <div class="dashboard-kpi"><span>Équipe</span><b id="dashTeam">1</b><small>personnage actif</small></div>
@@ -1056,7 +1056,7 @@ function save(){
   console.error("Échec de sauvegarde",error);
   alert("La sauvegarde locale a échoué. Exporte une sauvegarde d’urgence.");
  }
- updateAll()
+ updateAll();safeRender("Tableau de bord prioritaire",renderDashboard)
 }
 function stageDone(n){return engine().stageDone(n)}
 function stageComplete(n){return engine().stageComplete(n)}
@@ -1083,16 +1083,47 @@ function dashboardRecommendation(){
  return {title:"Progression à jour",text:"Continue l’étape active ou ouvre le mode Chasse pour sélectionner tes prochaines cibles.",action:"hunter",label:"Ouvrir la chasse"};
 }
 function renderDashboard(){
- const a=current(),[done,total]=total(),arch=dashboardArchiStats(),stock=dashboardStockStats(),ready=dashboardReadyStages(),completed=QUEST.filter(q=>stageComplete(q.step)).length;
- document.getElementById("dashboardAdventure").textContent=a.name;
- document.getElementById("dashboardGame").textContent=a.game||"Dofus Rétro";
- document.getElementById("dashboardStages").textContent=completed+" / 35 étapes";
- document.getElementById("dashArchiRemaining").textContent=arch.remaining;
- document.getElementById("dashArchiProgress").textContent=arch.done+" / "+arch.total+" validés";
- document.getElementById("dashStock").textContent=stock.total;
- document.getElementById("dashDuplicates").textContent=stock.duplicates+" doublon"+(stock.duplicates>1?"s":"");
- document.getElementById("dashReadyStages").textContent=ready.length;
- document.getElementById("dashTeam").textContent=a.team.length;
+ const a=current();
+ const completed=QUEST.filter(q=>stageComplete(q.step)).length;
+ const arch=dashboardArchiStats();
+
+ const adventure=document.getElementById("dashboardAdventure");
+ const game=document.getElementById("dashboardGame");
+ const stages=document.getElementById("dashboardStages");
+ const remaining=document.getElementById("dashArchiRemaining");
+ const progress=document.getElementById("dashArchiProgress");
+ const team=document.getElementById("dashTeam");
+
+ if(adventure)adventure.textContent=a.name;
+ if(game)game.textContent=a.game||"Dofus Rétro";
+ if(stages)stages.textContent=completed+" / 35 étapes";
+ if(remaining)remaining.textContent=arch.remaining;
+ if(progress)progress.textContent=arch.done+" / "+arch.total+" validés";
+ if(team)team.textContent=a.team.length;
+
+ try{
+  const stock=dashboardStockStats();
+  const stockNode=document.getElementById("dashStock");
+  const duplicateNode=document.getElementById("dashDuplicates");
+  if(stockNode)stockNode.textContent=stock.total;
+  if(duplicateNode)duplicateNode.textContent=stock.duplicates+" doublon"+(stock.duplicates>1?"s":"");
+ }catch(error){
+  console.error("Calcul du stock indisponible",error);
+  const stockNode=document.getElementById("dashStock");
+  const duplicateNode=document.getElementById("dashDuplicates");
+  if(stockNode)stockNode.textContent=Object.values(a.inventory||{}).reduce((n,x)=>n+(Number(x)||0),0);
+  if(duplicateNode)duplicateNode.textContent="Calcul en attente";
+ }
+
+ try{
+  const ready=dashboardReadyStages();
+  const readyNode=document.getElementById("dashReadyStages");
+  if(readyNode)readyNode.textContent=ready.length;
+ }catch(error){
+  console.error("Calcul des étapes terminables indisponible",error);
+  const readyNode=document.getElementById("dashReadyStages");
+  if(readyNode)readyNode.textContent="—";
+ }
 }
 function safeRender(name,fn){
  try{fn()}catch(error){console.error("Erreur de rendu — "+name,error)}

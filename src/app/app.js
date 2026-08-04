@@ -100,7 +100,7 @@ function save(){
   console.error("Échec de sauvegarde",error);
   alert("La sauvegarde locale a échoué. Exporte une sauvegarde d’urgence.");
  }
- updateAll()
+ updateAll();safeRender("Tableau de bord prioritaire",renderDashboard)
 }
 function stageDone(n){return engine().stageDone(n)}
 function stageComplete(n){return engine().stageComplete(n)}
@@ -127,16 +127,47 @@ function dashboardRecommendation(){
  return {title:"Progression à jour",text:"Continue l’étape active ou ouvre le mode Chasse pour sélectionner tes prochaines cibles.",action:"hunter",label:"Ouvrir la chasse"};
 }
 function renderDashboard(){
- const a=current(),[done,total]=total(),arch=dashboardArchiStats(),stock=dashboardStockStats(),ready=dashboardReadyStages(),completed=QUEST.filter(q=>stageComplete(q.step)).length;
- document.getElementById("dashboardAdventure").textContent=a.name;
- document.getElementById("dashboardGame").textContent=a.game||"Dofus Rétro";
- document.getElementById("dashboardStages").textContent=completed+" / 35 étapes";
- document.getElementById("dashArchiRemaining").textContent=arch.remaining;
- document.getElementById("dashArchiProgress").textContent=arch.done+" / "+arch.total+" validés";
- document.getElementById("dashStock").textContent=stock.total;
- document.getElementById("dashDuplicates").textContent=stock.duplicates+" doublon"+(stock.duplicates>1?"s":"");
- document.getElementById("dashReadyStages").textContent=ready.length;
- document.getElementById("dashTeam").textContent=a.team.length;
+ const a=current();
+ const completed=QUEST.filter(q=>stageComplete(q.step)).length;
+ const arch=dashboardArchiStats();
+
+ const adventure=document.getElementById("dashboardAdventure");
+ const game=document.getElementById("dashboardGame");
+ const stages=document.getElementById("dashboardStages");
+ const remaining=document.getElementById("dashArchiRemaining");
+ const progress=document.getElementById("dashArchiProgress");
+ const team=document.getElementById("dashTeam");
+
+ if(adventure)adventure.textContent=a.name;
+ if(game)game.textContent=a.game||"Dofus Rétro";
+ if(stages)stages.textContent=completed+" / 35 étapes";
+ if(remaining)remaining.textContent=arch.remaining;
+ if(progress)progress.textContent=arch.done+" / "+arch.total+" validés";
+ if(team)team.textContent=a.team.length;
+
+ try{
+  const stock=dashboardStockStats();
+  const stockNode=document.getElementById("dashStock");
+  const duplicateNode=document.getElementById("dashDuplicates");
+  if(stockNode)stockNode.textContent=stock.total;
+  if(duplicateNode)duplicateNode.textContent=stock.duplicates+" doublon"+(stock.duplicates>1?"s":"");
+ }catch(error){
+  console.error("Calcul du stock indisponible",error);
+  const stockNode=document.getElementById("dashStock");
+  const duplicateNode=document.getElementById("dashDuplicates");
+  if(stockNode)stockNode.textContent=Object.values(a.inventory||{}).reduce((n,x)=>n+(Number(x)||0),0);
+  if(duplicateNode)duplicateNode.textContent="Calcul en attente";
+ }
+
+ try{
+  const ready=dashboardReadyStages();
+  const readyNode=document.getElementById("dashReadyStages");
+  if(readyNode)readyNode.textContent=ready.length;
+ }catch(error){
+  console.error("Calcul des étapes terminables indisponible",error);
+  const readyNode=document.getElementById("dashReadyStages");
+  if(readyNode)readyNode.textContent="—";
+ }
 }
 function safeRender(name,fn){
  try{fn()}catch(error){console.error("Erreur de rendu — "+name,error)}

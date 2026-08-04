@@ -1,8 +1,9 @@
-# Ocre Companion 1.1.0 Bêta 3 — Correctif Profils & Équipes
+# Ocre Companion 1.1.0 Bêta 4 — Correctif fenêtres
 
-- Suppression de l’ancien éditeur d’équipe resté en double dans le JavaScript.
-- Le doublon écrasait le nouveau bouton « Modifier ».
-- Une seule définition de chaque fonction Profils & Équipes subsiste.
-- Ajout d’un contrôle défensif lors de l’ouverture de l’éditeur.
-- Conservation de l’ajout, du renommage, de la suppression, du personnage actif et de la réorganisation.
-- Conservation du système de mise à jour corrigé de la bêta 2.
+- Restauration de `showModal()` et `closeModal()`.
+- Le bouton « Modifier » peut désormais afficher l’éditeur Profils & Équipes.
+- Le défilement de la page est bloqué pendant l’ouverture d’une fenêtre.
+- Le défilement est restauré lorsque la dernière fenêtre est fermée.
+- Ajout d’un contrôle explicite confirmant que l’éditeur a bien été affiché.
+- Conservation de toutes les fonctions Profils & Équipes de la bêta 3.
+- Conservation du système de mise à jour intégré.

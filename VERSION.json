@@ -1,9 +1,9 @@
 {
-  "version": "1.1.0-beta.3",
-  "name": "Ocre Companion 1.1.0 Bêta 3 — Correctif Profils & Équipes",
+  "version": "1.1.0-beta.4",
+  "name": "Ocre Companion 1.1.0 Bêta 4 — Correctif fenêtres",
   "date": "2026-08-05",
   "schemaVersion": 15,
   "game": "Dofus Rétro",
   "status": "beta",
-  "releaseNotes": "Suppression de l’ancien éditeur qui écrasait le nouveau module Profils & Équipes."
+  "releaseNotes": "Restauration des fonctions globales d’ouverture et de fermeture des fenêtres."
 }

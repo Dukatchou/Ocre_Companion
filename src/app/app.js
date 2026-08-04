@@ -58,7 +58,7 @@ function repairLocalData(){
 }
 function exportEmergencyBackup(){downloadJson({type:"ocre-companion-emergency-backup",version:"13.1",generatedAt:new Date().toISOString(),app},"ocre-companion-sauvegarde-urgence-v13-1.json")}
 
-const APP_VERSION="1.1.0-beta.3";
+const APP_VERSION="1.1.0-beta.4";
 const VERSION_MANIFEST_URL="./VERSION.json";
 let waitingServiceWorker=null;
 let availableRemoteVersion=null;
@@ -243,6 +243,30 @@ function setupPwaUpdateFlow(){
  document.addEventListener("visibilitychange",()=>{
   if(document.visibilityState==="visible")checkRemoteVersion(false)
  })
+}
+
+
+function showModal(id){
+ const modal=document.getElementById(id);
+ if(!modal){
+  console.error("Fenêtre introuvable :",id);
+  return false
+ }
+ modal.classList.add("show");
+ modal.setAttribute("aria-hidden","false");
+ document.body.style.overflow="hidden";
+ return true
+}
+
+function closeModal(id){
+ const modal=document.getElementById(id);
+ if(!modal)return false;
+ modal.classList.remove("show");
+ modal.setAttribute("aria-hidden","true");
+ if(!document.querySelector(".modal.show")){
+  document.body.style.overflow=""
+ }
+ return true
 }
 
 function current(){return app.adventures.find(a=>a.id===app.activeId)}
@@ -1606,7 +1630,9 @@ function openProfileTeamModal(){
   profileInput.value=profileTeamDraft.profileName;
   adventureInput.value=profileTeamDraft.adventureName;
   renderTeamEditor();
-  showModal("profileTeamModal")
+  if(!showModal("profileTeamModal")){
+   throw new Error("La fenêtre Profils & Équipes n’a pas pu être affichée")
+  }
  }catch(error){
   console.error("Ouverture Profils & Équipes impossible",error);
   alert("Impossible d’ouvrir l’éditeur Profils & Équipes. Recharge l’application puis réessaie.")

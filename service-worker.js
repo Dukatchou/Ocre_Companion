@@ -1,4 +1,4 @@
-const CACHE="ocre-companion-1-1-0-beta-3";
+const CACHE="ocre-companion-1-1-0-beta-4";
 const ASSETS=[
   "./",
   "./index.html",

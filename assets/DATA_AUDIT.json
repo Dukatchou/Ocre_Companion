@@ -1,0 +1,27 @@
+{
+  "version": "0.995 RC",
+  "retro_scope": true,
+  "total_archimonstres": 286,
+  "unique_names": 286,
+  "circuits": {
+    "Astrub & Amakna": 36,
+    "Forêts d'Amakna": 13,
+    "Sufokia": 6,
+    "Cania & Bonta": 26,
+    "Plaine des Scarafeuilles": 6,
+    "Campement des Bworks": 4,
+    "Brâkmar & Sidimote": 44,
+    "Dragoeufs": 21,
+    "Montagne des Koalaks": 30,
+    "Île des Wabbits": 8,
+    "Île de Moon": 13,
+    "Île du Minotoror": 2,
+    "Pandala": 28,
+    "Île de Grobe": 2,
+    "Île d'Otomaï": 38,
+    "Temples de classe": 9
+  },
+  "circuit_count": 16,
+  "generic_unresolved_zones": 0,
+  "note": "Les noms proviennent exclusivement de la liste fournie par l'utilisateur. Les circuits regroupent uniquement les destinations de la base Dofus Rétro."
+}

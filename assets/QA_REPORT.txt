@@ -1,0 +1,9 @@
+OK - javascript_syntax
+OK - final_icon_master
+OK - splash_large
+OK - splash_small
+OK - apple_touch_icon
+OK - splash_overlay
+OK - manifest_icons
+OK - archis_286
+OK - service_worker

@@ -1,14 +1,9 @@
-# Ocre Companion 1.1.0 Bêta — Profils & Équipes
+# Ocre Companion 1.1.0 Bêta 2 — Correctif mise à jour
 
-- Réécriture complète du module Profils & Équipes.
-- Bouton « Modifier » restauré avec une vraie fenêtre d’édition.
-- Modification du nom du profil.
-- Modification du nom de l’aventure active.
-- Ajout de personnages jusqu’à huit.
-- Renommage de chaque personnage.
-- Suppression d’un personnage.
-- Choix du personnage actif.
-- Réorganisation de l’équipe avec Monter / Descendre.
-- Affichage du personnage actif dans l’en-tête.
-- Migration automatique des anciennes équipes avec un personnage actif par défaut.
-- Annulation sans modifier les données grâce à un brouillon local.
+- Correction de la boucle de mise à jour après installation.
+- La version installée et `VERSION.json` utilisent désormais exactement le même numéro.
+- Comparaison correcte des versions alpha, bêta, RC et stables.
+- `1.1.0-beta.2` n’est plus confondu avec `1.1.0`.
+- La fenêtre se ferme automatiquement lorsque la version annoncée est déjà installée.
+- Délai de rechargement renforcé pour laisser le nouveau service worker prendre le contrôle.
+- Toutes les fonctions Profils & Équipes de la bêta 1 sont conservées.

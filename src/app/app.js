@@ -58,20 +58,43 @@ function repairLocalData(){
 }
 function exportEmergencyBackup(){downloadJson({type:"ocre-companion-emergency-backup",version:"13.1",generatedAt:new Date().toISOString(),app},"ocre-companion-sauvegarde-urgence-v13-1.json")}
 
-const APP_VERSION="1.1.0";
+const APP_VERSION="1.1.0-beta.2";
 const VERSION_MANIFEST_URL="./VERSION.json";
 let waitingServiceWorker=null;
 let availableRemoteVersion=null;
 let updateDismissedForVersion=sessionStorage.getItem("ocre_update_dismissed")||"";
 
-function compareVersions(a,b){
- const pa=String(a||"0").replace(/[^0-9.]/g,"").split(".").map(Number);
- const pb=String(b||"0").replace(/[^0-9.]/g,"").split(".").map(Number);
- for(let i=0;i<Math.max(pa.length,pb.length);i++){
-  const x=pa[i]||0,y=pb[i]||0;
-  if(x>y)return 1;
-  if(x<y)return -1
+function parseAppVersion(value){
+ const text=String(value||"0.0.0").trim().toLowerCase();
+ const match=text.match(/^(\d+)\.(\d+)\.(\d+)(?:-([a-z]+)(?:[.-]?(\d+))?)?$/);
+ if(!match)return{major:0,minor:0,patch:0,channel:"",number:0,raw:text};
+ return{
+  major:Number(match[1]),
+  minor:Number(match[2]),
+  patch:Number(match[3]),
+  channel:match[4]||"",
+  number:Number(match[5]||0),
+  raw:text
  }
+}
+function versionChannelRank(channel){
+ if(!channel)return 4;
+ if(channel==="rc")return 3;
+ if(channel==="beta")return 2;
+ if(channel==="alpha")return 1;
+ return 0
+}
+function compareVersions(a,b){
+ const x=parseAppVersion(a),y=parseAppVersion(b);
+ for(const key of ["major","minor","patch"]){
+  if(x[key]>y[key])return 1;
+  if(x[key]<y[key])return -1
+ }
+ const xr=versionChannelRank(x.channel),yr=versionChannelRank(y.channel);
+ if(xr>yr)return 1;
+ if(xr<yr)return -1;
+ if(x.number>y.number)return 1;
+ if(x.number<y.number)return -1;
  return 0
 }
 function showUpdateOverlay(version,notes=""){
@@ -111,11 +134,14 @@ async function checkRemoteVersion(showIfCurrent=false){
   if(showIfCurrent)alert("Impossible de vérifier la version pour le moment.");
   return
  }
- const newer=compareVersions(manifest.version,APP_VERSION)>0;
+ const comparison=compareVersions(manifest.version,APP_VERSION);
+ const newer=comparison>0;
  if(newer&&updateDismissedForVersion!==manifest.version){
   showUpdateOverlay(manifest.version,manifest.name||"Nouvelle version disponible.")
- }else if(showIfCurrent&&!newer){
-  alert("Ocre Companion est déjà à jour ("+APP_VERSION+").")
+ }else{
+  const overlay=document.getElementById("updateOverlay");
+  if(overlay?.classList.contains("show")&&comparison<=0)dismissAppUpdate();
+  if(showIfCurrent&&!newer)alert("Ocre Companion est déjà à jour ("+APP_VERSION+").")
  }
 }
 async function checkForAppUpdate(){
@@ -176,8 +202,8 @@ async function installAvailableUpdate(){
 
   setTimeout(()=>{
    setUpdateProgress(100,"Mise à jour terminée. Rechargement…");
-   location.reload();
-  },1200);
+   if(!reloadingAfterUpdate)location.reload();
+  },2500);
 
  }catch(error){
   console.error("Échec de mise à jour",error);

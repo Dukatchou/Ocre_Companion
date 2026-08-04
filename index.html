@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#17130f">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icons/icon-180.png">
-<title>Ocre Companion V2</title>
+<title>Ocre Companion Stable 1.0</title>
 <style>
 :root{--bg:#15120f;--panel:#211c17;--panel2:#29221b;--gold:#d5ad57;--gold2:#f0d28b;--text:#f5eee4;--muted:#a99d8d;--line:#3a3026;--ok:#72c69b}
 *{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
@@ -69,39 +69,241 @@ nav button{max-width:180px;flex:1;border:0;background:transparent;color:var(--mu
 .ready-card h3{margin:0 0 6px}.ready-list{display:grid;gap:7px;margin-top:11px}
 .ready-item{display:flex;align-items:center;justify-content:space-between;gap:10px;background:#17130f;border-radius:11px;padding:10px}
 .ready-item.missing{opacity:.65}.assistant-summary{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+
+.dashboard-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.dashboard-kpi{background:#17130f;border:1px solid var(--line);border-radius:14px;padding:13px;min-height:88px}
+.dashboard-kpi span{display:block;color:var(--muted);font-size:11px;margin-bottom:6px}.dashboard-kpi b{font-size:24px;line-height:1.05}.dashboard-kpi small{display:block;color:var(--muted);margin-top:6px}
+.smart-card{border:1px solid var(--line);background:linear-gradient(145deg,#2a2117,#1c1713);border-radius:16px;padding:14px;margin-top:10px}
+.smart-card.priority{border-color:var(--gold)}.smart-title{font-weight:800}.smart-text{color:var(--muted);font-size:13px;line-height:1.45;margin-top:6px}
+.quick-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}.quick-grid button{width:100%;min-height:58px;text-align:left}
+.mini-progress{height:7px;background:#110f0d;border-radius:99px;overflow:hidden;margin-top:9px}.mini-progress span{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2))}
+.dashboard-section-title{display:flex;justify-content:space-between;align-items:center;gap:10px}
+@media(max-width:390px){.dashboard-grid,.quick-grid{grid-template-columns:1fr}}
+.audit-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.audit-actions button,.audit-actions label{flex:1;min-width:150px}
+.audit-source{font-size:11px;color:var(--muted);margin-top:8px}
+.filter-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px}
+.data-complete{border-color:#477a60}.data-partial{border-color:#7b6232}
+@media(max-width:520px){.filter-grid{grid-template-columns:1fr}}
 @media(min-width:720px){.modal{align-items:center}.fab{right:calc((100vw - 760px)/2 + 18px)}}
 
 .counter{display:flex;align-items:center;gap:8px}.counter button{width:36px;height:36px;border-radius:10px;border:1px solid var(--line);background:#17130f;color:var(--gold2);font-size:20px}.count{min-width:32px;text-align:center;font-weight:800}.inv-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 0;border-bottom:1px solid var(--line)}.inv-row:last-child{border:0}.adventure{border:1px solid var(--line);background:var(--panel2);border-radius:15px;padding:13px;margin-top:10px}.adventure.active{border-color:var(--gold)}.chars{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}.char{font-size:12px;border-radius:99px;padding:6px 9px;background:#17130f;color:var(--muted)}textarea{font:inherit}
+
+.ency-toolbar{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px}
+.ency-status{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+.ency-status button.active-filter{border-color:var(--gold);color:var(--gold2);box-shadow:0 0 0 1px #806531 inset}
+.creature-card .status-line{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}
+.status-chip{font-size:11px;border-radius:99px;padding:5px 8px;background:#17130f;color:var(--muted)}
+.status-chip.ok{color:#a7e2c2}.status-chip.stock{color:var(--gold2)}.status-chip.missing{color:#efb0a0}
+.relation-button{width:100%;text-align:left;border:1px solid var(--line);background:#17130f;color:var(--text);border-radius:12px;padding:11px;margin-top:9px}
+.relation-button small{display:block;color:var(--muted);margin-top:3px}
+.sheet-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}
+.audit-meter{height:8px;background:#17130f;border-radius:99px;overflow:hidden;margin-top:7px}.audit-meter span{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2))}
+.quality-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.quality-stat{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:13px}
+.quality-stat b{display:block;font-size:23px;margin-top:4px}
+.issue-row{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;padding:11px 0;border-bottom:1px solid var(--line)}
+.issue-row:last-child{border:0}.issue-copy{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.4}
+.issue-chip{font-size:11px;border-radius:99px;padding:5px 8px;background:#17130f;color:#f0d28b;white-space:nowrap}
+.issue-chip.blocking{color:#efaaaa}.priority-score{min-width:46px;text-align:center;font-weight:900;color:var(--gold2)}
+.priority-group{border:1px solid var(--line);background:var(--panel2);border-radius:14px;padding:12px;margin-top:9px}
+.audit-queue{display:grid;gap:9px;margin-top:12px}
+.audit-task{border:1px solid var(--line);background:var(--panel2);border-radius:15px;padding:13px}
+.audit-task.active{border-color:var(--gold)}
+.audit-task.done{opacity:.62}
+.audit-task .meta{font-size:12px;color:var(--muted);margin-top:4px}
+.audit-status{font-size:11px;border-radius:99px;padding:5px 8px;background:#17130f;color:#f0d28b}
+.audit-status.ok{color:#a7e2c2}
+.audit-toolbar{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}
+.audit-toolbar select,.audit-toolbar input{width:100%}
+.hunt-dashboard{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.hunt-kpi{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:13px}
+.hunt-kpi b{display:block;font-size:24px;margin-top:4px}
+.route-card{border:1px solid var(--line);background:var(--panel2);border-radius:16px;padding:14px;margin-top:10px}
+.route-card.pinned{border-color:var(--gold)}
+.route-score{font-size:22px;font-weight:900;color:var(--gold2)}
+.route-progress{height:8px;background:#17130f;border-radius:99px;overflow:hidden;margin-top:9px}
+.route-progress span{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2))}
+.route-targets{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.route-targets span{font-size:11px;border-radius:99px;background:#17130f;color:var(--muted);padding:5px 8px}
+.plan-step{display:grid;grid-template-columns:30px 1fr auto;gap:10px;align-items:center;padding:11px 0;border-bottom:1px solid var(--line)}
+.plan-step:last-child{border:0}.plan-order{width:30px;height:30px;border-radius:10px;background:#17130f;display:grid;place-items:center;color:var(--gold2);font-weight:900}
+.live-session{border:1px solid var(--gold);background:linear-gradient(145deg,#2a2117,#1b1713);border-radius:17px;padding:15px;margin-top:10px}
+.live-timer{font-size:30px;font-weight:900;letter-spacing:.04em;margin:8px 0}
+.session-target-row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.session-target-row:last-child{border:0}
+.session-history-card{border:1px solid var(--line);background:var(--panel2);border-radius:14px;padding:13px;margin-top:9px}
+.session-history-card.paused{border-color:#806531}
+.session-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.session-metric{background:#17130f;border:1px solid var(--line);border-radius:11px;padding:10px}
+.session-metric span{display:block;color:var(--muted);font-size:11px}
+.session-metric b{display:block;margin-top:4px;font-size:18px}
+.route-performance{border:1px solid var(--line);background:var(--panel2);border-radius:14px;padding:12px;margin-top:9px}
+.route-performance .bar{height:8px;margin:8px 0 0}
+.session-detail-list{display:grid;gap:8px;margin-top:12px}
+.session-detail-row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;background:#17130f;border:1px solid var(--line);border-radius:11px;padding:10px}
+.export-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}
+.personal-record{border:1px solid var(--line);background:linear-gradient(145deg,#2a2117,#1b1713);border-radius:14px;padding:13px;margin-top:10px}
+.personal-record b{display:block;font-size:24px;margin-top:4px}
+.trend-chart{height:190px;display:flex;align-items:flex-end;gap:6px;padding:12px 4px 0;border-bottom:1px solid var(--line);margin-top:12px}
+.trend-bar{flex:1;min-width:8px;background:linear-gradient(180deg,var(--gold2),var(--gold));border-radius:7px 7px 0 0;position:relative}
+.trend-bar span{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(100% + 5px);font-size:10px;color:var(--muted);white-space:nowrap}
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.compare-card{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:13px}
+.compare-card.winner{border-color:var(--gold)}
+.compare-card b{display:block;font-size:22px;margin-top:4px}
+.delta{font-size:12px;margin-top:5px}.delta.up{color:#a7e2c2}.delta.down{color:#efaaaa}.delta.flat{color:var(--muted)}
+.period-tabs{display:flex;gap:8px;overflow:auto;margin-top:10px}
+.period-tabs button{white-space:nowrap}
+.goal-card{border:1px solid var(--line);background:var(--panel2);border-radius:15px;padding:14px;margin-top:10px}
+.goal-card.complete{border-color:var(--ok)}
+.goal-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.goal-progress{height:9px;background:#17130f;border-radius:99px;overflow:hidden;margin-top:10px}
+.goal-progress span{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2))}
+.goal-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:11px}
+.period-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.period-card{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:13px}
+.period-card b{display:block;font-size:24px;margin-top:4px}
+.record-list{display:grid;gap:9px;margin-top:10px}
+.record-row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;border:1px solid var(--line);background:var(--panel2);border-radius:13px;padding:12px}
+.alert-card{border:1px solid var(--line);background:linear-gradient(145deg,#2a2117,#1b1713);border-radius:14px;padding:13px;margin-top:10px}
+.month-summary{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px}
+.month-card{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:13px}
+.month-card b{display:block;font-size:24px;margin-top:4px}
+.goal-scope{font-size:11px;color:var(--gold2);margin-top:5px}
+.goal-warning{font-size:12px;color:#f0d28b;margin-top:7px}
+.notification-dot{width:9px;height:9px;border-radius:50%;background:var(--gold);display:inline-block;margin-right:6px}
+.calendar-head{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:12px}
+.calendar-head span{text-align:center;font-size:11px;color:var(--muted)}
+.calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:6px}
+.calendar-day{aspect-ratio:1;border:1px solid var(--line);background:var(--panel2);border-radius:10px;padding:6px;display:flex;flex-direction:column;justify-content:space-between;min-width:0}
+.calendar-day.empty{opacity:.25}
+.calendar-day.active{border-color:var(--gold)}
+.calendar-day.today{box-shadow:0 0 0 1px var(--gold) inset}
+.calendar-day strong{font-size:12px}
+.calendar-day small{font-size:9px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.calendar-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);margin-top:3px}
+.stage-goal{border:1px solid var(--line);background:var(--panel2);border-radius:14px;padding:13px;margin-top:10px}
+.stage-goal.complete{border-color:var(--ok)}
+.reminder-banner{border:1px solid var(--gold);background:linear-gradient(145deg,#2a2117,#1b1713);border-radius:14px;padding:13px;margin-top:10px}
+.calendar-day{cursor:pointer}
+.calendar-day:hover{border-color:var(--gold)}
+.day-session{border:1px solid var(--line);background:var(--panel2);border-radius:13px;padding:12px;margin-top:9px}
+.day-session .meta{font-size:12px;color:var(--muted);margin-top:4px}
+.stage-count-goal{border:1px solid var(--line);background:var(--panel2);border-radius:14px;padding:13px;margin-top:10px}
+.calendar-export{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.year-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:12px}
+.year-month{border:1px solid var(--line);background:var(--panel2);border-radius:13px;padding:11px;cursor:pointer}
+.year-month.active{border-color:var(--gold)}
+.year-month strong{display:block}
+.year-month small{display:block;color:var(--muted);font-size:11px;margin-top:5px}
+.year-bar{height:7px;background:#17130f;border-radius:99px;overflow:hidden;margin-top:8px}
+.year-bar span{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2))}
+.year-summary{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px}
+.year-stat{border:1px solid var(--line);background:var(--panel2);border-radius:14px;padding:13px}
+.year-stat b{display:block;font-size:23px;margin-top:4px}
+.import-result{border:1px solid var(--line);background:var(--panel2);border-radius:13px;padding:12px;margin-top:10px}
+.year-compare{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.year-compare-card{border:1px solid var(--line);background:var(--panel2);border-radius:14px;padding:13px}
+.year-compare-card.winner{border-color:var(--gold)}
+.year-compare-card b{display:block;font-size:23px;margin-top:4px}
+.record-board{display:grid;gap:9px;margin-top:10px}
+.record-board-row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;border:1px solid var(--line);background:var(--panel2);border-radius:13px;padding:12px}
+.record-board-row strong{display:block}
+.record-board-row small{display:block;color:var(--muted);margin-top:4px}
+.completion-card{border:1px solid var(--gold);background:linear-gradient(145deg,#2a2117,#1b1713);border-radius:15px;padding:14px;margin-top:10px}
+.completion-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.more-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.more-item{border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:14px;padding:14px;text-align:left}
+.more-item strong{display:block}.more-item small{display:block;color:var(--muted);margin-top:5px}
+.diagnostic-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.diagnostic-card{border:1px solid var(--line);background:var(--panel2);border-radius:14px;padding:13px}
+.diagnostic-card b{display:block;font-size:21px;margin-top:5px}
+.update-banner{position:fixed;left:12px;right:12px;bottom:calc(82px + env(safe-area-inset-bottom));z-index:20;background:#2a2117;border:1px solid var(--gold);border-radius:15px;padding:12px;box-shadow:0 12px 30px rgba(0,0,0,.45);display:none}
+.update-banner.show{display:block}
+.release-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}.release-item{border:1px solid var(--line);background:var(--panel2);border-radius:14px;padding:13px}.release-item.ok{border-color:var(--ok)}.release-item.warn{border-color:#806531}.release-item strong{display:block}.release-item small{display:block;color:var(--muted);margin-top:5px;line-height:1.4}.restore-zone{border:1px dashed var(--line);border-radius:14px;padding:14px;margin-top:12px}.rc-badge{font-size:11px;border-radius:99px;padding:5px 8px;background:#17130f;color:var(--gold2)}@media(max-width:420px){.release-grid{grid-template-columns:1fr}.card{padding:13px}.sheet{max-height:92vh}.search,select,input,textarea{font-size:16px}}
+@media(max-width:420px){nav{gap:4px;padding-left:5px;padding-right:5px}nav button{font-size:10px;padding:8px 5px}.more-grid,.diagnostic-grid{grid-template-columns:1fr}}
+
+
+
+
+
+
+
+
+
+
+.session-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+
+
+.batch-progress{height:10px;background:#17130f;border-radius:99px;overflow:hidden;margin-top:10px}
+.batch-progress span{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2))}
+
+
+
+.smart-summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.smart-summary{background:#17130f;border:1px solid var(--line);border-radius:14px;padding:13px}
+.smart-summary span{display:block;color:var(--muted);font-size:11px;margin-bottom:5px}.smart-summary b{font-size:23px}
+.duration-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:12px}
+.duration-tabs button{padding:10px 5px;font-size:12px}.duration-tabs button.active{border-color:var(--gold);color:var(--gold2);box-shadow:0 0 0 1px #806531 inset}
+.insight-list{display:grid;gap:9px;margin-top:12px}.insight{border:1px solid var(--line);background:var(--panel2);border-radius:14px;padding:13px}
+.insight.priority{border-color:var(--gold)}.insight strong{display:block}.insight p{margin:6px 0 0;color:var(--muted);font-size:13px;line-height:1.4}
+.stock-breakdown{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}.stock-breakdown .field{text-align:center}
+.data-warning{border-left-color:#b89045;background:#29231b}
+@media(max-width:430px){.duration-tabs{grid-template-columns:1fr 1fr}.stock-breakdown{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
 <div class="shell">
 <header>
- <div class="brand"><h1><b>Ocre</b> Companion</h1><span class="pill">V10 GitHub</span></div>
+ <div class="brand"><h1><b>Ocre</b> Companion</h1><span class="pill">Stable 1.0</span></div>
  <div class="sub" id="saveState">Sauvegarde locale</div><div class="sub" id="advLabel"></div>
 </header>
 
 <main>
 <section id="home" class="page active">
  <div class="card hero">
-  <div class="eyebrow">Éternelle Moisson</div>
-  <h2 id="heroStep">Étape 1</h2>
-  <div class="muted" id="heroKind">Monstres</div>
+  <div class="row between"><div><div class="eyebrow">Aventure active</div><h2 id="dashboardAdventure">Mon aventure</h2></div><span class="pill" id="dashboardGame">Dofus Rétro</span></div>
+  <div class="row between" style="margin-top:10px"><div><strong id="heroStep">Étape 1</strong><div class="muted" id="heroKind">Monstres</div></div><strong id="globalText">0 %</strong></div>
   <div class="bar"><span id="globalBar"></span></div>
-  <div class="row between"><small id="globalText">0 %</small><small id="globalCount">0 / 0</small></div>
-  <button class="primary" onclick="openCurrent()">Continuer</button>
+  <div class="row between"><small id="globalCount">0 / 0</small><small id="dashboardStages">0 / 35 étapes</small></div>
+  <button class="primary" onclick="openCurrent()">Continuer l’étape actuelle</button>
  </div>
+
  <div class="card">
-  <div class="row between"><strong>Gestion des pierres</strong><button class="secondary" onclick="go('inventory')">Ouvrir l’inventaire</button></div>
-  <p class="muted" style="margin-bottom:0">Ajoute, retire et consulte tes doublons d’archimonstres.</p>
+  <div class="dashboard-section-title"><strong>Vue immédiate</strong><span class="pill">Mise à jour en direct</span></div>
+  <div class="dashboard-grid">
+   <div class="dashboard-kpi"><span>Archis restants</span><b id="dashArchiRemaining">286</b><small id="dashArchiProgress">0 / 286 validés</small></div>
+   <div class="dashboard-kpi"><span>Pierres en stock</span><b id="dashStock">0</b><small id="dashDuplicates">0 doublon</small></div>
+   <div class="dashboard-kpi"><span>Étapes terminables</span><b id="dashReadyStages">0</b><small>avec l’inventaire actuel</small></div>
+   <div class="dashboard-kpi"><span>Équipe</span><b id="dashTeam">1</b><small>personnage actif</small></div>
+  </div>
  </div>
+
+ <div class="card">
+  <div class="dashboard-section-title"><strong>Priorité recommandée</strong><button class="secondary" onclick="go('assistantPage')">Assistant</button></div>
+  <div id="dashboardRecommendation"></div>
+ </div>
+
+ <div class="card">
+  <div class="dashboard-section-title"><strong>À faire maintenant</strong><span class="pill" id="nextProgress">0/0</span></div>
+  <div id="nextPreview" class="muted" style="margin-top:10px"></div>
+  <div class="mini-progress"><span id="currentStageBar" style="width:0%"></span></div>
+ </div>
+
+ <div class="card">
+  <strong>Accès rapides</strong>
+  <div class="quick-grid">
+   <button class="secondary" onclick="go('quest')"><strong>Quête</strong><small class="muted" style="display:block;margin-top:4px">Consulter les 35 étapes</small></button>
+   <button class="secondary" onclick="go('inventory')"><strong>Inventaire</strong><small class="muted" style="display:block;margin-top:4px">Pierres et doublons</small></button>
+   <button class="secondary" onclick="go('hunter')"><strong>Mode Chasse</strong><small class="muted" style="display:block;margin-top:4px">Cibles, favoris et listes</small></button>
+   <button class="secondary" onclick="go('encyclopedia')"><strong>Bestiaire</strong><small class="muted" style="display:block;margin-top:4px">Monstres et archis liés</small></button>
+  </div>
+ </div>
+
  <div class="card">
   <div class="row between"><strong>Reprendre une quête en cours</strong><button class="secondary" onclick="openSync()">Synchroniser</button></div>
   <p class="muted" style="margin-bottom:0">Choisis ton étape actuelle : toutes les étapes précédentes seront validées automatiquement.</p>
- </div>
- <div class="card">
-  <div class="row between"><strong>Prochaine étape</strong><span class="pill" id="nextProgress">0/0</span></div>
-  <div id="nextPreview" class="muted" style="margin-top:10px"></div>
  </div>
 </section>
 
@@ -140,23 +342,191 @@ nav button{max-width:180px;flex:1;border:0;background:transparent;color:var(--mu
 
 <section id="hunter" class="page">
  <div class="card">
-  <div class="row between"><div><div class="eyebrow">Mode Chasseur</div><h2 style="margin:5px 0 0">Mes cibles</h2></div><span class="pill" id="huntSummary"></span></div>
+  <div class="row between">
+   <div><div class="eyebrow">Mode Chasse 2.0</div><h2 style="margin:5px 0 0">Préparer ma chasse</h2></div>
+   <span class="pill" id="huntSummary"></span>
+  </div>
+
+  <div class="hunt-dashboard">
+   <div class="hunt-kpi"><span class="muted">Archis restants</span><b id="huntMissingKpi">0</b></div>
+   <div class="hunt-kpi"><span class="muted">Déjà en stock</span><b id="huntStockKpi">0</b></div>
+   <div class="hunt-kpi"><span class="muted">Favoris manquants</span><b id="huntFavKpi">0</b></div>
+   <div class="hunt-kpi"><span class="muted">Circuits personnels</span><b id="huntCircuitKpi">0</b></div>
+  </div>
+
   <input class="search" id="huntSearch" placeholder="Nom, étape, liste ou note…" oninput="renderHunter()" style="margin-top:14px">
+
   <div class="tabs">
    <button class="secondary" onclick="setHuntFilter('missing')">À capturer</button>
    <button class="secondary" onclick="setHuntFilter('favorites')">Favoris</button>
    <button class="secondary" onclick="setHuntFilter('stock')">En stock</button>
    <button class="secondary" onclick="setHuntFilter('all')">Tous</button>
   </div>
+
   <div class="row wrap" style="margin-top:10px">
-   <select id="huntStage" class="search" style="flex:1;min-width:160px" onchange="renderHunter()"></select>
-   <select id="huntList" class="search" style="flex:1;min-width:160px" onchange="renderHunter()"></select>
+   <select id="huntStage" class="search" onchange="renderHunter()"></select>
+   <select id="huntList" class="search" onchange="renderHunter()"></select>
+   <select id="huntFamily" class="search" onchange="renderHunter()"><option value="">Toutes les familles auditées</option></select>
+   <select id="huntZone" class="search" onchange="renderHunter()"><option value="">Toutes les zones auditées</option></select>
   </div>
+
   <div id="hunterList"></div>
  </div>
+
  <div class="card">
-  <div class="row between"><strong>Listes de chasse</strong><button class="secondary" onclick="openListModal()">+ Créer</button></div>
-  <p class="muted">Crée tes propres circuits, par exemple « Prairie des Blops » ou « Pandala Air », puis ajoute les archis concernés. Aucune zone Unity n’est préremplie.</p>
+  <div class="row between"><div><strong>Parcours recommandés</strong><div class="muted" style="font-size:12px;margin-top:3px">Calculés uniquement avec les zones et familles déjà auditées.</div></div><span class="pill" id="routeCount"></span></div>
+  <div class="row wrap" style="margin-top:12px">
+   <select id="routeDuration" class="search" onchange="renderHuntRoutes()">
+    <option value="30">30 minutes</option>
+    <option value="60" selected>1 heure</option>
+    <option value="120">2 heures</option>
+    <option value="240">Toute la soirée</option>
+   </select>
+   <select id="routeType" class="search" onchange="renderHuntRoutes()">
+    <option value="zones">Par zone</option>
+    <option value="family">Par famille</option>
+    <option value="lists">Mes circuits</option>
+   </select>
+  </div>
+  <div id="huntRoutes"></div>
+ </div>
+
+ <div class="card">
+  <div class="row between"><strong>Plan de session</strong><button class="secondary" onclick="buildHuntPlan()">Générer</button></div>
+  <div id="huntPlan"><p class="muted">Choisis une durée puis génère un plan de chasse.</p></div>
+ </div>
+ <div class="card">
+  <div class="row between"><strong>Session en cours</strong><span class="pill" id="liveSessionStatus">Aucune</span></div>
+  <div id="liveSessionBox"><p class="muted">Génère un plan puis démarre une session.</p></div>
+ </div>
+
+ <div class="card">
+  <div class="row between"><strong>Historique des sessions</strong><span class="pill" id="huntSessionCount">0</span></div>
+  <div id="huntSessionHistory"><p class="muted">Aucune session terminée.</p></div>
+ </div>
+ <div class="card">
+  <div class="row between"><strong>Rendement par parcours</strong><span class="pill">Sessions</span></div>
+  <div id="routePerformance"><p class="muted">Termine quelques sessions pour obtenir des statistiques.</p></div>
+ </div>
+ <div class="card">
+  <div class="row between"><strong>Exporter mes statistiques</strong><span class="pill">Personnel</span></div>
+  <div class="export-grid">
+   <button class="secondary" onclick="exportSessionsCsv()">Exporter CSV</button>
+   <button class="secondary" onclick="exportSessionsJson()">Exporter JSON</button>
+  </div>
+  <div class="personal-record"><span class="muted">Meilleur rendement</span><b id="bestRateRecord">0/h</b><div class="trend" id="bestRateLabel">Aucune session</div></div>
+ </div>
+ <div class="card">
+  <div class="row between"><strong>Évolution du rendement</strong><span class="pill" id="trendPeriodLabel">10 sessions</span></div>
+  <div class="period-tabs">
+   <button class="secondary" onclick="setTrendPeriod(5)">5 sessions</button>
+   <button class="secondary" onclick="setTrendPeriod(10)">10 sessions</button>
+   <button class="secondary" onclick="setTrendPeriod(20)">20 sessions</button>
+  </div>
+  <div id="sessionTrendChart" class="trend-chart"></div>
+  <div id="sessionTrendSummary" class="muted" style="margin-top:10px"></div>
+ </div>
+
+ <div class="card">
+  <div class="row between"><strong>Comparer deux sessions</strong><span class="pill">Face-à-face</span></div>
+  <div class="compare-grid">
+   <select id="compareSessionA" class="search" onchange="renderSessionComparison()"></select>
+   <select id="compareSessionB" class="search" onchange="renderSessionComparison()"></select>
+  </div>
+  <div id="sessionComparison" class="compare-grid"></div>
+ </div>
+ <div class="card">
+  <div class="row between"><strong>Objectifs personnels</strong><button class="secondary" onclick="openGoalModal()">+ Nouvel objectif</button></div>
+  <div id="personalGoals"><p class="muted">Aucun objectif personnel.</p></div>
+ </div>
+
+ <div class="card">
+  <div class="row between"><strong>Bilan d’activité</strong><span class="pill">7 / 30 jours</span></div>
+  <div class="period-grid">
+   <div class="period-card"><span class="muted">Captures sur 7 jours</span><b id="captures7">0</b><div class="trend" id="sessions7">0 session</div></div>
+   <div class="period-card"><span class="muted">Captures sur 30 jours</span><b id="captures30Personal">0</b><div class="trend" id="sessions30Personal">0 session</div></div>
+   <div class="period-card"><span class="muted">Rendement 7 jours</span><b id="rate7">0/h</b><div class="trend" id="time7">0 min</div></div>
+   <div class="period-card"><span class="muted">Rendement 30 jours</span><b id="rate30Personal">0/h</b><div class="trend" id="time30Personal">0 min</div></div>
+  </div>
+  <div id="periodAlerts"></div>
+ </div>
+
+ <div class="card">
+  <div class="row between"><strong>Records audités</strong><span class="pill">Zones & familles</span></div>
+  <div id="auditedRecords" class="record-list"><p class="muted">Les records apparaîtront lorsque les fiches disposeront de zones ou familles auditées.</p></div>
+ </div>
+ <div class="card">
+  <div class="row between"><strong>Récapitulatif mensuel</strong><button class="secondary" onclick="exportMonthlyReport()">Exporter</button></div>
+  <div class="month-summary">
+   <div class="month-card"><span class="muted">Sessions</span><b id="monthSessions">0</b></div>
+   <div class="month-card"><span class="muted">Captures</span><b id="monthCaptures">0</b></div>
+   <div class="month-card"><span class="muted">Uniques</span><b id="monthUnique">0</b></div>
+   <div class="month-card"><span class="muted">Temps de chasse</span><b id="monthTime">0 min</b></div>
+  </div>
+  <div id="monthHighlights"></div>
+ </div>
+ <div class="card">
+  <div class="row between"><strong>Calendrier des sessions</strong><div class="row"><button class="secondary" onclick="changeCalendarMonth(-1)">‹</button><span class="pill" id="calendarMonthLabel"></span><button class="secondary" onclick="changeCalendarMonth(1)">›</button></div></div>
+  <div class="calendar-export"><button class="secondary" onclick="goToCurrentMonth()">Ce mois-ci</button><button class="secondary" onclick="exportCalendarMonth()">Exporter le mois</button></div>
+  <div class="calendar-head"><span>Lun</span><span>Mar</span><span>Mer</span><span>Jeu</span><span>Ven</span><span>Sam</span><span>Dim</span></div>
+  <div id="sessionCalendar" class="calendar-grid"></div>
+ </div>
+ <div class="card">
+  <div class="row between"><strong>Vue annuelle</strong><div class="row"><button class="secondary" onclick="changeCalendarYear(-1)">‹</button><span class="pill" id="calendarYearLabel"></span><button class="secondary" onclick="changeCalendarYear(1)">›</button></div></div>
+  <div class="calendar-export"><button class="secondary" onclick="exportYearReport()">Exporter l’année</button><button class="secondary" onclick="goToCurrentYear()">Cette année</button></div>
+  <div class="year-summary">
+   <div class="year-stat"><span class="muted">Sessions</span><b id="yearSessions">0</b></div>
+   <div class="year-stat"><span class="muted">Captures</span><b id="yearCaptures">0</b></div>
+   <div class="year-stat"><span class="muted">Uniques</span><b id="yearUnique">0</b></div>
+   <div class="year-stat"><span class="muted">Temps</span><b id="yearTime">0 min</b></div>
+  </div>
+  <div id="yearCalendar" class="year-grid"></div>
+ </div>
+ <div class="card">
+  <div class="row between"><strong>Comparer deux années</strong><span class="pill">Annuel</span></div>
+  <div class="year-compare">
+   <select id="compareYearA" class="search" onchange="renderYearComparison()"></select>
+   <select id="compareYearB" class="search" onchange="renderYearComparison()"></select>
+  </div>
+  <div id="yearComparison" class="year-compare"></div>
+ </div>
+
+ <div class="card">
+  <div class="row between"><strong>Records personnels</strong><span class="pill">Année & mois</span></div>
+  <div id="annualRecords" class="record-board"></div>
+ </div>
+
+ <div class="card">
+  <div class="row between"><strong>État d’achèvement</strong><span class="pill">Projet</span></div>
+  <div class="completion-card">
+   <strong>Ocre Companion Stable 1.0</strong>
+   <p class="muted" style="margin-bottom:0">La version stable est prête pour un usage quotidien. Les données non encore auditées restent explicitement signalées dans le Bestiaire.</p>
+  </div>
+  <div class="completion-grid">
+   <div class="month-card"><span class="muted">Fonctions majeures</span><b id="featureCompletion">0%</b></div>
+   <div class="month-card"><span class="muted">Données auditées</span><b id="dataCompletion">0%</b></div>
+  </div>
+ </div>
+
+ <div class="card">
+  <div class="row between"><strong>Importer un mois exporté</strong><span class="pill">Fusion sûre</span></div>
+  <label class="file-label">Choisir un export mensuel<input type="file" accept=".json,application/json" onchange="importCalendarMonth(event)" style="display:none"></label>
+  <div id="calendarImportResult"></div>
+ </div>
+
+ <div class="card">
+  <div class="row between"><strong>Objectifs d’étapes</strong><span class="pill" id="stageGoalCount">0</span></div>
+  <div id="stageGoals"><p class="muted">Crée un objectif de type « Terminer une étape ».</p></div>
+ </div>
+
+ <div class="card">
+  <div class="row between"><strong>Rappels visuels</strong><button class="secondary" onclick="toggleInAppReminders()">Activer / désactiver</button></div>
+  <div id="inAppReminders"><p class="muted">Aucun rappel actif.</p></div>
+ </div>
+
+ <div class="card">
+  <div class="row between"><strong>Mes circuits</strong><button class="secondary" onclick="openListModal()">+ Créer</button></div>
+  <p class="muted">Crée tes circuits personnels, ajoute les archimonstres concernés et épingle ceux que tu utilises souvent.</p>
   <div id="customLists"></div>
  </div>
 </section>
@@ -211,34 +581,145 @@ nav button{max-width:180px;flex:1;border:0;background:transparent;color:var(--mu
 </section>
 
 
-<section id="encyclopedia" class="page"><div class="card">
-<div class="row between"><div><div class="eyebrow">Base Dofus Rétro</div><h2 style="margin:5px 0 0">Encyclopédie</h2></div><span class="pill" id="dbCount"></span></div>
-<input class="search" id="encySearch" placeholder="Monstre, boss ou archimonstre…" oninput="renderEncyclopedia()" style="margin-top:14px">
-<div class="tabs"><button class="secondary" onclick="setEncyFilter('all')">Tout</button><button class="secondary" onclick="setEncyFilter('monstre')">Monstres</button><button class="secondary" onclick="setEncyFilter('boss')">Boss</button><button class="secondary" onclick="setEncyFilter('archimonstre')">Archis</button></div>
-<div id="encyResults"></div></div>
-<div class="card"><div class="row between"><strong>État de la base</strong><span class="pill">Foundation</span></div>
-<div class="creature-grid"><div class="field"><span>Relations archi → monstre</span><strong class="audit-ok">286 / 286</strong></div>
-<div class="field"><span>Étapes</span><strong class="audit-ok">35 / 35</strong></div>
-<div class="field"><span>Familles auditées</span><strong class="audit-pending" id="familyAudit">0 / 286</strong></div>
-<div class="field"><span>Zones auditées</span><strong class="audit-pending" id="zoneAudit">0 / 286</strong></div></div></div></section>
+<section id="encyclopedia" class="page">
+ <div class="card">
+  <div class="row between"><div><div class="eyebrow">Base Dofus Rétro</div><h2 style="margin:5px 0 0">Bestiaire enrichi</h2></div><span class="pill" id="dbCount"></span></div>
+  <input class="search" id="encySearch" placeholder="Nom, relation ou étape…" oninput="renderEncyclopedia()" style="margin-top:14px">
+  <div class="tabs"><button class="secondary" onclick="setEncyFilter('all')">Tout</button><button class="secondary" onclick="setEncyFilter('monstre')">Monstres</button><button class="secondary" onclick="setEncyFilter('boss')">Boss</button><button class="secondary" onclick="setEncyFilter('archimonstre')">Archis</button></div>
+  <div class="ency-status">
+   <button id="encyStatusAll" class="secondary" onclick="setEncyStatus('all')">Tous les statuts</button>
+   <button id="encyStatusMissing" class="secondary" onclick="setEncyStatus('missing')">Archis manquants</button>
+   <button id="encyStatusStock" class="secondary" onclick="setEncyStatus('stock')">En stock</button>
+   <button id="encyStatusDone" class="secondary" onclick="setEncyStatus('done')">Validés</button>
+  </div>
+  <div class="ency-toolbar">
+   <select id="encyStage" class="search" onchange="renderEncyclopedia()"><option value="">Toutes les étapes</option></select>
+   <select id="encyAudit" class="search" onchange="renderEncyclopedia()"><option value="all">Tout audit</option><option value="complete">Fiches complètes</option><option value="pending">À compléter</option></select>
+   <select id="encyIssue" class="search" onchange="renderEncyclopedia()"><option value="all">Tous les problèmes</option><option value="family">Famille manquante</option><option value="zones">Zone manquante</option><option value="levels">Niveau manquant</option><option value="source">Source manquante</option><option value="range">Niveaux incohérents</option><option value="recommended">Zone conseillée incohérente</option></select>
+  </div>
+  <div id="encyResults"></div>
+ </div>
+ <div class="card">
+  <div class="row between"><strong>Qualité de la base</strong><span class="pill">V11.5</span></div>
+  <div class="creature-grid">
+   <div class="field"><span>Relations archi → monstre</span><strong class="audit-ok">286 / 286</strong><div class="audit-meter"><span style="width:100%"></span></div></div>
+   <div class="field"><span>Étapes</span><strong class="audit-ok">35 / 35</strong><div class="audit-meter"><span style="width:100%"></span></div></div>
+   <div class="field"><span>Familles auditées</span><strong class="audit-pending" id="familyAudit">0 / 286</strong><div class="audit-meter"><span id="familyAuditBar" style="width:0%"></span></div></div>
+   <div class="field"><span>Zones auditées</span><strong class="audit-pending" id="zoneAudit">0 / 286</strong><div class="audit-meter"><span id="zoneAuditBar" style="width:0%"></span></div></div>
+  </div>
+  <div class="quality-grid">
+   <div class="quality-stat"><span class="muted">Fiches complètes</span><b id="qualityComplete">0</b></div>
+   <div class="quality-stat"><span class="muted">Problèmes détectés</span><b id="qualityIssues">0</b></div>
+   <div class="quality-stat"><span class="muted">Relations cassées</span><b id="qualityBroken">0</b></div>
+   <div class="quality-stat"><span class="muted">Doublons de données</span><b id="qualityDuplicates">0</b></div>
+  </div>
+  <div id="qualityIssueList" style="margin-top:10px"></div>
+  <div class="audit-actions">
+   <button class="secondary" onclick="focusFirstAuditIssue()">Corriger la prochaine fiche</button>
+   <button class="secondary" onclick="exportQualityReport()">Exporter le rapport qualité</button>
+   <button class="secondary" onclick="exportAuditPatch()">Exporter les données auditées</button>
+   <label class="file-label">Importer un correctif d’audit<input type="file" accept=".json,application/json" onchange="importAuditPatch(event)" style="display:none"></label>
+   <button class="secondary" onclick="exportAuditTemplate()">Créer un modèle d’audit</button>
+  </div>
+  <div class="audit-source">Les contrôles portent sur les relations de quête, les identifiants, les doublons, les familles, les zones, les niveaux et les sources. Les corrections restent locales tant qu’elles ne sont pas exportées.</div>
+ </div>
+</section>
+
+<section id="auditWorkshop" class="page">
+ <div class="card">
+  <div class="row between">
+   <div><div class="eyebrow">Atelier d’audit</div><h2 style="margin:5px 0 0">Compléter la base</h2></div>
+   <span class="pill" id="auditQueueCount">0 fiche</span>
+  </div>
+
+  <div class="audit-toolbar">
+   <select id="auditQueueFilter" class="search" onchange="renderAuditWorkshop()">
+    <option value="pending">À compléter</option>
+    <option value="review">À vérifier</option>
+    <option value="validated">Validées</option>
+    <option value="all">Toutes</option>
+   </select>
+   <select id="auditQueueIssue" class="search" onchange="renderAuditWorkshop()">
+    <option value="all">Tous les champs</option>
+    <option value="family">Famille</option>
+    <option value="zones">Zones</option>
+    <option value="levels">Niveaux</option>
+    <option value="source">Source</option>
+    <option value="relation">Relation</option>
+   </select>
+  </div>
+
+  <input id="auditQueueSearch" class="search" placeholder="Rechercher une fiche…" oninput="renderAuditWorkshop()" style="margin-top:10px">
+
+  <div class="row between" style="margin-top:14px">
+   <strong>Progression de l’audit</strong>
+   <span class="pill" id="auditBatchLabel">0 / 286</span>
+  </div>
+  <div class="batch-progress"><span id="auditBatchBar" style="width:0%"></span></div>
+
+  <div id="auditQueue" class="audit-queue"></div>
+ </div>
+
+ <div class="card">
+  <div class="row between"><strong>Actions par lot</strong><span class="pill">Local</span></div>
+  <div class="audit-actions">
+   <button class="secondary" onclick="markVisibleForReview()">Marquer les visibles « à vérifier »</button>
+   <button class="secondary" onclick="validateVisibleComplete()">Valider les fiches visibles complètes</button>
+   <button class="secondary" onclick="resetVisibleReview()">Réinitialiser le statut visible</button>
+   <button class="secondary" onclick="exportAuditWorkflow()">Exporter l’avancement</button>
+   <label class="file-label">Importer l’avancement<input type="file" accept=".json,application/json" onchange="importAuditWorkflow(event)" style="display:none"></label>
+  </div>
+  <div class="audit-source">Les statuts d’audit sont propres à l’aventure active. Ils ne modifient pas les données encyclopédiques tant qu’une fiche n’est pas enregistrée.</div>
+ </div>
+</section>
+
 <section id="assistantPage" class="page">
  <div class="card">
-  <div class="row between"><div><div class="eyebrow">Assistant Ocre</div><h2 style="margin:5px 0 0">Étapes terminables</h2></div><span class="pill" id="readyCount"></span></div>
-  <div class="assistant-summary">
-   <div class="stat"><span class="muted">Prêtes maintenant</span><b id="readyNow">0</b></div>
-   <div class="stat"><span class="muted">Pierres mobilisées</span><b id="readyStones">0</b></div>
+  <div class="row between"><div><div class="eyebrow">Assistant Ocre 2.0</div><h2 style="margin:5px 0 0">Que faire maintenant ?</h2></div><span class="pill" id="smartProgress"></span></div>
+  <div class="duration-tabs" id="durationTabs">
+   <button class="secondary" onclick="setPlayDuration(30)">30 min</button>
+   <button class="secondary" onclick="setPlayDuration(60)">1 h</button>
+   <button class="secondary" onclick="setPlayDuration(120)">2 h</button>
+   <button class="secondary" onclick="setPlayDuration(240)">Soirée</button>
   </div>
-  <div id="readyStages"></div>
+  <div id="smartMainRecommendation"></div>
+ </div>
+ <div class="card">
+  <div class="row between"><strong>Analyse de l’inventaire</strong><span class="pill" id="smartStockPill"></span></div>
+  <div class="stock-breakdown">
+   <div class="field"><span>Utilisables maintenant</span><strong id="smartUsable">0</strong></div>
+   <div class="field"><span>Doublons</span><strong id="smartExchangeable">0</strong></div>
+   <div class="field"><span>Stock non requis</span><strong id="smartFuture">0</strong></div>
+  </div>
+  <div id="smartReadyStages" class="insight-list"></div>
  </div>
  <div class="card">
   <div class="row between"><strong>Étape active</strong><span class="pill" id="assistantCurrentStep"></span></div>
   <div id="currentStepAssistant"></div>
  </div>
  <div class="card">
-  <div class="notice">L’assistant ne valide rien tout seul. Il vérifie simplement si les archimonstres manquants dans une étape sont présents dans ton inventaire, puis te propose un rendu contrôlé.</div>
+  <div class="row between"><strong>Analyse famille et zone</strong><span class="pill">Données auditées</span></div>
+  <div id="auditedAnalysis"></div>
+ </div>
+ <div class="card">
+  <div class="notice">L’assistant ne valide et ne consomme aucune pierre sans confirmation. Les recommandations de famille ou de zone restent désactivées tant que ces données ne sont pas auditées dans le bestiaire Rétro.</div>
  </div>
 </section>
 
+
+<section id="morePage" class="page">
+ <div class="card">
+  <div class="eyebrow">Ocre Companion</div><h2 style="margin:5px 0">Plus d’outils</h2>
+  <div class="more-grid">
+   <button class="more-item" onclick="go('adventures')"><strong>Aventures</strong><small>Profils, équipes, imports et exports.</small></button>
+   <button class="more-item" onclick="go('assistantPage')"><strong>Assistant Ocre</strong><small>Étapes terminables et priorités.</small></button>
+   <button class="more-item" onclick="go('encyclopedia')"><strong>Bestiaire</strong><small>Monstres, boss et archimonstres.</small></button>
+   <button class="more-item" onclick="go('stats')"><strong>Statistiques</strong><small>Progression, doublons et activité.</small></button>
+   <button class="more-item" onclick="go('auditWorkshop')"><strong>Atelier d’audit</strong><small>Compléter et vérifier les données Rétro.</small></button>
+   <button class="more-item" onclick="go('settings')"><strong>Diagnostic</strong><small>Réparer la sauvegarde et vérifier la PWA.</small></button>
+  </div>
+ </div>
+</section>
 <section id="adventures" class="page">
 <div class="card">
  <div class="row between"><div><div class="eyebrow">Progressions indépendantes</div><h2 style="margin:5px 0">Aventures</h2></div><button class="secondary" onclick="newAdventurePrompt()">+ Nouvelle</button></div>
@@ -263,17 +744,52 @@ nav button{max-width:180px;flex:1;border:0;background:transparent;color:var(--mu
 </section>
 <section id="settings" class="page">
  <div class="card">
-  <div class="eyebrow">Aventure</div><h2 style="margin:5px 0">Réglages</h2>
+  <div class="row between"><div><div class="eyebrow">Maintenance</div><h2 style="margin:5px 0">Diagnostic</h2></div><span class="pill">V13.1</span></div>
+  <div class="diagnostic-grid">
+   <div class="diagnostic-card"><span class="muted">Sauvegarde locale</span><b id="diagStorage">—</b></div>
+   <div class="diagnostic-card"><span class="muted">Aventures</span><b id="diagAdventures">—</b></div>
+   <div class="diagnostic-card"><span class="muted">Moteur</span><b id="diagEngine">—</b></div>
+   <div class="diagnostic-card"><span class="muted">Service worker</span><b id="diagWorker">—</b></div>
+  </div>
+  <div id="diagMessages"></div>
+  <div class="audit-actions">
+   <button class="secondary" onclick="runDiagnostics()">Relancer le diagnostic</button>
+   <button class="secondary" onclick="repairLocalData()">Réparer la sauvegarde</button>
+   <button class="secondary" onclick="exportEmergencyBackup()">Sauvegarde d’urgence</button>
+   <button class="secondary" onclick="checkForAppUpdate()">Vérifier une mise à jour</button>
+  </div>
+ </div>
+ <div class="card">
+  <div class="row between"><strong>Checklist de stabilité</strong><span class="rc-badge">Stable 1.0</span></div>
+  <div id="releaseChecklist" class="release-grid"></div>
+ </div>
+ <div class="card">
+  <div class="row between"><strong>Centre de restauration</strong><span class="pill">Sécurisé</span></div>
+  <div class="restore-zone"><p class="muted">Importe une sauvegarde complète. Une copie de l’état actuel sera créée avant remplacement.</p><label class="file-label">Restaurer une sauvegarde<input type="file" accept=".json,application/json" onchange="restoreBackupFile(event)" style="display:none"></label><button class="secondary" style="margin-top:10px;width:100%" onclick="downloadMigrationReport()">Exporter le rapport de migration</button></div>
+  <div id="restoreResult"></div>
+ </div>
+ <div class="card">
+  <div class="eyebrow">Aventure active</div><h2 style="margin:5px 0">Réglages</h2>
   <button class="secondary" style="width:100%;margin-top:10px" onclick="openSync()">Modifier l’étape actuelle</button>
   <button class="secondary danger" style="width:100%;margin-top:10px" onclick="resetAll()">Réinitialiser cette aventure</button>
-  <div class="notice">La V2 utilise une sauvegarde séparée. Ta version 1.5 reste intacte et peut servir de sauvegarde.</div>
  </div>
 </section>
 </main>
 </div>
 
+
+<div id="updateBanner" class="update-banner">
+ <div class="row between"><div><strong>Mise à jour disponible</strong><div class="muted" style="font-size:12px;margin-top:4px">Recharge l’application pour utiliser la nouvelle version.</div></div><button class="primary" style="margin:0;width:auto" onclick="applyAppUpdate()">Recharger</button></div>
+</div>
+
 <button class="fab" aria-label="Ajouter une capture" onclick="openCaptureModal()">+</button>
-<nav><button class="active" data-page="home" onclick="go('home',this)">Accueil</button><button data-page="quest" onclick="go('quest',this)">Quête</button><button data-page="searchPage" onclick="go('searchPage',this)">Recherche</button><button data-page="inventory" onclick="go('inventory',this)">Inventaire</button><button data-page="adventures" onclick="go('adventures',this)">Aventures</button></nav>
+<nav>
+<button class="active" data-page="home" onclick="go('home',this)">Accueil</button>
+<button data-page="quest" onclick="go('quest',this)">Quête</button>
+<button data-page="hunter" onclick="go('hunter',this)">Chasse</button>
+<button data-page="inventory" onclick="go('inventory',this)">Inventaire</button>
+<button data-page="morePage" onclick="go('morePage',this)">Plus</button>
+</nav>
 
 <div id="syncModal" class="modal" onclick="if(event.target===this)closeSync()">
  <div class="sheet">
@@ -334,7 +850,22 @@ nav button{max-width:180px;flex:1;border:0;background:transparent;color:var(--mu
  <div class="actions"><button class="secondary" onclick="closeModal('consumeModal')">Annuler</button><button id="consumeConfirm" class="primary" style="margin:0" onclick="confirmConsume()" disabled>Confirmer</button></div>
 </div></div>
 
+
+<div id="auditCreatureModal" class="modal" onclick="if(event.target===this)closeModal('auditCreatureModal')"><div class="sheet">
+ <h3 id="auditCreatureTitle">Auditer une fiche</h3>
+ <p class="muted" id="auditCreatureRelation"></p>
+ <input id="auditFamilyInput" placeholder="Famille (ex. Blops)">
+ <input id="auditZonesInput" placeholder="Zones séparées par des virgules">
+ <input id="auditRecommendedZoneInput" placeholder="Zone recommandée">
+ <div class="filter-grid">
+  <input id="auditLevelMinInput" type="number" min="1" placeholder="Niveau minimum">
+  <input id="auditLevelMaxInput" type="number" min="1" placeholder="Niveau maximum">
+ </div>
+ <input id="auditSourceInput" placeholder="Source ou note de vérification">
+ <div class="actions"><button class="secondary" onclick="closeModal('auditCreatureModal')">Annuler</button><button class="primary" style="margin:0" onclick="saveCreatureAudit()">Enregistrer</button></div>
+</div></div>
 <script src="./data/ocre-retro-db.js"></script>
+<script src="./src/core/engine.js"></script>
 
 <div id="applyStageModal" class="modal" onclick="if(event.target===this)closeModal('applyStageModal')"><div class="sheet">
  <h3 id="applyStageTitle">Préparer le rendu</h3>
@@ -347,30 +878,176 @@ nav button{max-width:180px;flex:1;border:0;background:transparent;color:var(--mu
  </div>
 </div></div>
 
+
+<div id="sessionDetailModal" class="modal" onclick="if(event.target===this)closeModal('sessionDetailModal')"><div class="sheet">
+ <h3 id="sessionDetailTitle">Bilan de session</h3>
+ <p class="muted" id="sessionDetailMeta"></p>
+ <div class="session-metrics">
+  <div class="session-metric"><span>Durée</span><b id="sessionDetailDuration">0</b></div>
+  <div class="session-metric"><span>Captures</span><b id="sessionDetailCaptures">0</b></div>
+  <div class="session-metric"><span>Rendement</span><b id="sessionDetailRate">0/h</b></div>
+ </div>
+ <div id="sessionDetailRoutes" class="session-detail-list"></div>
+ <div id="sessionDetailCapturesList" class="session-detail-list"></div>
+ <div class="actions">
+  <button class="secondary" onclick="closeModal('sessionDetailModal')">Fermer</button>
+  <button class="primary" style="margin:0" onclick="exportOpenSessionJson()">Exporter ce bilan</button>
+ </div>
+</div></div>
+
+
+<div id="goalModal" class="modal" onclick="if(event.target===this)closeModal('goalModal')"><div class="sheet">
+ <h3 id="goalModalTitle">Nouvel objectif</h3>
+ <input id="goalName" placeholder="Ex. Capturer 20 archis cette semaine">
+ <select id="goalType" onchange="refreshGoalTypeFields()">
+  <option value="captures">Nombre de captures</option>
+  <option value="unique">Archimonstres uniques</option>
+  <option value="sessions">Nombre de sessions</option>
+  <option value="minutes">Minutes de chasse</option>
+  <option value="stage">Terminer une étape de quête</option>
+  <option value="stages_count">Nombre d’étapes terminées</option>
+  <option value="quest_unique">Archimonstres uniques validés dans la quête</option>
+ </select>
+ <input id="goalTarget" type="number" min="1" step="1" value="10" placeholder="Objectif">
+ <select id="goalStage" style="display:none"></select>
+ <select id="goalPeriod">
+  <option value="7">7 jours</option>
+  <option value="30">30 jours</option>
+  <option value="all">Sans limite</option>
+ </select>
+ <select id="goalScopeType" onchange="refreshGoalScopeOptions()">
+  <option value="all">Toutes les captures</option>
+  <option value="zone">Une zone auditée</option>
+  <option value="family">Une famille auditée</option>
+ </select>
+ <select id="goalScopeValue"><option value="">Aucune restriction</option></select>
+ <div class="actions">
+  <button class="secondary" onclick="closeModal('goalModal')">Annuler</button>
+  <button class="primary" style="margin:0" onclick="saveGoal()">Enregistrer</button>
+ </div>
+</div></div>
+
+
+<div id="calendarDayModal" class="modal" onclick="if(event.target===this)closeModal('calendarDayModal')"><div class="sheet">
+ <h3 id="calendarDayTitle">Journée de chasse</h3>
+ <p class="muted" id="calendarDaySummary"></p>
+ <div id="calendarDaySessions"></div>
+ <div class="actions">
+  <button class="secondary" onclick="closeModal('calendarDayModal')">Fermer</button>
+  <button class="primary" style="margin:0" onclick="exportOpenCalendarDay()">Exporter la journée</button>
+ </div>
+</div></div>
+
 <script>
 const DB=window.OCRE_RETRO_DB;
 const ARCHIS=DB.archimonsters.map(a=>({name:a.name,step:a.questStage}));
 const QUEST=DB.quest.stages;
 const CREATURES=[...DB.monsters,...DB.bosses,...DB.archimonsters];
 const KEY="ocre_companion_v3_retro";
-let encyFilter="all",pendingApplyStep=null;
+let encyFilter="all",encyStatus="all",pendingApplyStep=null,auditingCreatureId=null;
+let openSessionId=null;
 let app=loadApp();
+applyAuditOverrides();
 let selectedStep=current().currentStep||1;
 let stageFilter="all";
 
 function blankDone(){const d={};QUEST.forEach(q=>d[q.step]=Array(q.objectives.length).fill(false));return d}
-function makeAdventure(name){return{id:Date.now()+Math.random(),name:name||"Mon aventure",game:"Dofus Rétro",currentStep:1,done:blankDone(),inventory:{},journal:[],team:["Personnage 1"],favorites:{},notes:{},huntLists:[],archived:false,createdAt:Date.now()}}
-function loadApp(){try{const x=JSON.parse(localStorage.getItem(KEY));if(x&&x.adventures&&x.adventures.length)return normalizeApp(x)}catch(e){}const a=makeAdventure("Thomas — Rétro");return{activeId:a.id,adventures:[a]}}
-function normalizeApp(x){x.adventures=x.adventures.map(a=>{a.done=a.done||blankDone();QUEST.forEach(q=>{const old=Array.isArray(a.done[q.step])?a.done[q.step]:[];a.done[q.step]=q.objectives.map((_,i)=>!!old[i])});a.inventory=a.inventory||{};a.journal=a.journal||[];a.team=(a.team||["Personnage 1"]).slice(0,8);a.favorites=a.favorites||{};a.notes=a.notes||{};a.huntLists=a.huntLists||[];a.currentStep=Math.max(1,Math.min(35,+a.currentStep||1));a.archived=!!a.archived;a.createdAt=a.createdAt||Date.now();return a});if(!x.adventures.some(a=>a.id===x.activeId))x.activeId=x.adventures[0].id;return x}
-function current(){return app.adventures.find(a=>a.id===app.activeId)}
-function save(){localStorage.setItem(KEY,JSON.stringify(app));document.getElementById("saveState").textContent="Sauvegardé à "+new Date().toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"});updateAll()}
-function stageDone(n){return current().done[n].filter(Boolean).length}
-function stageComplete(n){return stageDone(n)===QUEST[n-1].objectives.length}
-function total(){
- let d=0,t=0;QUEST.forEach(q=>{d+=stageDone(q.step);t+=q.objectives.length});return [d,t];
+function makeAdventure(name){return{id:Date.now()+Math.random(),name:name||"Mon aventure",game:"Dofus Rétro",currentStep:1,done:blankDone(),inventory:{},journal:[],team:["Personnage 1"],favorites:{},notes:{},huntLists:[],pinnedRoutes:{},huntSessions:[],activeHuntSession:null,lastHuntPlan:null,personalGoals:[],inAppReminders:true,archived:false,createdAt:Date.now(),playDuration:60}}
+function normalizeDone(done){const out=blankDone();if(!done||typeof done!=="object")return out;QUEST.forEach(q=>{const src=Array.isArray(done[q.step])?done[q.step]:[];out[q.step]=q.objectives.map((_,i)=>!!src[i])});return out}
+function normalizeAdventure(a,index=0){const base=makeAdventure(a?.name||`Aventure ${index+1}`),m={...base,...(a||{})};m.id=a?.id||base.id;m.game="Dofus Rétro";m.currentStep=Math.min(35,Math.max(1,Number(a?.currentStep)||1));m.done=normalizeDone(a?.done);m.inventory=(a?.inventory&&typeof a.inventory==="object")?a.inventory:{};Object.keys(m.inventory).forEach(k=>m.inventory[k]=Math.max(0,Number(m.inventory[k])||0));m.journal=Array.isArray(a?.journal)?a.journal.slice(0,500):[];m.team=Array.isArray(a?.team)&&a.team.length?a.team.slice(0,8):["Personnage 1"];m.favorites=(a?.favorites&&typeof a.favorites==="object")?a.favorites:{};m.notes=(a?.notes&&typeof a.notes==="object")?a.notes:{};m.huntLists=Array.isArray(a?.huntLists)?a.huntLists:[];m.pinnedRoutes=(a?.pinnedRoutes&&typeof a.pinnedRoutes==="object")?a.pinnedRoutes:{};m.huntSessions=Array.isArray(a?.huntSessions)?a.huntSessions.slice(0,500):[];m.activeHuntSession=a?.activeHuntSession||null;m.lastHuntPlan=a?.lastHuntPlan||null;m.personalGoals=Array.isArray(a?.personalGoals)?a.personalGoals:[];m.auditWorkflow=(a?.auditWorkflow&&typeof a.auditWorkflow==="object")?a.auditWorkflow:{};m.inAppReminders=a?.inAppReminders!==false;m.playDuration=[30,60,120,240].includes(Number(a?.playDuration))?Number(a.playDuration):60;m.archived=!!a?.archived;m.schemaVersion=14;return m}
+function normalizeApp(x){const source=(x&&typeof x==="object")?x:{};let adventures=Array.isArray(source.adventures)?source.adventures:[];if(!adventures.length&&source.currentStep)adventures=[source];if(!adventures.length)adventures=[makeAdventure("Mon aventure")];adventures=adventures.map(normalizeAdventure);const requested=source.activeAdventureId??source.activeId,activeId=adventures.some(a=>String(a.id)===String(requested))?requested:adventures[0].id;return{schemaVersion:14,activeId,activeAdventureId:activeId,adventures,auditOverrides:(source.auditOverrides&&typeof source.auditOverrides==="object")?source.auditOverrides:{}}}
+function migrationReport(raw){const n=normalizeApp(raw);return{from:raw?.schemaVersion||raw?.version||"ancienne",to:14,adventures:n.adventures.length,sessions:n.adventures.reduce((s,a)=>s+(a.huntSessions||[]).length,0),goals:n.adventures.reduce((s,a)=>s+(a.personalGoals||[]).length,0),generatedAt:new Date().toISOString()}}
+function loadApp(){try{const x=JSON.parse(localStorage.getItem(KEY));if(x)return normalizeApp(x)}catch(e){}const a=makeAdventure("Thomas — Rétro");return normalizeApp({activeId:a.id,adventures:[a],auditOverrides:{}})}
+function applyAuditOverrides(){
+ const overrides=app.auditOverrides||{};
+ CREATURES.forEach(c=>{const o=overrides[c.id]||overrides[c.name];if(!o)return;["family","race","levelMin","levelMax","recommendedZone","image"].forEach(k=>{if(o[k]!==undefined)c[k]=o[k]});if(Array.isArray(o.zones))c.zones=[...o.zones];c.audit={...(c.audit||{}),family:c.family?"user-verified":"pending",zones:c.zones?.length?"user-verified":"pending",levels:c.levelMin?"user-verified":"pending",source:o.source||c.audit?.source||"Correction locale"};});
 }
-function firstIncomplete(){
- const q=QUEST.find(x=>!stageComplete(x.step));return q?q.step:35;
+function auditRecord(c){return{family:c.family||null,race:c.race||null,zones:[...(c.zones||[])],recommendedZone:c.recommendedZone||null,levelMin:c.levelMin||null,levelMax:c.levelMax||null,image:c.image||null,source:c.audit?.source||null}}
+function openCreatureAudit(id){const c=CREATURES.find(x=>x.id===id);if(!c)return;auditingCreatureId=id;document.getElementById("auditCreatureTitle").textContent="Auditer — "+c.name;document.getElementById("auditCreatureRelation").textContent=c.originalMonster?"Monstre d’origine : "+c.originalMonster:c.archimonster?"Archimonstre associé : "+c.archimonster:"Dofus Rétro";document.getElementById("auditFamilyInput").value=c.family||"";document.getElementById("auditZonesInput").value=(c.zones||[]).join(", ");document.getElementById("auditRecommendedZoneInput").value=c.recommendedZone||"";document.getElementById("auditLevelMinInput").value=c.levelMin||"";document.getElementById("auditLevelMaxInput").value=c.levelMax||"";document.getElementById("auditSourceInput").value=c.audit?.source||"";showModal("auditCreatureModal")}
+function saveCreatureAudit(){const c=CREATURES.find(x=>x.id===auditingCreatureId);if(!c)return;const record={family:document.getElementById("auditFamilyInput").value.trim()||null,zones:[...new Set(document.getElementById("auditZonesInput").value.split(",").map(x=>x.trim()).filter(Boolean))],recommendedZone:document.getElementById("auditRecommendedZoneInput").value.trim()||null,levelMin:Number(document.getElementById("auditLevelMinInput").value)||null,levelMax:Number(document.getElementById("auditLevelMaxInput").value)||null,source:document.getElementById("auditSourceInput").value.trim()||"Vérification utilisateur"};if(record.levelMin&&record.levelMax&&record.levelMin>record.levelMax){alert("Le niveau minimum ne peut pas être supérieur au niveau maximum.");return}if(record.recommendedZone&&record.zones.length&&!record.zones.includes(record.recommendedZone)){record.zones.push(record.recommendedZone)};app.auditOverrides[c.id]=record;Object.assign(c,record);c.audit={...(c.audit||{}),family:record.family?"user-verified":"pending",zones:record.zones.length?"user-verified":"pending",levels:record.levelMin?"user-verified":"pending",source:record.source};closeModal("auditCreatureModal");document.getElementById("creatureModal")?.classList.remove("show");save()}
+function exportAuditPatch(){const data={type:"ocre-companion-audit-patch",version:"11.4",game:"Dofus Rétro",records:app.auditOverrides||{}};downloadJson(data,"ocre-companion-audit-v11-4.json")}
+function exportAuditTemplate(){const records={};DB.archimonsters.forEach(c=>records[c.id]={name:c.name,originalMonster:c.originalMonster,family:c.family||null,zones:c.zones||[],recommendedZone:c.recommendedZone||null,levelMin:c.levelMin||null,levelMax:c.levelMax||null,source:null});downloadJson({type:"ocre-companion-audit-template",version:"11.4",game:"Dofus Rétro",records},"ocre-companion-modele-audit-v11-4.json")}
+function importAuditPatch(event){const file=event.target.files?.[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{try{const parsed=JSON.parse(reader.result);if(parsed.game&&parsed.game!=="Dofus Rétro")throw new Error("Base non Rétro");const records=parsed.records||parsed;if(!records||typeof records!=="object")throw new Error("Format invalide");Object.entries(records).forEach(([key,val])=>{if(!val||typeof val!=="object")return;const c=CREATURES.find(x=>x.id===key||x.name===key||x.name===val.name);if(c)app.auditOverrides[c.id]={...auditRecord(c),...val,zones:Array.isArray(val.zones)?val.zones:[]}});applyAuditOverrides();save();alert("Correctif d’audit importé.")}catch(e){alert("Correctif invalide : "+e.message)}event.target.value=""};reader.readAsText(file)}
+
+
+function validateNavigationTargets(){const missing=[];document.querySelectorAll("[onclick*=\"go('\"]").forEach(el=>{const m=(el.getAttribute("onclick")||"").match(/go\('([^']+)'/);if(m&&!document.getElementById(m[1]))missing.push(m[1])});return[...new Set(missing)]}
+function validateExportFunctions(){return["exportBackup","exportEmergencyBackup","exportSessionsCsv","exportSessionsJson","exportMonthlyReport","exportYearReport"].filter(n=>typeof window[n]!=="function")}
+function rcChecklistData(){const nav=validateNavigationTargets(),exp=validateExportFunctions(),storage=estimateLocalStorageBytes();return[{name:"Base Dofus Rétro",ok:DB.game==="Dofus Rétro"&&DB.archimonsters.length===286&&QUEST.length===35,detail:`${QUEST.length} étapes · ${DB.archimonsters.length} archimonstres`},{name:"Navigation",ok:!nav.length,detail:nav.length?`Pages absentes : ${nav.join(", ")}`:"Toutes les destinations existent"},{name:"Exports essentiels",ok:!exp.length,detail:exp.length?`Fonctions absentes : ${exp.join(", ")}`:"Exports disponibles"},{name:"Moteur central",ok:typeof OcreEngine!=="undefined",detail:typeof OcreEngine!=="undefined"?`Version ${OcreEngine.version}`:"Absent"},{name:"Sauvegarde locale",ok:storage<4500000,detail:storage<1024?`${storage} o`:`${(storage/1024).toFixed(1)} Ko`},{name:"Aventure active",ok:!!current(),detail:current()?.name||"Introuvable"},{name:"PWA",ok:"serviceWorker" in navigator,detail:"serviceWorker" in navigator?"Compatible":"Non compatible"},{name:"Mode hors-ligne",ok:location.protocol==="https:"||location.hostname==="localhost"||location.protocol==="file:",detail:location.protocol==="https:"?"HTTPS actif":"À tester sur GitHub Pages"}]}
+function renderReleaseChecklist(){const b=document.getElementById("releaseChecklist");if(!b)return;b.innerHTML=rcChecklistData().map(r=>`<div class="release-item ${r.ok?"ok":"warn"}"><strong>${r.ok?"✓":"!"} ${esc(r.name)}</strong><small>${esc(r.detail)}</small></div>`).join("")}
+function restoreBackupFile(event){const file=event.target.files?.[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{try{const parsed=JSON.parse(reader.result),candidate=parsed.app||parsed;downloadJson({type:"ocre-companion-pre-restore",version:"1.0.0",generatedAt:new Date().toISOString(),app},"ocre-companion-avant-restauration.json");const report=migrationReport(candidate);app=normalizeApp(candidate);applyAuditOverrides();localStorage.setItem(KEY,JSON.stringify(app));selectedStep=current().currentStep;updateAll();document.getElementById("restoreResult").innerHTML=`<div class="import-result">Restauration réussie : ${report.adventures} aventure${report.adventures>1?"s":""}, migration ${report.from} → ${report.to}.</div>`}catch(e){document.getElementById("restoreResult").innerHTML=`<div class="import-result">Restauration impossible : ${esc(e.message||"fichier invalide")}.</div>`}event.target.value=""};reader.readAsText(file)}
+function downloadMigrationReport(){let raw={};try{raw=JSON.parse(localStorage.getItem(KEY)||"{}")}catch(e){}downloadJson({type:"ocre-companion-migration-report",version:"1.0.0",report:migrationReport(raw)},"ocre-companion-rapport-migration-stable-1-0.json")}
+
+function estimateLocalStorageBytes(){try{return new Blob([localStorage.getItem(KEY)||""]).size}catch(e){return 0}}
+function runDiagnostics(){
+ const messages=[],storage=estimateLocalStorageBytes(),worker=("serviceWorker" in navigator),eng=typeof OcreEngine!=="undefined";
+ document.getElementById("diagStorage").textContent=storage<1024?storage+" o":(storage/1024).toFixed(1)+" Ko";
+ document.getElementById("diagAdventures").textContent=(app.adventures||[]).length;
+ document.getElementById("diagEngine").textContent=eng?(OcreEngine.version||"OK"):"Absent";
+ document.getElementById("diagWorker").textContent=worker?"Compatible":"Non compatible";
+ if(!app.adventures?.length)messages.push("Aucune aventure valide.");
+ if(!current())messages.push("L’aventure active est introuvable.");
+ if(DB.archimonsters.length!==286)messages.push("La base ne contient pas 286 archimonstres.");
+ if(QUEST.length!==35)messages.push("La quête ne contient pas 35 étapes.");
+ if(storage>4000000)messages.push("La sauvegarde locale devient volumineuse : exporte une copie.");
+ document.getElementById("diagMessages").innerHTML=messages.length?messages.map(x=>`<div class="alert-card">${esc(x)}</div>`):'<div class="notice"><strong>Diagnostic réussi.</strong> Aucun problème bloquant détecté.</div>'; renderReleaseChecklist();
+}
+function repairLocalData(){
+ try{app=normalizeApp(JSON.parse(JSON.stringify(app)));applyAuditOverrides();localStorage.setItem(KEY,JSON.stringify(app));selectedStep=current().currentStep;updateAll();runDiagnostics();alert("Sauvegarde réparée et normalisée.")}
+ catch(e){alert("Réparation impossible : "+e.message)}
+}
+function exportEmergencyBackup(){downloadJson({type:"ocre-companion-emergency-backup",version:"13.1",generatedAt:new Date().toISOString(),app},"ocre-companion-sauvegarde-urgence-v13-1.json")}
+let waitingServiceWorker=null;
+async function checkForAppUpdate(){
+ if(!("serviceWorker" in navigator)){alert("Les mises à jour PWA ne sont pas prises en charge ici.");return}
+ try{const reg=await navigator.serviceWorker.getRegistration();if(!reg){alert("Le service worker n’est pas encore installé.");return}await reg.update();if(reg.waiting){waitingServiceWorker=reg.waiting;document.getElementById("updateBanner").classList.add("show")}else alert("L’application utilise déjà la dernière version disponible.")}
+ catch(e){alert("Vérification impossible : "+e.message)}
+}
+function applyAppUpdate(){if(waitingServiceWorker)waitingServiceWorker.postMessage({type:"SKIP_WAITING"});location.reload()}
+function setupPwaUpdateFlow(){
+ if(!("serviceWorker" in navigator))return;
+ navigator.serviceWorker.addEventListener("controllerchange",()=>location.reload());
+ navigator.serviceWorker.register("./service-worker.js").then(reg=>{
+  if(reg.waiting){waitingServiceWorker=reg.waiting;document.getElementById("updateBanner").classList.add("show")}
+  reg.addEventListener("updatefound",()=>{const worker=reg.installing;if(!worker)return;worker.addEventListener("statechange",()=>{if(worker.state==="installed"&&navigator.serviceWorker.controller){waitingServiceWorker=worker;document.getElementById("updateBanner").classList.add("show")}})})
+ }).catch(()=>{})
+}
+
+function current(){return app.adventures.find(a=>a.id===app.activeId)}
+function engine(){return OcreEngine.create({quest:QUEST,archimonsters:DB.archimonsters,adventure:current()})}
+function save(){localStorage.setItem(KEY,JSON.stringify(app));document.getElementById("saveState").textContent="Sauvegardé à "+new Date().toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"});updateAll()}
+function stageDone(n){return engine().stageDone(n)}
+function stageComplete(n){return engine().stageComplete(n)}
+function total(){const x=engine().totals();return [x.completed,x.total]}
+function firstIncomplete(){return engine().firstIncomplete()}
+function dashboardArchiStats(){const x=engine().progressByKind("Archimonstres");return{done:x.completed,total:x.total,remaining:x.remaining}}
+function dashboardStockStats(){return engine().stockStats()}
+function dashboardReadyStages(){return engine().readyStages().map(x=>QUEST[x.step-1])}
+function dashboardRecommendation(){
+ const cur=QUEST[current().currentStep-1]||QUEST[0];
+ const missing=cur.objectives.filter((_,i)=>!current().done[cur.step][i]);
+ const ready=dashboardReadyStages();
+ if(ready.length){return {title:`${ready.length} étape${ready.length>1?"s":""} terminable${ready.length>1?"s":""}`,text:`Ton inventaire permet de compléter immédiatement ${ready.map(x=>"l’étape "+x.step).slice(0,3).join(", ")}${ready.length>3?"…":""}.`,action:"assistantPage",label:"Préparer le rendu"};}
+ if(missing.length<=5&&missing.length>0){return {title:`Finir l’étape ${cur.step}`,text:`Il ne reste que ${missing.length} objectif${missing.length>1?"s":""} : ${missing.slice(0,3).join(" · ")}${missing.length>3?"…":""}.`,action:"stage",label:"Voir les objectifs"};}
+ const archiPages=QUEST.filter(q=>q.kind==="Archimonstres").map(q=>({step:q.step,left:q.objectives.length-stageDone(q.step)})).filter(x=>x.left>0).sort((a,b)=>a.left-b.left);
+ if(archiPages.length){const x=archiPages[0];return {title:`Étape ${x.step} la plus proche`,text:`Cette page d’archimonstres n’a plus que ${x.left} cible${x.left>1?"s":""} restante${x.left>1?"s":""}.`,action:"quest",label:"Consulter"};}
+ return {title:"Progression à jour",text:"Continue l’étape active ou ouvre le mode Chasse pour sélectionner tes prochaines cibles.",action:"hunter",label:"Ouvrir la chasse"};
+}
+function renderDashboard(){
+ const a=current(),cur=QUEST[a.currentStep-1]||QUEST[0],[done,total]=total(),pct=total?Math.round(done/total*100):0;
+ const arch=dashboardArchiStats(),stock=dashboardStockStats(),ready=dashboardReadyStages(),completed=QUEST.filter(q=>stageComplete(q.step)).length;
+ document.getElementById("dashboardAdventure").textContent=a.name;
+ document.getElementById("dashboardGame").textContent=a.game||"Dofus Rétro";
+ document.getElementById("dashboardStages").textContent=completed+" / 35 étapes";
+ document.getElementById("dashArchiRemaining").textContent=arch.remaining;
+ document.getElementById("dashArchiProgress").textContent=arch.done+" / "+arch.total+" validés";
+ document.getElementById("dashStock").textContent=stock.total;
+ document.getElementById("dashDuplicates").textContent=stock.duplicates+" doublon"+(stock.duplicates>1?"s":"");
+ document.getElementById("dashReadyStages").textContent=ready.length;
+ document.getElementById("dashTeam").textContent=a.team.length;
+ const stagePct=cur.objectives.length?Math.round(stageDone(cur.step)/cur.objectives.length*100):0;
+ document.getElementById("currentStageBar").style.width=stagePct+"%";
+ const r=dashboardRecommendation(),box=document.getElementById("dashboardRecommendation");
+ box.innerHTML=`<div class="smart-card priority"><div class="row between"><div><div class="smart-title">${esc(r.title)}</div><div class="smart-text">${esc(r.text)}</div></div><span class="pill">Priorité</span></div><button class="primary" onclick="${r.action==='stage'?`openStage(${cur.step})`:`go('${r.action}')`}">${esc(r.label)}</button></div>`;
 }
 function updateAll(){
  const cur=QUEST[current().currentStep-1]||QUEST[0];document.getElementById("advLabel").textContent=current().name+" · "+current().team.length+" personnage"+(current().team.length>1?"s":"");
@@ -382,15 +1059,17 @@ function updateAll(){
  document.getElementById("globalCount").textContent=d+" / "+t;
  document.getElementById("nextProgress").textContent=stageDone(cur.step)+"/"+cur.objectives.length;
  document.getElementById("nextPreview").textContent=cur.objectives.filter((_,i)=>!current().done[cur.step][i]).slice(0,3).join(" · ")||"Étape terminée";
- renderSteps();renderInventory();renderJournal();renderAdventures();renderTeam();renderHunter();renderCustomLists();renderStats();renderEncyclopedia();renderAssistant();
+ renderSteps();renderInventory();renderJournal();renderAdventures();renderTeam();renderHunter();renderCustomLists();renderStats();renderEncyclopedia();renderAssistant();renderAuditWorkshop();renderHomeBestRoute();renderPersonalGoals();renderPeriodSummary();renderAuditedRecords();renderMonthlySummary();renderSessionCalendar();renderYearCalendar();renderYearComparison();renderAnnualRecords();renderProjectCompletion();renderStageGoals();renderInAppReminders();renderDashboard();
  if(document.getElementById("stage").classList.contains("active"))renderStage();
 }
 function go(id,btn){
+ const page=document.getElementById(id);if(!page){console.warn("Page introuvable :",id);return}
  document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));
- document.getElementById(id).classList.add("active");
- document.querySelectorAll("nav button").forEach(x=>x.classList.toggle("active",x.dataset.page===id));
+ page.classList.add("active");
+ const secondary=["adventures","assistantPage","encyclopedia","stats","auditWorkshop","settings"];
+ document.querySelectorAll("nav button").forEach(x=>x.classList.toggle("active",x.dataset.page===id||(secondary.includes(id)&&x.dataset.page==="morePage")));
  if(id==="quest")renderSteps();
- if(id==="searchPage")renderSearch();if(id==="inventory"){renderInventory();renderJournal()}if(id==="adventures"){renderAdventures();renderTeam()}
+ if(id==="searchPage")renderSearch();if(id==="inventory"){renderInventory();renderJournal()}if(id==="adventures"){renderAdventures();renderTeam()}if(id==="hunter"){renderHunter();renderCustomLists()}if(id==="stats")renderStats();if(id==="encyclopedia")renderEncyclopedia();if(id==="assistantPage")renderAssistant();if(id==="auditWorkshop")renderAuditWorkshop();if(id==="settings")runDiagnostics();
  scrollTo(0,0);
 }
 function openCurrent(){selectedStep=current().currentStep;renderStage();go("stage")}
@@ -464,6 +1143,9 @@ function initHuntSelectors(){
   ls.innerHTML='<option value="">Toutes mes listes</option>'+current().huntLists.map(l=>`<option value="${l.id}">${esc(l.name)}</option>`).join("");
   if([...ls.options].some(o=>o.value===old))ls.value=old;
  }
+ const fam=document.getElementById("huntFamily"),zone=document.getElementById("huntZone");
+ if(fam){const old=fam.value,values=[...new Set(DB.archimonsters.map(a=>a.family).filter(Boolean))].sort((a,b)=>a.localeCompare(b));fam.innerHTML='<option value="">Toutes les familles auditées</option>'+values.map(v=>`<option value="${esc(v)}">${esc(v)}</option>`).join("");if(values.includes(old))fam.value=old;}
+ if(zone){const old=zone.value,values=[...new Set(DB.archimonsters.flatMap(a=>a.zones||[]).filter(Boolean))].sort((a,b)=>a.localeCompare(b));zone.innerHTML='<option value="">Toutes les zones auditées</option>'+values.map(v=>`<option value="${esc(v)}">${esc(v)}</option>`).join("");if(values.includes(old))zone.value=old;}
 }
 function renderHunter(){
  const box=document.getElementById("hunterList");if(!box)return;
@@ -471,21 +1153,23 @@ function renderHunter(){
  const q=(document.getElementById("huntSearch")?.value||"").trim().toLowerCase();
  const stage=+(document.getElementById("huntStage")?.value||0);
  const listId=document.getElementById("huntList")?.value||"";
+ const family=document.getElementById("huntFamily")?.value||"",zone=document.getElementById("huntZone")?.value||"";
  const list=listId?current().huntLists.find(l=>String(l.id)===String(listId)):null;
  let arr=ARCHIS.filter(a=>{
   const stock=current().inventory[a.name]||0,done=archiQuestDone(a.name),fav=!!current().favorites[a.name],note=(current().notes[a.name]||"").toLowerCase();
   const inList=!list||list.items.includes(a.name);
   const text=(a.name+" étape "+a.step+" "+note+" "+(list?list.name:"")).toLowerCase();
   const filterOk=huntFilter==="all"||(huntFilter==="missing"&&!done)||(huntFilter==="favorites"&&fav)||(huntFilter==="stock"&&stock>0);
-  return filterOk&&(!stage||a.step===stage)&&inList&&(!q||text.includes(q));
+  const data=DB.archimonsters.find(x=>x.name===a.name);
+  return filterOk&&(!stage||a.step===stage)&&inList&&(!family||data?.family===family)&&(!zone||data?.zones?.includes(zone))&&(!q||text.includes(q)||(data?.originalMonster||"").toLowerCase().includes(q));
  });
  const missing=ARCHIS.filter(a=>!archiQuestDone(a.name)).length;
  document.getElementById("huntSummary").textContent=missing+" restants";
  box.innerHTML=arr.length?arr.map(a=>{
   const stock=current().inventory[a.name]||0,done=archiQuestDone(a.name),fav=!!current().favorites[a.name],note=current().notes[a.name]||"";
-  const lists=current().huntLists.filter(l=>l.items.includes(a.name));
-  return `<div class="hunt-card ${fav?'favorite':''}">
-   <div class="hunt-top"><div><strong>${esc(a.name)}</strong><div class="meta">Étape ${a.step} · ${done?'Validé dans la quête':'À capturer'} · Stock x${stock}</div></div>
+  const lists=current().huntLists.filter(l=>l.items.includes(a.name)),data=DB.archimonsters.find(x=>x.name===a.name);
+  return `<div class="hunt-card ${fav?'favorite':''} ${data?.family&&data?.zones?.length?'data-complete':'data-partial'}">
+   <div class="hunt-top"><div><strong>${esc(a.name)}</strong><div class="meta">Étape ${a.step} · ${done?'Validé dans la quête':'À capturer'} · Stock x${stock}</div><div class="note">${data?.originalMonster?`Monstre : ${esc(data.originalMonster)}`:''}${data?.family?` · Famille : ${esc(data.family)}`:''}${data?.recommendedZone?` · Conseil : ${esc(data.recommendedZone)}`:data?.zones?.length?` · Zone : ${esc(data.zones[0])}`:''}</div></div>
    <button class="star ${fav?'on':''}" onclick="toggleFavorite('${js(a.name)}')">${fav?'★':'☆'}</button></div>
    ${lists.length?`<div style="margin-top:8px">${lists.map(l=>`<span class="tag">${esc(l.name)}</span>`).join(" ")}</div>`:""}
    ${note?`<div class="note">${esc(note)}</div>`:""}
@@ -496,6 +1180,15 @@ function renderHunter(){
    </div>
   </div>`;
  }).join(""):'<p class="muted">Aucun archimonstre ne correspond à ces filtres.</p>';
+
+ const missingAll=ARCHIS.filter(a=>!archiQuestDone(a.name));
+ const stockMissing=missingAll.filter(a=>(current().inventory[a.name]||0)>0).length;
+ const favMissing=missingAll.filter(a=>!!current().favorites[a.name]).length;
+ document.getElementById("huntMissingKpi").textContent=missingAll.length;
+ document.getElementById("huntStockKpi").textContent=stockMissing;
+ document.getElementById("huntFavKpi").textContent=favMissing;
+ document.getElementById("huntCircuitKpi").textContent=current().huntLists.length;
+ renderHuntRoutes();renderLiveHuntSession();renderHuntSessionHistory();
 }
 function toggleFavorite(name){current().favorites[name]=!current().favorites[name];save()}
 function openTarget(name){
@@ -526,8 +1219,19 @@ function createHuntList(){
 }
 function renderCustomLists(){
  const box=document.getElementById("customLists");if(!box)return;
- box.innerHTML=current().huntLists.length?current().huntLists.map(l=>`<div class="adventure"><div class="row between"><div><strong>${esc(l.name)}</strong><div class="muted" style="font-size:12px;margin-top:4px">${l.items.length} archimonstre${l.items.length>1?'s':''}</div></div><button class="secondary danger" onclick="deleteHuntList('${l.id}')">Supprimer</button></div></div>`).join(""):'<p class="muted">Aucune liste personnelle.</p>';
+ current().pinnedRoutes=current().pinnedRoutes||{};
+ box.innerHTML=current().huntLists.length?current().huntLists.map(l=>{
+  const pin=!!current().pinnedRoutes["list:"+l.id];
+  const missing=l.items.filter(name=>!archiQuestDone(name)).length;
+  const stock=l.items.filter(name=>(current().inventory[name]||0)>0).length;
+  return `<div class="route-card ${pin?'pinned':''}">
+   <div class="row between"><div><strong>${esc(l.name)}</strong><div class="muted" style="font-size:12px;margin-top:4px">${l.items.length} archis · ${missing} manquants · ${stock} en stock</div></div><button class="star ${pin?'on':''}" onclick="toggleRoutePin('list:${l.id}')">${pin?'★':'☆'}</button></div>
+   <div class="adventure-actions"><button class="secondary" onclick="selectRouteList('${l.id}')">Ouvrir dans la chasse</button><button class="secondary danger" onclick="deleteHuntList('${l.id}')">Supprimer</button></div>
+  </div>`
+ }).join(""):'<p class="muted">Aucun circuit personnel.</p>';
 }
+function selectRouteList(id){go("hunter");setTimeout(()=>{const s=document.getElementById("huntList");if(s){s.value=String(id);renderHunter()}},0)}
+function toggleRoutePin(key){current().pinnedRoutes=current().pinnedRoutes||{};current().pinnedRoutes[key]=!current().pinnedRoutes[key];save()}
 function deleteHuntList(id){
  const l=current().huntLists.find(x=>String(x.id)===String(id));if(!l)return;
  if(confirm(`Supprimer la liste « ${l.name} » ?`)){current().huntLists=current().huntLists.filter(x=>String(x.id)!==String(id));save()}
@@ -612,75 +1316,121 @@ function renderStats(){
 
 
 function setEncyFilter(v){encyFilter=v;renderEncyclopedia()}
+function setEncyStatus(v){encyStatus=v;renderEncyclopedia()}
+function creatureQuestStatus(c){
+ if(c.type!=="archimonstre")return {done:false,stock:0};
+ const a=ARCHIS.find(x=>x.name===c.name),q=a?QUEST[a.step-1]:null,i=q?q.objectives.indexOf(c.name):-1;
+ return {done:!!(q&&i>=0&&current().done[a.step][i]),stock:current().inventory[c.name]||0};
+}
+function creatureAuditComplete(c){return creatureAuditIssues(c).length===0}
+function creatureAuditIssues(c){
+ if(c.type!=="archimonstre")return [];
+ const issues=[];
+ if(!c.family)issues.push("family");
+ if(!Array.isArray(c.zones)||!c.zones.length)issues.push("zones");
+ if(!Number(c.levelMin))issues.push("levels");
+ const source=c.audit?.source||c.source?.candidate||c.source?.relationship;
+ if(!source)issues.push("source");
+ if(Number(c.levelMin)&&Number(c.levelMax)&&Number(c.levelMin)>Number(c.levelMax))issues.push("range");
+ if(c.recommendedZone&&Array.isArray(c.zones)&&c.zones.length&&!c.zones.includes(c.recommendedZone))issues.push("recommended");
+ if(!c.originalMonster||!QUEST[c.questStage-1]?.objectives.includes(c.name))issues.push("relation");
+ return issues
+}
+function qualitySnapshot(){
+ const engine=ocreEngine(),fallback=DB.archimonsters.map(c=>({id:c.id,name:c.name,step:c.questStage,issues:creatureAuditIssues(c)}));
+ if(engine?.dataQuality)return engine.dataQuality();
+ const ids={},names={};DB.archimonsters.forEach(c=>{ids[c.id]=(ids[c.id]||0)+1;names[c.name]=(names[c.name]||0)+1});
+ return{total:fallback.length,complete:fallback.filter(x=>!x.issues.length).length,incomplete:fallback.filter(x=>x.issues.length).length,issueCount:fallback.reduce((n,x)=>n+x.issues.length,0),records:fallback,duplicateIds:Object.entries(ids).filter(([,n])=>n>1),duplicateNames:Object.entries(names).filter(([,n])=>n>1),brokenRelations:fallback.filter(x=>x.issues.includes("relation"))}
+}
+function issueLabel(issue){return({family:"Famille manquante",zones:"Zone manquante",levels:"Niveau manquant",source:"Source manquante",range:"Niveaux incohérents",recommended:"Zone conseillée hors des zones",relation:"Relation de quête cassée"})[issue]||issue}
+function renderDatabaseQuality(){
+ const target=document.getElementById("qualityIssueList");if(!target)return;
+ const q=qualitySnapshot(),duplicates=(q.duplicateIds?.length||0)+(q.duplicateNames?.length||0);
+ document.getElementById("qualityComplete").textContent=q.complete+" / "+q.total;
+ document.getElementById("qualityIssues").textContent=q.issueCount;
+ document.getElementById("qualityBroken").textContent=q.brokenRelations?.length||0;
+ document.getElementById("qualityDuplicates").textContent=duplicates;
+ const rows=q.records.filter(x=>x.issues.length).slice(0,8);
+ target.innerHTML=rows.length?rows.map(r=>`<div class="issue-row"><div><strong>${esc(r.name)}</strong><div class="issue-copy">Étape ${r.step} · ${r.issues.map(issueLabel).join(" · ")}</div></div><button class="issue-chip ${r.issues.includes("relation")?"blocking":""}" onclick="openCreatureAudit('${r.id}')">Corriger</button></div>`).join(""):'<div class="notice"><strong>Base complète.</strong> Aucun problème d’audit détecté sur les archimonstres.</div>';
+}
+function focusFirstAuditIssue(){
+ const q=qualitySnapshot(),first=q.records.find(x=>x.issues.length);
+ if(!first){alert("Aucune fiche incomplète détectée.");return}
+ openCreatureAudit(first.id)
+}
+function exportQualityReport(){
+ const q=qualitySnapshot(),coverage=ocreEngine()?.dataCoverage?.()||{};
+ downloadJson({type:"ocre-companion-quality-report",version:"11.5",game:"Dofus Rétro",generatedAt:new Date().toISOString(),coverage,summary:{total:q.total,complete:q.complete,incomplete:q.incomplete,issueCount:q.issueCount,brokenRelations:q.brokenRelations?.length||0,duplicateIds:q.duplicateIds||[],duplicateNames:q.duplicateNames||[]},records:q.records.filter(x=>x.issues.length)},"ocre-companion-rapport-qualite-v11-5.json")
+}
+function initEncyStages(){
+ const s=document.getElementById("encyStage");if(!s||s.dataset.ready)return;
+ s.innerHTML='<option value="">Toutes les étapes</option>'+QUEST.map(q=>`<option value="${q.step}">Étape ${q.step} — ${q.kind}</option>`).join("");s.dataset.ready="1";
+}
 function renderEncyclopedia(){
- const box=document.getElementById("encyResults");if(!box)return;
+ const box=document.getElementById("encyResults");if(!box)return;initEncyStages();
  const q=(document.getElementById("encySearch")?.value||"").trim().toLowerCase();
+ const stage=+(document.getElementById("encyStage")?.value||0),audit=document.getElementById("encyAudit")?.value||"all",issue=document.getElementById("encyIssue")?.value||"all";
  let rows=CREATURES.filter(c=>encyFilter==="all"||c.type===encyFilter);
- if(q)rows=rows.filter(c=>(c.name+" "+(c.originalMonster||"")+" "+(c.archimonster||"")+" étape "+c.questStage).toLowerCase().includes(q));
- rows=rows.slice(0,180);
- document.getElementById("dbCount").textContent=DB.monsters.length+" monstres · "+DB.archimonsters.length+" archis";
- document.getElementById("familyAudit").textContent=DB.archimonsters.filter(a=>a.family).length+" / "+DB.archimonsters.length;
- document.getElementById("zoneAudit").textContent=DB.archimonsters.filter(a=>a.zones?.length).length+" / "+DB.archimonsters.length;
- box.innerHTML=rows.length?rows.map(c=>`<div class="creature-card" onclick="openCreature('${c.id}')"><div class="row between"><div><strong>${esc(c.name)}</strong><div class="muted" style="font-size:12px;margin-top:4px">${c.type} · Étape ${c.questStage||"—"}</div></div><span class="pill">Fiche</span></div>${c.originalMonster?`<div class="note">Monstre d’origine : ${esc(c.originalMonster)}</div>`:c.archimonster?`<div class="note">Archimonstre : ${esc(c.archimonster)}</div>`:""}</div>`).join(""):'<p class="muted">Aucun résultat.</p>';
+ rows=rows.filter(c=>!stage||c.questStage===stage);
+ rows=rows.filter(c=>audit==="all"||(audit==="complete"&&creatureAuditComplete(c))||(audit==="pending"&&!creatureAuditComplete(c)));
+ rows=rows.filter(c=>issue==="all"||creatureAuditIssues(c).includes(issue));
+ rows=rows.filter(c=>{const s=creatureQuestStatus(c);return encyStatus==="all"||(c.type==="archimonstre"&&((encyStatus==="missing"&&!s.done)||(encyStatus==="stock"&&s.stock>0)||(encyStatus==="done"&&s.done)))});
+ if(q)rows=rows.filter(c=>(c.name+" "+(c.originalMonster||"")+" "+(c.archimonster||"")+" "+(c.family||"")+" "+(c.zones||[]).join(" ")+" étape "+c.questStage).toLowerCase().includes(q));
+ rows=rows.slice(0,220);
+ document.getElementById("dbCount").textContent=DB.monsters.length+" monstres · "+DB.bosses.length+" boss · "+DB.archimonsters.length+" archis";
+ const fam=DB.archimonsters.filter(a=>a.family).length,zon=DB.archimonsters.filter(a=>a.zones?.length).length;
+ document.getElementById("familyAudit").textContent=fam+" / "+DB.archimonsters.length;document.getElementById("zoneAudit").textContent=zon+" / "+DB.archimonsters.length;
+ document.getElementById("familyAuditBar").style.width=Math.round(fam/DB.archimonsters.length*100)+"%";document.getElementById("zoneAuditBar").style.width=Math.round(zon/DB.archimonsters.length*100)+"%";
+ renderDatabaseQuality();
+ ["All","Missing","Stock","Done"].forEach(x=>document.getElementById("encyStatus"+x)?.classList.toggle("active-filter",encyStatus===x.toLowerCase()));
+ box.innerHTML=rows.length?rows.map(c=>{const s=creatureQuestStatus(c),type=c.type==="archimonstre"?"Archimonstre":c.type==="boss"?"Boss":"Monstre";return `<div class="creature-card" onclick="openCreature('${c.id}')"><div class="row between"><div><strong>${esc(c.name)}</strong><div class="muted" style="font-size:12px;margin-top:4px">${type} · Étape ${c.questStage||"—"}</div></div><span class="pill">Fiche</span></div>${c.originalMonster?`<div class="note">Monstre d’origine : ${esc(c.originalMonster)}</div>`:c.archimonster?`<div class="note">Archimonstre associé : ${esc(c.archimonster)}</div>`:""}<div class="status-line">${c.type==="archimonstre"?`<span class="status-chip ${s.done?'ok':'missing'}">${s.done?'Validé':'Manquant'}</span><span class="status-chip ${s.stock?'stock':''}">Stock x${s.stock}</span>`:""}<span class="status-chip ${creatureAuditComplete(c)?'ok':''}">${creatureAuditComplete(c)?'Fiche auditée':'Données à compléter'}</span></div></div>`}).join(""):'<p class="muted">Aucun résultat.</p>';
 }
 function openCreature(id){
- const c=CREATURES.find(x=>x.id===id);if(!c)return;
+ const c=CREATURES.find(x=>x.id===id);if(!c)return;const s=creatureQuestStatus(c);
  let m=document.getElementById("creatureModal");if(!m){m=document.createElement("div");m.id="creatureModal";m.className="modal";m.onclick=e=>{if(e.target===m)m.classList.remove("show")};document.body.appendChild(m)}
- m.innerHTML=`<div class="sheet"><h3>${esc(c.name)}</h3><p class="muted">${c.type} · Étape ${c.questStage||"—"}</p><div class="creature-grid">
- ${c.originalMonster?`<div class="field"><span>Monstre d’origine</span><strong>${esc(c.originalMonster)}</strong></div>`:""}
- ${c.archimonster?`<div class="field"><span>Archimonstre associé</span><strong>${esc(c.archimonster)}</strong></div>`:""}
- ${c.type==="archimonstre"?`<div class="field"><span>Stock</span><strong>x${current().inventory[c.name]||0}</strong></div>`:""}
- <div class="field"><span>Famille</span><strong class="audit-pending">${esc(c.family||"À auditer")}</strong></div>
- <div class="field"><span>Zones</span><strong class="audit-pending">${esc(c.zones?.join(", ")||"À auditer")}</strong></div>
- <div class="field"><span>Niveau</span><strong class="audit-pending">${c.levelMin||"À auditer"}</strong></div></div>
- <button class="primary" onclick="document.getElementById('creatureModal').classList.remove('show')">Fermer</button></div>`;m.classList.add("show")
+ const relation=c.originalMonster?`<button class="relation-button" onclick="openRelatedCreature('${js(c.originalMonster)}','monstre')"><span>Monstre d’origine</span><strong>${esc(c.originalMonster)}</strong><small>Ouvrir sa fiche →</small></button>`:c.archimonster?`<button class="relation-button" onclick="openRelatedCreature('${js(c.archimonster)}','archimonstre')"><span>Archimonstre associé</span><strong>${esc(c.archimonster)}</strong><small>Ouvrir sa fiche →</small></button>`:"";
+ m.innerHTML=`<div class="sheet"><div class="row between"><div><h3 style="margin:0">${esc(c.name)}</h3><p class="muted" style="margin:5px 0 0">${c.type} · Étape ${c.questStage||"—"}</p></div>${c.type==="archimonstre"?`<span class="pill">Stock x${s.stock}</span>`:""}</div>${relation}<div class="creature-grid">${c.type==="archimonstre"?`<div class="field"><span>Progression</span><strong class="${s.done?'audit-ok':'audit-pending'}">${s.done?'Validé':'À capturer'}</strong></div><div class="field"><span>Inventaire</span><strong>x${s.stock}</strong></div>`:""}<div class="field"><span>Famille</span><strong class="${c.family?'audit-ok':'audit-pending'}">${esc(c.family||"À auditer")}</strong></div><div class="field"><span>Zones</span><strong class="${c.zones?.length?'audit-ok':'audit-pending'}">${esc(c.zones?.join(", ")||"À auditer")}</strong></div><div class="field"><span>Niveau</span><strong class="${c.levelMin?'audit-ok':'audit-pending'}">${c.levelMin?(c.levelMin+(c.levelMax&&c.levelMax!==c.levelMin?"–"+c.levelMax:"")):"À auditer"}</strong></div><div class="field"><span>Source de relation</span><strong>${esc(c.audit?.relationship||c.audit?.relation||"Quête Rétro")}</strong></div></div><div class="sheet-actions"><button class="secondary" onclick="openStageFromCreature(${c.questStage||1})">Voir l’étape</button><button class="secondary" onclick="openCreatureAudit('${c.id}')">Auditer la fiche</button>${c.type==="archimonstre"?`<button class="secondary" onclick="quickCapture('${js(c.name)}')">+1 au stock</button>`:""}</div><button class="primary" onclick="document.getElementById('creatureModal').classList.remove('show')">Fermer la fiche</button></div>`;m.classList.add("show")
 }
-
+function openRelatedCreature(name,type){const c=CREATURES.find(x=>x.name===name&&x.type===type)||CREATURES.find(x=>x.name===name);if(c)openCreature(c.id)}
+function openStageFromCreature(step){document.getElementById('creatureModal')?.classList.remove('show');openStage(step)}
 
 function archiStock(name){return current().inventory[name]||0}
-function stageInventoryStatus(step){
- const q=QUEST[step-1];
- if(!q||q.kind!=="Archimonstres")return null;
- const rows=q.objectives.map((name,i)=>({name,i,done:current().done[step][i],stock:archiStock(name)}));
- const missing=rows.filter(x=>!x.done);
- const available=missing.filter(x=>x.stock>0);
- return {
-  step,
-  rows,
-  missing,
-  available,
-  ready:missing.length>0&&missing.every(x=>x.stock>0),
-  alreadyComplete:missing.length===0
- };
+function stageInventoryStatus(step){return engine().stageInventoryStatus(step)}
+function smartInventoryAnalysis(){return engine().inventoryAnalysis()}
+function smartClosestArchiStages(){return engine().closestArchiStages().map(x=>({step:x.step,left:x.missing.length,inStock:x.available.length,needHunt:x.needHunt,ready:x.ready}))}
+function smartRecommendationForDuration(minutes){
+ const r=engine().recommendation(minutes);
+ if(r.type==="ready")return{title:r.title,text:r.text,button:r.button,action:`openApplyStage(${r.step})`};
+ if(r.type==="current"||r.type==="hunt")return{title:r.title,text:r.text,button:r.button,action:`openStage(${r.step})`};
+ return{title:r.title,text:r.text,button:r.button,action:"go('quest')"};
+}
+function setPlayDuration(minutes){current().playDuration=minutes;save();}
+function auditedGroups(field){
+ const map=new Map();DB.archimonsters.forEach(a=>{
+  const values=field==='family'?(a.family?[a.family]:[]):(a.zones||[]);
+  values.forEach(v=>{if(!map.has(v))map.set(v,{name:v,total:0,done:0,missing:0});const x=map.get(v);x.total++;const st=creatureQuestStatus(a);if(st.done)x.done++;else x.missing++;});
+ });return [...map.values()].sort((a,b)=>b.missing-a.missing||a.name.localeCompare(b.name));
 }
 function renderAssistant(){
- const box=document.getElementById("readyStages");if(!box)return;
- const statuses=QUEST.filter(q=>q.kind==="Archimonstres").map(q=>stageInventoryStatus(q.step));
- const ready=statuses.filter(x=>x.ready);
- const stones=ready.reduce((sum,x)=>sum+x.missing.length,0);
- document.getElementById("readyCount").textContent=ready.length+" étape"+(ready.length>1?"s":"");
- document.getElementById("readyNow").textContent=ready.length;
- document.getElementById("readyStones").textContent=stones;
- box.innerHTML=ready.length?ready.map(x=>`<div class="ready-card">
-  <div class="row between"><div><h3>Étape ${x.step}</h3><div class="muted">${x.missing.length} pierre${x.missing.length>1?"s":""} disponible${x.missing.length>1?"s":""}</div></div><span class="pill">Prête</span></div>
-  <div class="ready-list">${x.missing.slice(0,5).map(r=>`<div class="ready-item"><span>${esc(r.name)}</span><span class="pill">x${r.stock}</span></div>`).join("")}${x.missing.length>5?`<div class="muted">+ ${x.missing.length-5} autre${x.missing.length-5>1?"s":""}</div>`:""}</div>
-  <button class="primary" onclick="openApplyStage(${x.step})">Préparer le rendu</button>
- </div>`).join(""):'<p class="muted">Aucune étape d’archimonstres n’est entièrement terminable avec le stock actuel.</p>';
-
- const currentStep=current().currentStep;
- document.getElementById("assistantCurrentStep").textContent="Étape "+currentStep;
- const q=QUEST[currentStep-1];
- const currentBox=document.getElementById("currentStepAssistant");
- if(q.kind!=="Archimonstres"){
-  currentBox.innerHTML=`<div class="notice">L’étape actuelle concerne les ${q.kind.toLowerCase()}. L’assistant d’inventaire s’activera automatiquement pour les étapes d’archimonstres.</div>`;
- }else{
-  const st=stageInventoryStatus(currentStep);
-  currentBox.innerHTML=`<div class="ready-card">
-   <div class="row between"><strong>${st.missing.length} archimonstre${st.missing.length>1?"s":""} restant${st.missing.length>1?"s":""}</strong><span class="pill">${st.available.length} en stock</span></div>
-   <div class="ready-list">${st.missing.map(r=>`<div class="ready-item ${r.stock>0?"":"missing"}"><span>${esc(r.name)}</span><span class="pill">${r.stock>0?"Stock x"+r.stock:"Absent"}</span></div>`).join("")}</div>
-   ${st.ready?`<button class="primary" onclick="openApplyStage(${currentStep})">Préparer le rendu complet</button>`:""}
-  </div>`;
- }
+ const main=document.getElementById("smartMainRecommendation");if(!main)return;
+ const a=current(),duration=a.playDuration||60,[done,total]=total(),pct=total?Math.round(done/total*100):0,inventory=smartInventoryAnalysis();
+ document.getElementById("smartProgress").textContent=pct+" %";
+ document.querySelectorAll("#durationTabs button").forEach((b,i)=>b.classList.toggle("active",[30,60,120,240][i]===duration));
+ const rec=smartRecommendationForDuration(duration);
+ main.innerHTML=`<div class="smart-card priority"><div class="row between"><div><div class="smart-title">${esc(rec.title)}</div><div class="smart-text">${esc(rec.text)}</div></div><span class="pill">Priorité</span></div><button class="primary" onclick="${rec.action}">${esc(rec.button)}</button></div>`;
+ document.getElementById("smartStockPill").textContent=inventory.total+" pierres";
+ document.getElementById("smartUsable").textContent=inventory.usable;
+ document.getElementById("smartExchangeable").textContent=inventory.duplicates;
+ document.getElementById("smartFuture").textContent=inventory.future;
+ const ready=QUEST.filter(q=>q.kind==="Archimonstres").map(q=>stageInventoryStatus(q.step)).filter(x=>x.ready);
+ document.getElementById("smartReadyStages").innerHTML=ready.length?ready.map(x=>`<div class="insight priority"><strong>Étape ${x.step} terminable</strong><p>${x.missing.length} pierre${x.missing.length>1?'s':''} seront utilisées.</p><button class="secondary" style="margin-top:9px" onclick="openApplyStage(${x.step})">Préparer</button></div>`).join(""):'<div class="insight"><strong>Aucun rendu complet disponible</strong><p>L’inventaire ne couvre pas encore tous les manquants d’une étape d’archimonstres.</p></div>';
+ document.getElementById("assistantCurrentStep").textContent="Étape "+a.currentStep;
+ const q=QUEST[a.currentStep-1],currentBox=document.getElementById("currentStepAssistant");
+ if(q.kind!=="Archimonstres")currentBox.innerHTML=`<div class="insight"><strong>${q.kind}</strong><p>${q.objectives.length-stageDone(q.step)} objectif${q.objectives.length-stageDone(q.step)>1?'s':''} restant${q.objectives.length-stageDone(q.step)>1?'s':''}.</p><button class="secondary" style="margin-top:9px" onclick="openStage(${q.step})">Consulter</button></div>`;
+ else{const st=stageInventoryStatus(a.currentStep);currentBox.innerHTML=`<div class="insight ${st.ready?'priority':''}"><strong>${st.missing.length} archimonstre${st.missing.length>1?'s':''} restant${st.missing.length>1?'s':''}</strong><p>${st.available.length} déjà en stock · ${st.missing.length-st.available.length} à chasser.</p>${st.ready?`<button class="secondary" style="margin-top:9px" onclick="openApplyStage(${a.currentStep})">Préparer le rendu</button>`:`<button class="secondary" style="margin-top:9px" onclick="openStage(${a.currentStep})">Voir les cibles</button>`}</div>`;}
+ const engine=ocreEngine(),families=engine?.priorityGroups?engine.priorityGroups('family'):auditedGroups('family'),zones=engine?.priorityGroups?engine.priorityGroups('zones'):auditedGroups('zones'),aud=document.getElementById("auditedAnalysis");
+ if(!families.length&&!zones.length)aud.innerHTML='<div class="notice data-warning">Aucune famille ou zone n’est encore suffisamment auditée. L’assistant ne fabrique donc aucun classement géographique.</div>';
+ else{const rows=[...families.slice(0,3).map(x=>({label:'Famille',...x})),...zones.slice(0,3).map(x=>({label:'Zone',...x}))];aud.innerHTML=`<div class="insight-list">${rows.map(x=>`<div class="priority-group"><div class="row between"><strong>${esc(x.name)}</strong><span class="priority-score">${x.score??x.missing*10}</span></div><p class="muted" style="margin:7px 0 0">${x.label} · ${x.done}/${x.total} validés · ${x.missing} manquants · ${x.inStock} en stock.</p></div>`).join('')}</div>`;}
 }
 function openApplyStage(step){
  const st=stageInventoryStatus(step);if(!st||!st.ready)return;
@@ -701,6 +1451,647 @@ function confirmApplyStage(){
  a.journal=a.journal.slice(0,300);
  if(stageComplete(step)&&a.currentStep<=step&&step<35)a.currentStep=step+1;
  pendingApplyStep=null;closeModal("applyStageModal");save();go("assistantPage");
+}
+
+
+function auditWorkflow(){current().auditWorkflow=current().auditWorkflow||{};return current().auditWorkflow}
+function auditWorkflowStatus(id){return auditWorkflow()[id]?.status||"pending"}
+function setAuditWorkflowStatus(id,status){
+ const flow=auditWorkflow();
+ flow[id]={...(flow[id]||{}),status,updatedAt:Date.now()};
+ save()
+}
+function auditWorkshopRows(){
+ const mode=document.getElementById("auditQueueFilter")?.value||"pending";
+ const issue=document.getElementById("auditQueueIssue")?.value||"all";
+ const q=(document.getElementById("auditQueueSearch")?.value||"").trim().toLowerCase();
+ return DB.archimonsters.filter(c=>{
+  const issues=creatureAuditIssues(c),status=auditWorkflowStatus(c.id);
+  const modeOk=mode==="all"||status===mode||(mode==="pending"&&status==="pending");
+  const issueOk=issue==="all"||issues.includes(issue);
+  const text=(c.name+" "+(c.originalMonster||"")+" étape "+c.questStage+" "+(c.family||"")+" "+(c.zones||[]).join(" ")).toLowerCase();
+  return modeOk&&issueOk&&(!q||text.includes(q))
+ })
+}
+function renderAuditWorkshop(){
+ const box=document.getElementById("auditQueue");if(!box)return;
+ const rows=auditWorkshopRows(),flow=auditWorkflow();
+ const validated=DB.archimonsters.filter(c=>auditWorkflowStatus(c.id)==="validated").length;
+ document.getElementById("auditQueueCount").textContent=rows.length+" fiche"+(rows.length>1?"s":"");
+ document.getElementById("auditBatchLabel").textContent=validated+" / "+DB.archimonsters.length;
+ document.getElementById("auditBatchBar").style.width=Math.round(validated/DB.archimonsters.length*100)+"%";
+ box.innerHTML=rows.length?rows.slice(0,120).map(c=>{
+  const issues=creatureAuditIssues(c),status=auditWorkflowStatus(c.id);
+  const statusLabel=status==="validated"?"Validée":status==="review"?"À vérifier":"À compléter";
+  return `<div class="audit-task ${status==="validated"?"done":""}">
+   <div class="row between">
+    <div><strong>${esc(c.name)}</strong><div class="meta">Étape ${c.questStage} · ${esc(c.originalMonster||"Monstre inconnu")}</div></div>
+    <span class="audit-status ${status==="validated"?"ok":""}">${statusLabel}</span>
+   </div>
+   <div class="issue-copy">${issues.length?issues.map(issueLabel).join(" · "):"Fiche complète"}</div>
+   <div class="adventure-actions">
+    <button class="secondary" onclick="openCreatureAudit('${c.id}')">Éditer</button>
+    <button class="secondary" onclick="setAuditWorkflowStatus('${c.id}','review')">À vérifier</button>
+    <button class="secondary" onclick="setAuditWorkflowStatus('${c.id}','validated')" ${issues.length?'disabled style="opacity:.35"':''}>Valider</button>
+   </div>
+  </div>`
+ }).join(""):'<div class="notice">Aucune fiche ne correspond à ces filtres.</div>';
+}
+function visibleAuditIds(){return auditWorkshopRows().map(c=>c.id)}
+function markVisibleForReview(){
+ const flow=auditWorkflow();visibleAuditIds().forEach(id=>flow[id]={...(flow[id]||{}),status:"review",updatedAt:Date.now()});save()
+}
+function validateVisibleComplete(){
+ const flow=auditWorkflow();auditWorkshopRows().filter(c=>creatureAuditIssues(c).length===0).forEach(c=>flow[c.id]={...(flow[c.id]||{}),status:"validated",updatedAt:Date.now()});save()
+}
+function resetVisibleReview(){
+ const flow=auditWorkflow();visibleAuditIds().forEach(id=>delete flow[id]);save()
+}
+function exportAuditWorkflow(){
+ downloadJson({type:"ocre-companion-audit-workflow",version:"11.6",game:"Dofus Rétro",generatedAt:new Date().toISOString(),workflow:auditWorkflow()},"ocre-companion-avancement-audit-v11-6.json")
+}
+function importAuditWorkflow(event){
+ const file=event.target.files?.[0];if(!file)return;
+ const reader=new FileReader();reader.onload=()=>{try{
+  const parsed=JSON.parse(reader.result),workflow=parsed.workflow||parsed;
+  if(!workflow||typeof workflow!=="object")throw new Error();
+  current().auditWorkflow={...auditWorkflow(),...workflow};save();go("auditWorkshop")
+ }catch(e){alert("Fichier d’avancement invalide.")}event.target.value=""};reader.readAsText(file)
+}
+
+
+function routeRows(type){
+ const engine=ocreEngine();
+ if(type==="lists"){
+  return current().huntLists.map(l=>{
+   const items=l.items.map(name=>ARCHIS.find(a=>a.name===name)).filter(Boolean);
+   const missing=items.filter(a=>!archiQuestDone(a.name));
+   const inStock=missing.filter(a=>(current().inventory[a.name]||0)>0).length;
+   return{name:l.name,key:"list:"+l.id,total:items.length,missing:missing.length,inStock,done:items.length-missing.length,items:missing.map(a=>a.name),score:missing.length*10+inStock*4+(current().pinnedRoutes?.["list:"+l.id]?20:0)}
+  }).filter(x=>x.total>0).sort((a,b)=>b.score-a.score)
+ }
+ if(engine?.priorityGroups){
+  return engine.priorityGroups(type).map(x=>({...x,key:type+":"+x.name,items:DB.archimonsters.filter(a=>{
+   const values=type==="zones"?(a.zones||[]):[a.family];
+   return values.includes(x.name)&&!archiQuestDone(a.name)
+  }).map(a=>a.name)}))
+ }
+ return []
+}
+function renderHuntRoutes(){
+ const box=document.getElementById("huntRoutes");if(!box)return;
+ const type=document.getElementById("routeType")?.value||"zones";
+ const duration=+(document.getElementById("routeDuration")?.value||60);
+ const limit=duration<=30?1:duration<=60?2:duration<=120?3:4;
+ const rows=routeRows(type).slice(0,limit+3);
+ document.getElementById("routeCount").textContent=rows.length+" option"+(rows.length>1?"s":"");
+ box.innerHTML=rows.length?rows.map(r=>{
+  const pin=!!current().pinnedRoutes?.[r.key],pct=r.total?Math.round(r.done/r.total*100):0;
+  return `<div class="route-card ${pin?'pinned':''}">
+   <div class="row between"><div><strong>${esc(r.name)}</strong><div class="muted" style="font-size:12px;margin-top:4px">${r.done}/${r.total} validés · ${r.missing} manquants · ${r.inStock} en stock</div></div><div class="row"><span class="route-score">${r.score||r.missing*10}</span><button class="star ${pin?'on':''}" onclick="toggleRoutePin('${js(r.key)}')">${pin?'★':'☆'}</button></div></div>
+   <div class="route-progress"><span style="width:${pct}%"></span></div>
+   <div class="route-targets">${r.items.slice(0,6).map(n=>`<span>${esc(n)}</span>`).join("")}${r.items.length>6?`<span>+${r.items.length-6}</span>`:""}</div>
+  </div>`
+ }).join(""):'<div class="notice">Aucun parcours automatique n’est disponible tant que les zones ou familles ne sont pas auditées. Tes circuits personnels restent utilisables.</div>';
+}
+function buildHuntPlan(){
+ const type=document.getElementById("routeType")?.value||"zones",duration=+(document.getElementById("routeDuration")?.value||60),box=document.getElementById("huntPlan");
+ const capacity=duration<=30?1:duration<=60?2:duration<=120?3:4;
+ const rows=routeRows(type).sort((a,b)=>{
+  const ap=current().pinnedRoutes?.[a.key]?1:0,bp=current().pinnedRoutes?.[b.key]?1:0;
+  return bp-ap||b.score-a.score
+ }).slice(0,capacity);
+ if(!rows.length){current().lastHuntPlan=null;box.innerHTML='<div class="notice">Impossible de construire un plan fiable : complète des zones/familles dans l’atelier d’audit ou crée un circuit personnel.</div>';save();return}
+ const minutes=Math.max(10,Math.round(duration/rows.length));
+ current().lastHuntPlan={id:Date.now()+Math.random(),type,duration,createdAt:Date.now(),rows:rows.map((r,i)=>({key:r.key,name:r.name,order:i+1,minutes,items:[...r.items],missing:r.missing,inStock:r.inStock,score:r.score||r.missing*10}))};
+ box.innerHTML=rows.map((r,i)=>`<div class="plan-step"><div class="plan-order">${i+1}</div><div><strong>${esc(r.name)}</strong><div class="muted" style="font-size:12px">${r.missing} cibles manquantes · ${r.inStock} déjà en stock</div></div><span class="pill">${minutes} min</span></div>`).join("")+
+ `<div class="session-actions"><button class="primary" onclick="startSessionFromPlan()">Démarrer cette session</button><button class="secondary" onclick="applyPlanToHunter('${type}','${rows[0].key.replace(/'/g,"\\'")}')">Ouvrir la première étape</button></div>`;
+ save()
+}
+
+function startSessionFromPlan(){
+ const a=current(),plan=a.lastHuntPlan;if(!plan){alert("Génère d’abord un plan.");return}
+ if(a.activeHuntSession){alert("Une session est déjà en cours.");return}
+ const targets=[...new Set(plan.rows.flatMap(r=>r.items))];
+ a.activeHuntSession={id:Date.now()+Math.random(),name:`Plan ${plan.duration} min`,startedAt:Date.now(),endedAt:null,durationTarget:plan.duration,routeType:plan.type,rows:JSON.parse(JSON.stringify(plan.rows)),targets,captures:[],pausedAt:null,pausedMs:0,note:""};
+ save();renderLiveHuntSession();scrollTo(0,document.body.scrollHeight)
+}
+function huntElapsed(session){
+ if(!session)return 0;
+ const end=session.endedAt||session.pausedAt||Date.now();
+ return Math.max(0,end-session.startedAt-(session.pausedMs||0))
+}
+function formatHuntDuration(ms){
+ const total=Math.floor(ms/1000),h=Math.floor(total/3600),m=Math.floor((total%3600)/60),s=total%60;
+ return (h?String(h).padStart(2,"0")+":":"")+String(m).padStart(2,"0")+":"+String(s).padStart(2,"0")
+}
+function captureDuringHunt(name){
+ const a=current(),s=a.activeHuntSession;if(!s)return;
+ a.inventory[name]=(a.inventory[name]||0)+1;
+ s.captures.push({name,time:Date.now()});
+ a.journal.unshift({id:Date.now()+Math.random(),time:Date.now(),name,delta:1,comment:`Session de chasse : ${s.name}`});
+ a.journal=a.journal.slice(0,300);save()
+}
+
+function pauseHuntSession(){
+ const s=current().activeHuntSession;if(!s||s.pausedAt)return;
+ s.pausedAt=Date.now();save()
+}
+function resumeHuntSession(){
+ const s=current().activeHuntSession;if(!s||!s.pausedAt)return;
+ s.pausedMs=(s.pausedMs||0)+(Date.now()-s.pausedAt);s.pausedAt=null;save()
+}
+function editHuntSessionNote(){
+ const s=current().activeHuntSession;if(!s)return;
+ const note=prompt("Note de session :",s.note||"");if(note===null)return;
+ s.note=note.trim();save()
+}
+function renameHuntSession(id){
+ const a=current(),s=(a.huntSessions||[]).find(x=>String(x.id)===String(id));if(!s)return;
+ const name=prompt("Nom de la session :",s.name);if(name===null)return;
+ s.name=name.trim()||s.name;save()
+}
+function deleteHuntSession(id){
+ const a=current(),s=(a.huntSessions||[]).find(x=>String(x.id)===String(id));if(!s)return;
+ if(confirm(`Supprimer le bilan « ${s.name} » ?`)){a.huntSessions=a.huntSessions.filter(x=>String(x.id)!==String(id));save()}
+}
+
+function finishHuntSession(){
+ const a=current(),s=a.activeHuntSession;if(!s)return;
+ if(!confirm(`Terminer la session « ${s.name} » ?`))return;
+ if(s.pausedAt){s.pausedMs=(s.pausedMs||0)+(Date.now()-s.pausedAt);s.pausedAt=null} s.endedAt=Date.now();a.huntSessions=a.huntSessions||[];a.huntSessions.unshift(s);a.huntSessions=a.huntSessions.slice(0,100);a.activeHuntSession=null;save()
+}
+function cancelHuntSession(){
+ const a=current(),s=a.activeHuntSession;if(!s)return;
+ if(confirm("Annuler cette session ? Les captures déjà ajoutées resteront dans l’inventaire.")){a.activeHuntSession=null;save()}
+}
+function renderLiveHuntSession(){
+ const box=document.getElementById("liveSessionBox"),status=document.getElementById("liveSessionStatus");if(!box||!status)return;
+ const s=current().activeHuntSession;
+ if(!s){status.textContent="Aucune";box.innerHTML='<p class="muted">Génère un plan puis démarre une session.</p>';return}
+ status.textContent=s.pausedAt?"En pause":"En cours";
+ const captured=new Set(s.captures.map(x=>x.name)),elapsed=huntElapsed(s),mins=Math.max(1,elapsed/60000),rate=(s.captures.length/mins*60).toFixed(1);
+ box.innerHTML=`<div class="live-session ${s.pausedAt?'paused':''}">
+  <div class="row between"><div><strong>${esc(s.name)}</strong><div class="muted" style="font-size:12px;margin-top:4px">${s.rows.length} parcours · objectif ${s.durationTarget} min${s.note?' · '+esc(s.note):''}</div></div><span class="pill">${s.captures.length} capture${s.captures.length>1?"s":""}</span></div>
+  <div class="live-timer" id="huntLiveTimer">${formatHuntDuration(elapsed)}</div>
+  <div class="session-metrics">
+   <div class="session-metric"><span>Rendement</span><b>${rate}/h</b></div>
+   <div class="session-metric"><span>Uniques</span><b>${new Set(s.captures.map(x=>x.name)).size}</b></div>
+   <div class="session-metric"><span>Cibles</span><b>${s.targets.length}</b></div>
+  </div>
+  <div>${s.targets.slice(0,40).map(name=>`<div class="session-target-row"><div><strong>${esc(name)}</strong><div class="muted" style="font-size:12px">Stock x${current().inventory[name]||0}${captured.has(name)?" · trouvé pendant la session":""}</div></div><button class="secondary" onclick="captureDuringHunt('${js(name)}')" ${s.pausedAt?'disabled style="opacity:.35"':''}>+1 trouvé</button></div>`).join("")}</div>
+  <div class="session-actions">
+   ${s.pausedAt?'<button class="primary" onclick="resumeHuntSession()">Reprendre</button>':'<button class="secondary" onclick="pauseHuntSession()">Mettre en pause</button>'}
+   <button class="secondary" onclick="editHuntSessionNote()">Ajouter une note</button>
+   <button class="primary" onclick="finishHuntSession()">Terminer</button>
+   <button class="secondary danger" onclick="cancelHuntSession()">Annuler</button>
+  </div>
+ </div>`;
+ clearTimeout(window.__huntSessionTimer);
+ if(!s.pausedAt)window.__huntSessionTimer=setTimeout(()=>{if(document.getElementById("hunter")?.classList.contains("active"))renderLiveHuntSession()},1000)
+}
+function renderHuntSessionHistory(){
+ const box=document.getElementById("huntSessionHistory"),pill=document.getElementById("huntSessionCount");if(!box||!pill)return;
+ const rows=current().huntSessions||[];pill.textContent=rows.length;
+ box.innerHTML=rows.length?rows.slice(0,20).map(s=>{
+  const unique=new Set(s.captures.map(x=>x.name)).size,durationMs=huntElapsed(s),duration=formatHuntDuration(durationMs),hours=Math.max(durationMs/3600000,1/60),rate=(s.captures.length/hours).toFixed(1);
+  return `<div class="session-history-card"><div class="row between"><div><strong>${esc(s.name)}</strong><div class="muted" style="font-size:12px;margin-top:4px">${new Date(s.startedAt).toLocaleString("fr-FR")} · ${duration}</div></div><span class="pill">${s.captures.length} captures</span></div>
+   <div class="session-metrics"><div class="session-metric"><span>Rendement</span><b>${rate}/h</b></div><div class="session-metric"><span>Uniques</span><b>${unique}</b></div><div class="session-metric"><span>Parcours</span><b>${s.rows.length}</b></div></div>
+   ${s.note?`<div class="note">${esc(s.note)}</div>`:""}
+   <div class="session-actions"><button class="secondary" onclick="openSessionDetail('${s.id}')">Détails</button><button class="secondary" onclick="renameHuntSession('${s.id}')">Renommer</button><button class="secondary danger" onclick="deleteHuntSession('${s.id}')">Supprimer</button></div>
+  </div>`
+ }).join(""):'<p class="muted">Aucune session terminée.</p>';
+ renderRoutePerformance();renderSessionTrends();initSessionComparison();renderPersonalGoals();renderPeriodSummary();renderAuditedRecords();renderMonthlySummary()
+}
+function renderRoutePerformance(){
+ const box=document.getElementById("routePerformance");if(!box)return;
+ const sessions=current().huntSessions||[],map=new Map();
+ sessions.forEach(s=>s.rows.forEach(r=>{
+  const key=r.key||r.name,entry=map.get(key)||{name:r.name,sessions:0,minutes:0,captures:0,unique:new Set()};
+  entry.sessions++;entry.minutes+=huntElapsed(s)/60000;
+  s.captures.filter(c=>r.items?.includes(c.name)).forEach(c=>{entry.captures++;entry.unique.add(c.name)});
+  map.set(key,entry)
+ }));
+ const rows=[...map.values()].map(x=>({...x,rate:x.minutes?x.captures/(x.minutes/60):0})).sort((a,b)=>b.rate-a.rate).slice(0,12);
+ const max=Math.max(1,...rows.map(x=>x.rate));
+ box.innerHTML=rows.length?rows.map(x=>`<div class="route-performance"><div class="row between"><div><strong>${esc(x.name)}</strong><div class="muted" style="font-size:12px;margin-top:4px">${x.sessions} session${x.sessions>1?"s":""} · ${Math.round(x.minutes)} min · ${x.unique.size} uniques</div></div><span class="pill">${x.rate.toFixed(1)}/h</span></div><div class="bar"><span style="width:${Math.round(x.rate/max*100)}%"></span></div></div>`).join(""):'<p class="muted">Pas encore assez de données pour comparer les parcours.</p>';
+ const best=rows[0];
+ const rateEl=document.getElementById("bestRateRecord"),labelEl=document.getElementById("bestRateLabel");
+ if(rateEl)rateEl.textContent=best?best.rate.toFixed(1)+"/h":"0/h";
+ if(labelEl)labelEl.textContent=best?`${best.name} · ${best.sessions} session${best.sessions>1?"s":""}`:"Aucune session";
+}
+
+function sessionById(id){return (current().huntSessions||[]).find(x=>String(x.id)===String(id))}
+function openSessionDetail(id){
+ const s=sessionById(id);if(!s)return;openSessionId=s.id;
+ const durationMs=huntElapsed(s),hours=Math.max(durationMs/3600000,1/60),rate=s.captures.length/hours;
+ document.getElementById("sessionDetailTitle").textContent=s.name;
+ document.getElementById("sessionDetailMeta").textContent=`${new Date(s.startedAt).toLocaleString("fr-FR")}${s.note?" · "+s.note:""}`;
+ document.getElementById("sessionDetailDuration").textContent=formatHuntDuration(durationMs);
+ document.getElementById("sessionDetailCaptures").textContent=s.captures.length;
+ document.getElementById("sessionDetailRate").textContent=rate.toFixed(1)+"/h";
+ document.getElementById("sessionDetailRoutes").innerHTML=`<strong>Parcours</strong>`+(s.rows||[]).map(r=>`<div class="session-detail-row"><span>${esc(r.name)}</span><span class="pill">${r.minutes||"—"} min</span></div>`).join("");
+ const counts={};(s.captures||[]).forEach(c=>counts[c.name]=(counts[c.name]||0)+1);
+ document.getElementById("sessionDetailCapturesList").innerHTML=`<strong>Captures</strong>`+(Object.keys(counts).length?Object.entries(counts).map(([name,count])=>`<div class="session-detail-row"><span>${esc(name)}</span><span class="pill">x${count}</span></div>`).join(""):'<p class="muted">Aucune capture.</p>');
+ showModal("sessionDetailModal")
+}
+function exportOpenSessionJson(){
+ const s=sessionById(openSessionId);if(!s)return;
+ downloadJson({type:"ocre-companion-session",version:"12.3",game:"Dofus Rétro",adventure:current().name,session:s,summary:ocreEngine()?.sessionSummary?.(s)||null},`ocre-session-${safeFile(s.name)}.json`)
+}
+function exportSessionsJson(){
+ const sessions=current().huntSessions||[];
+ downloadJson({type:"ocre-companion-sessions",version:"12.3",game:"Dofus Rétro",adventure:current().name,generatedAt:new Date().toISOString(),sessions},"ocre-companion-sessions-v12-3.json")
+}
+function csvEscape(value){const s=String(value??"");return /[",\n]/.test(s)?`"${s.replace(/"/g,'""')}"`:s}
+function exportSessionsCsv(){
+ const rows=[["session","date","duree_secondes","captures","uniques","rendement_heure","parcours","note"]];
+ (current().huntSessions||[]).forEach(s=>{
+  const duration=huntElapsed(s),hours=Math.max(duration/3600000,1/60),unique=new Set((s.captures||[]).map(x=>x.name)).size;
+  rows.push([s.name,new Date(s.startedAt).toISOString(),Math.round(duration/1000),(s.captures||[]).length,unique,((s.captures||[]).length/hours).toFixed(2),(s.rows||[]).map(r=>r.name).join(" | "),s.note||""])
+ });
+ const csv=rows.map(r=>r.map(csvEscape).join(",")).join("\n"),blob=new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");
+ a.href=url;a.download="ocre-companion-sessions-v12-3.csv";a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)
+}
+function renderHomeBestRoute(){
+ const pill=document.getElementById("homeBestRoutePill"),box=document.getElementById("homeBestRoute");if(!pill||!box)return;
+ const engine=ocreEngine(),rows=engine?.routePerformance?engine.routePerformance(current().huntSessions||[]):[];
+ const best=rows[0];
+ if(!best){pill.textContent="Aucune donnée";box.textContent="Termine quelques sessions pour calculer ton meilleur rendement.";return}
+ pill.textContent=best.rate.toFixed(1)+"/h";
+ box.innerHTML=`<strong>${esc(best.name)}</strong><div class="muted" style="margin-top:5px">${best.sessions} session${best.sessions>1?"s":""} · ${best.unique} archimonstre${best.unique>1?"s":""} unique${best.unique>1?"s":""}</div>`
+}
+
+
+function setTrendPeriod(n){trendPeriod=n;renderSessionTrends()}
+function sessionRate(s){
+ const duration=huntElapsed(s),hours=Math.max(duration/3600000,1/60);
+ return (s.captures||[]).length/hours
+}
+function renderSessionTrends(){
+ const chart=document.getElementById("sessionTrendChart"),summary=document.getElementById("sessionTrendSummary"),label=document.getElementById("trendPeriodLabel");
+ if(!chart||!summary||!label)return;
+ label.textContent=trendPeriod+" sessions";
+ const rows=[...(current().huntSessions||[])].slice(0,trendPeriod).reverse();
+ if(!rows.length){chart.innerHTML='<p class="muted">Aucune donnée.</p>';summary.textContent="";return}
+ const rates=rows.map(sessionRate),max=Math.max(1,...rates),first=rates[0],last=rates[rates.length-1],delta=last-first;
+ chart.innerHTML=rows.map((s,i)=>`<div class="trend-bar" style="height:${Math.max(6,Math.round(rates[i]/max*100))}%"><span>${rates[i].toFixed(1)}</span></div>`).join("");
+ const cls=delta>0.05?"up":delta<-0.05?"down":"flat",word=delta>0.05?"en hausse":delta<-0.05?"en baisse":"stable";
+ summary.innerHTML=`Rendement ${word} : <span class="delta ${cls}">${delta>=0?"+":""}${delta.toFixed(1)}/h</span> entre la première et la dernière session affichée.`
+}
+function initSessionComparison(){
+ const a=document.getElementById("compareSessionA"),b=document.getElementById("compareSessionB");if(!a||!b)return;
+ const sessions=current().huntSessions||[],opts=sessions.map(s=>`<option value="${s.id}">${esc(s.name)} — ${new Date(s.startedAt).toLocaleDateString("fr-FR")}</option>`).join("");
+ const oldA=a.value,oldB=b.value;a.innerHTML=opts;b.innerHTML=opts;
+ if(sessions.length){
+  a.value=sessions.some(s=>String(s.id)===String(oldA))?oldA:String(sessions[0].id);
+  b.value=sessions.some(s=>String(s.id)===String(oldB))?oldB:String((sessions[1]||sessions[0]).id)
+ }
+ renderSessionComparison()
+}
+function renderSessionComparison(){
+ const box=document.getElementById("sessionComparison"),aId=document.getElementById("compareSessionA")?.value,bId=document.getElementById("compareSessionB")?.value;if(!box)return;
+ const a=sessionById(aId),b=sessionById(bId);
+ if(!a||!b){box.innerHTML='<p class="muted">Il faut au moins une session.</p>';return}
+ const data=[a,b].map(s=>({s,duration:huntElapsed(s),captures:(s.captures||[]).length,unique:new Set((s.captures||[]).map(x=>x.name)).size,rate:sessionRate(s)}));
+ const bestRate=Math.max(...data.map(x=>x.rate)),bestCap=Math.max(...data.map(x=>x.captures));
+ box.innerHTML=data.map((x,i)=>`<div class="compare-card ${x.rate===bestRate?'winner':''}">
+  <span class="muted">${i===0?"Session A":"Session B"}</span>
+  <strong style="display:block;margin-top:4px">${esc(x.s.name)}</strong>
+  <b>${x.rate.toFixed(1)}/h</b>
+  <div class="trend">Durée : ${formatHuntDuration(x.duration)}</div>
+  <div class="trend">Captures : ${x.captures}${x.captures===bestCap?" · meilleur total":""}</div>
+  <div class="trend">Uniques : ${x.unique}</div>
+ </div>`).join("")
+}
+
+
+function goalMetricLabel(type){return({captures:"captures",unique:"archis uniques",sessions:"sessions",minutes:"minutes",stages_count:"étapes terminées",quest_unique:"archis uniques validés"})[type]||type}
+function goalWindowSessions(period){
+ const sessions=current().huntSessions||[];
+ if(period==="all")return sessions;
+ const cutoff=Date.now()-(Number(period)||7)*86400000;
+ return sessions.filter(s=>(s.endedAt||s.startedAt)>=cutoff)
+}
+function goalScopedCaptures(goal){
+ const captures=goalWindowSessions(goal.period).flatMap(s=>s.captures||[]);
+ if(!goal.scopeType||goal.scopeType==="all"||!goal.scopeValue)return captures;
+ return captures.filter(c=>{
+  const a=DB.archimonsters.find(x=>x.name===c.name);if(!a)return false;
+  if(goal.scopeType==="zone")return (a.zones||[]).includes(goal.scopeValue);
+  if(goal.scopeType==="family")return a.family===goal.scopeValue;
+  return true
+ })
+}
+function goalProgress(goal){
+ if(goal.type==="stage")return stageGoalProgress(goal);
+ if(goal.type==="stages_count")return QUEST.filter(q=>stageComplete(q.step)).length;
+ if(goal.type==="quest_unique")return ARCHIS.filter(a=>archiQuestDone(a.name)).length;
+ const sessions=goalWindowSessions(goal.period),captures=goalScopedCaptures(goal);
+ if(goal.type==="captures")return captures.length;
+ if(goal.type==="unique")return new Set(captures.map(x=>x.name)).size;
+ if(goal.type==="sessions")return sessions.length;
+ if(goal.type==="minutes")return Math.round(sessions.reduce((n,s)=>n+huntElapsed(s),0)/60000);
+ return 0
+}
+function openGoalModal(id=null){
+ editingGoalId=id;
+ const goal=(current().personalGoals||[]).find(g=>String(g.id)===String(id));
+ document.getElementById("goalModalTitle").textContent=goal?"Modifier l’objectif":"Nouvel objectif";
+ document.getElementById("goalName").value=goal?.name||"";
+ document.getElementById("goalType").value=goal?.type||"captures";
+ document.getElementById("goalTarget").value=goal?.target||10;
+ refreshGoalTypeFields();
+ if((goal?.type||"") === "stage")document.getElementById("goalStage").value=String(goal.stage||goal.target||1);
+ document.getElementById("goalPeriod").value=goal?.period||"7";
+ document.getElementById("goalScopeType").value=goal?.scopeType||"all";
+ refreshGoalScopeOptions(goal?.scopeValue||"");
+ showModal("goalModal")
+}
+function saveGoal(){
+ const a=current(),name=document.getElementById("goalName").value.trim(),target=Math.max(1,Number(document.getElementById("goalTarget").value)||1);
+ if(!name){alert("Donne un nom à l’objectif.");return}
+ const type=document.getElementById("goalType").value,record={id:editingGoalId||Date.now()+Math.random(),name,type,target:type==="stage"?1:target,stage:type==="stage"?Number(document.getElementById("goalStage").value):null,period:document.getElementById("goalPeriod").value,scopeType:(type==="stage"||type==="stages_count"||type==="quest_unique")?"all":document.getElementById("goalScopeType").value,scopeValue:(type==="stage"||type==="stages_count"||type==="quest_unique")?null:(document.getElementById("goalScopeValue").value||null),createdAt:Date.now()};
+ a.personalGoals=a.personalGoals||[];
+ const idx=a.personalGoals.findIndex(g=>String(g.id)===String(editingGoalId));
+ if(idx>=0)record.createdAt=a.personalGoals[idx].createdAt,a.personalGoals[idx]=record;else a.personalGoals.push(record);
+ editingGoalId=null;closeModal("goalModal");save()
+}
+function deleteGoal(id){
+ if(confirm("Supprimer cet objectif ?")){current().personalGoals=(current().personalGoals||[]).filter(g=>String(g.id)!==String(id));save()}
+}
+function renderPersonalGoals(){
+ const box=document.getElementById("personalGoals");if(!box)return;
+ const goals=(current().personalGoals||[]).filter(g=>g.type!=="stage");
+ box.innerHTML=goals.length?goals.map(g=>{
+  const value=goalProgress(g),pct=Math.min(100,Math.round(value/g.target*100)),complete=value>=g.target;
+  return `<div class="goal-card ${complete?"complete":""}">
+   <div class="goal-head"><div><strong>${esc(g.name)}</strong><div class="muted" style="font-size:12px;margin-top:4px">${value} / ${g.target} ${goalMetricLabel(g.type)} · ${g.period==="all"?"sans limite":g.period+" jours"}</div>${goalScopeLabel(g)?`<div class="goal-scope">${esc(goalScopeLabel(g))}</div>`:""}${g.scopeType!=="all"&&!g.scopeValue?'<div class="goal-warning">Sélectionne une zone ou famille pour activer ce filtre.</div>':""}</div><span class="pill">${complete?"Atteint":pct+"%"}</span></div>
+   <div class="goal-progress"><span style="width:${pct}%"></span></div>
+   <div class="goal-actions"><button class="secondary" onclick="openGoalModal('${g.id}')">Modifier</button><button class="secondary danger" onclick="deleteGoal('${g.id}')">Supprimer</button></div>
+  </div>`
+ }).join(""):'<p class="muted">Aucun objectif personnel.</p>'
+}
+function periodSummary(days){
+ const cutoff=Date.now()-days*86400000,sessions=(current().huntSessions||[]).filter(s=>(s.endedAt||s.startedAt)>=cutoff);
+ const captures=sessions.flatMap(s=>s.captures||[]),duration=sessions.reduce((n,s)=>n+huntElapsed(s),0),rate=duration?captures.length/(duration/3600000):0;
+ return{days,sessions:sessions.length,captures:captures.length,unique:new Set(captures.map(x=>x.name)).size,duration,rate}
+}
+function renderPeriodSummary(){
+ const e7=document.getElementById("captures7");if(!e7)return;
+ const s7=periodSummary(7),s30=periodSummary(30);
+ document.getElementById("captures7").textContent=s7.captures;
+ document.getElementById("sessions7").textContent=s7.sessions+" session"+(s7.sessions>1?"s":"");
+ document.getElementById("captures30Personal").textContent=s30.captures;
+ document.getElementById("sessions30Personal").textContent=s30.sessions+" session"+(s30.sessions>1?"s":"");
+ document.getElementById("rate7").textContent=s7.rate.toFixed(1)+"/h";
+ document.getElementById("time7").textContent=Math.round(s7.duration/60000)+" min";
+ document.getElementById("rate30Personal").textContent=s30.rate.toFixed(1)+"/h";
+ document.getElementById("time30Personal").textContent=Math.round(s30.duration/60000)+" min";
+ const alerts=[];
+ if(s7.sessions===0)alerts.push("Aucune session cette semaine.");
+ if(s7.sessions>0&&s7.rate>s30.rate*1.1)alerts.push("Ton rendement des 7 derniers jours est supérieur à ta moyenne mensuelle.");
+ if(s7.sessions>0&&s30.sessions>1&&s7.rate<s30.rate*.8)alerts.push("Ton rendement récent est inférieur à ta moyenne mensuelle.");
+ const pending=(current().personalGoals||[]).filter(g=>goalProgress(g)<g.target).sort((a,b)=>(goalProgress(b)/b.target)-(goalProgress(a)/a.target))[0];
+ if(pending)alerts.push(`Objectif le plus proche : ${pending.name} (${goalProgress(pending)}/${pending.target}).`);
+ document.getElementById("periodAlerts").innerHTML=alerts.map(x=>`<div class="alert-card">${esc(x)}</div>`).join("")
+}
+function auditedSessionRecords(field){
+ const map=new Map();
+ (current().huntSessions||[]).forEach(s=>(s.captures||[]).forEach(c=>{
+  const a=DB.archimonsters.find(x=>x.name===c.name);if(!a)return;
+  const values=field==="zones"?(a.zones||[]):[a.family].filter(Boolean);
+  values.forEach(value=>{
+   const row=map.get(value)||{name:value,captures:0,unique:new Set(),sessions:new Set()};
+   row.captures++;row.unique.add(c.name);row.sessions.add(s.id);map.set(value,row)
+  })
+ }));
+ return[...map.values()].map(x=>({...x,unique:x.unique.size,sessions:x.sessions.size})).sort((a,b)=>b.captures-a.captures||b.unique-a.unique)
+}
+function renderAuditedRecords(){
+ const box=document.getElementById("auditedRecords");if(!box)return;
+ const zones=auditedSessionRecords("zones").slice(0,3).map(x=>({label:"Zone",...x}));
+ const families=auditedSessionRecords("family").slice(0,3).map(x=>({label:"Famille",...x}));
+ const rows=[...zones,...families].sort((a,b)=>b.captures-a.captures).slice(0,6);
+ box.innerHTML=rows.length?rows.map(x=>`<div class="record-row"><div><strong>${esc(x.name)}</strong><div class="muted" style="font-size:12px;margin-top:4px">${x.label} · ${x.sessions} session${x.sessions>1?"s":""} · ${x.unique} uniques</div></div><span class="pill">${x.captures} captures</span></div>`).join(""):'<p class="muted">Les records apparaîtront lorsque les fiches capturées disposeront de zones ou familles auditées.</p>'
+}
+
+
+function refreshGoalScopeOptions(selected=""){
+ const type=document.getElementById("goalScopeType")?.value||"all",select=document.getElementById("goalScopeValue");if(!select)return;
+ if(type==="all"){select.innerHTML='<option value="">Aucune restriction</option>';select.disabled=true;return}
+ select.disabled=false;
+ const values=type==="zone"
+  ?[...new Set(DB.archimonsters.flatMap(a=>a.zones||[]))].sort()
+  :[...new Set(DB.archimonsters.map(a=>a.family).filter(Boolean))].sort();
+ select.innerHTML='<option value="">Choisir…</option>'+values.map(v=>`<option value="${esc(v)}">${esc(v)}</option>`).join("");
+ if(values.includes(selected))select.value=selected
+}
+function goalScopeLabel(goal){
+ if(!goal.scopeType||goal.scopeType==="all"||!goal.scopeValue)return "";
+ return `${goal.scopeType==="zone"?"Zone":"Famille"} : ${goal.scopeValue}`
+}
+function monthlySummary(){
+ const now=new Date(),start=new Date(now.getFullYear(),now.getMonth(),1).getTime();
+ const sessions=(current().huntSessions||[]).filter(s=>(s.endedAt||s.startedAt)>=start),captures=sessions.flatMap(s=>s.captures||[]),duration=sessions.reduce((n,s)=>n+huntElapsed(s),0);
+ return{sessions,captures,duration,unique:new Set(captures.map(x=>x.name)).size}
+}
+function renderMonthlySummary(){
+ const el=document.getElementById("monthSessions");if(!el)return;
+ const m=monthlySummary();
+ document.getElementById("monthSessions").textContent=m.sessions.length;
+ document.getElementById("monthCaptures").textContent=m.captures.length;
+ document.getElementById("monthUnique").textContent=m.unique;
+ document.getElementById("monthTime").textContent=Math.round(m.duration/60000)+" min";
+ const bestZone=auditedSessionRecords("zones")[0],bestFamily=auditedSessionRecords("family")[0],highlights=[];
+ if(bestZone)highlights.push(`Zone la plus active : ${bestZone.name} (${bestZone.captures} captures).`);
+ if(bestFamily)highlights.push(`Famille la plus active : ${bestFamily.name} (${bestFamily.captures} captures).`);
+ const completed=(current().personalGoals||[]).filter(g=>goalProgress(g)>=g.target).length;
+ if(completed)highlights.push(`${completed} objectif${completed>1?"s":""} atteint${completed>1?"s":""}.`);
+ document.getElementById("monthHighlights").innerHTML=highlights.map(x=>`<div class="alert-card"><span class="notification-dot"></span>${esc(x)}</div>`).join("")||'<p class="muted">Pas encore assez d’activité ce mois-ci.</p>'
+}
+function exportMonthlyReport(){
+ const m=monthlySummary(),zones=auditedSessionRecords("zones").slice(0,10),families=auditedSessionRecords("family").slice(0,10);
+ downloadJson({type:"ocre-companion-monthly-report",version:"12.6",game:"Dofus Rétro",adventure:current().name,month:new Date().toISOString().slice(0,7),generatedAt:new Date().toISOString(),summary:{sessions:m.sessions.length,captures:m.captures.length,unique:m.unique,durationMs:m.duration},goals:(current().personalGoals||[]).map(g=>({...g,progress:goalProgress(g)})),topZones:zones,topFamilies:families,sessions:m.sessions},"ocre-companion-recap-mensuel-v12-6.json")
+}
+
+
+function refreshGoalTypeFields(){
+ const type=document.getElementById("goalType")?.value||"captures",target=document.getElementById("goalTarget"),stage=document.getElementById("goalStage");
+ if(!target||!stage)return;
+ const isStage=type==="stage";
+ target.style.display=isStage?"none":"block";stage.style.display=isStage?"block":"none";
+ if(isStage&&stage.options.length===0)stage.innerHTML=QUEST.map(q=>`<option value="${q.step}">Étape ${q.step} — ${q.kind}</option>`).join("");
+ if(type==="stages_count"){target.style.display="block";stage.style.display="none";target.placeholder="Nombre d’étapes";if(!target.value||Number(target.value)<1)target.value=5}
+ if(type==="quest_unique"){target.style.display="block";stage.style.display="none";target.placeholder="Nombre d’archimonstres";if(!target.value||Number(target.value)<1)target.value=50}
+}
+function stageGoalProgress(goal){
+ const step=Number(goal.stage||goal.target||0);
+ return stageComplete(step)?1:0
+}
+function changeCalendarMonth(delta){
+ calendarCursor=new Date(calendarCursor.getFullYear(),calendarCursor.getMonth()+delta,1);renderSessionCalendar()
+}
+function renderSessionCalendar(){
+ const box=document.getElementById("sessionCalendar"),label=document.getElementById("calendarMonthLabel");if(!box||!label)return;
+ const y=calendarCursor.getFullYear(),m=calendarCursor.getMonth(),first=new Date(y,m,1),last=new Date(y,m+1,0),offset=(first.getDay()+6)%7;
+ label.textContent=first.toLocaleDateString("fr-FR",{month:"long",year:"numeric"});
+ const sessions=current().huntSessions||[],byDay={};
+ sessions.forEach(s=>{const d=new Date(s.startedAt);if(d.getFullYear()===y&&d.getMonth()===m){const day=d.getDate();(byDay[day]||(byDay[day]=[])).push(s)}});
+ const cells=[];
+ for(let i=0;i<offset;i++)cells.push('<div class="calendar-day empty"></div>');
+ const today=new Date();
+ for(let day=1;day<=last.getDate();day++){
+  const rows=byDay[day]||[],captures=rows.reduce((n,s)=>n+(s.captures||[]).length,0),isToday=today.getFullYear()===y&&today.getMonth()===m&&today.getDate()===day;
+  cells.push(`<div class="calendar-day ${rows.length?"active":""} ${isToday?"today":""}" title="${rows.length} session(s), ${captures} capture(s)" onclick="openCalendarDay(${y},${m},${day})"><strong>${day}</strong>${rows.length?`<small>${rows.length} sess. · ${captures} capt.</small><div class="calendar-dot"></div>`:""}</div>`)
+ }
+ box.innerHTML=cells.join("")
+}
+
+function goToCurrentMonth(){calendarCursor=new Date();renderSessionCalendar()}
+function sessionsForCalendarDay(y,m,d){
+ return (current().huntSessions||[]).filter(s=>{const date=new Date(s.startedAt);return date.getFullYear()===y&&date.getMonth()===m&&date.getDate()===d})
+}
+function openCalendarDay(y,m,d){
+ openCalendarDate={y,m,d};
+ const date=new Date(y,m,d),sessions=sessionsForCalendarDay(y,m,d),captures=sessions.reduce((n,s)=>n+(s.captures||[]).length,0),duration=sessions.reduce((n,s)=>n+huntElapsed(s),0);
+ document.getElementById("calendarDayTitle").textContent=date.toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
+ document.getElementById("calendarDaySummary").textContent=`${sessions.length} session${sessions.length>1?"s":""} · ${captures} capture${captures>1?"s":""} · ${formatHuntDuration(duration)}`;
+ document.getElementById("calendarDaySessions").innerHTML=sessions.length?sessions.map(s=>`<div class="day-session"><div class="row between"><div><strong>${esc(s.name)}</strong><div class="meta">${formatHuntDuration(huntElapsed(s))} · ${(s.captures||[]).length} captures · ${new Set((s.captures||[]).map(x=>x.name)).size} uniques</div></div><button class="secondary" onclick="closeModal('calendarDayModal');openSessionDetail('${s.id}')">Détails</button></div></div>`).join(""):'<p class="muted">Aucune session enregistrée ce jour-là.</p>';
+ showModal("calendarDayModal")
+}
+function exportOpenCalendarDay(){
+ if(!openCalendarDate)return;
+ const {y,m,d}=openCalendarDate,sessions=sessionsForCalendarDay(y,m,d),date=new Date(y,m,d);
+ downloadJson({type:"ocre-companion-calendar-day",version:"12.8",game:"Dofus Rétro",adventure:current().name,date:date.toISOString().slice(0,10),generatedAt:new Date().toISOString(),sessions},"ocre-companion-journee-"+date.toISOString().slice(0,10)+".json")
+}
+function exportCalendarMonth(){
+ const y=calendarCursor.getFullYear(),m=calendarCursor.getMonth(),sessions=(current().huntSessions||[]).filter(s=>{const d=new Date(s.startedAt);return d.getFullYear()===y&&d.getMonth()===m});
+ downloadJson({type:"ocre-companion-calendar-month",version:"12.8",game:"Dofus Rétro",adventure:current().name,month:`${y}-${String(m+1).padStart(2,"0")}`,generatedAt:new Date().toISOString(),sessions},"ocre-companion-calendrier-"+y+"-"+String(m+1).padStart(2,"0")+".json")
+}
+
+
+function changeCalendarYear(delta){calendarYearCursor+=delta;renderYearCalendar();renderYearComparison()}
+function renderYearCalendar(){
+ const box=document.getElementById("yearCalendar"),label=document.getElementById("calendarYearLabel");if(!box||!label)return;
+ const year=calendarYearCursor,sessions=current().huntSessions||[],months=[];
+ for(let m=0;m<12;m++){
+  const rows=sessions.filter(s=>{const d=new Date(s.startedAt);return d.getFullYear()===year&&d.getMonth()===m});
+  const captures=rows.flatMap(s=>s.captures||[]),duration=rows.reduce((n,s)=>n+huntElapsed(s),0);
+  months.push({month:m,rows,captures,duration,unique:new Set(captures.map(x=>x.name)).size})
+ }
+ const totalSessions=months.reduce((n,x)=>n+x.rows.length,0),totalCaptures=months.reduce((n,x)=>n+x.captures.length,0),totalDuration=months.reduce((n,x)=>n+x.duration,0),unique=new Set(months.flatMap(x=>x.captures.map(c=>c.name))).size,max=Math.max(1,...months.map(x=>x.captures.length));
+ label.textContent=year;
+ document.getElementById("yearSessions").textContent=totalSessions;
+ document.getElementById("yearCaptures").textContent=totalCaptures;
+ document.getElementById("yearUnique").textContent=unique;
+ document.getElementById("yearTime").textContent=Math.round(totalDuration/60000)+" min";
+ box.innerHTML=months.map(x=>`<div class="year-month ${calendarCursor.getFullYear()===year&&calendarCursor.getMonth()===x.month?"active":""}" onclick="openYearMonth(${year},${x.month})"><strong>${new Date(year,x.month,1).toLocaleDateString("fr-FR",{month:"short"})}</strong><small>${x.rows.length} sess. · ${x.captures.length} capt.</small><div class="year-bar"><span style="width:${Math.round(x.captures.length/max*100)}%"></span></div></div>`).join("")
+}
+function openYearMonth(year,month){calendarCursor=new Date(year,month,1);renderSessionCalendar();scrollTo(0,document.getElementById("sessionCalendar")?.offsetTop||0)}
+function importCalendarMonth(event){
+ const file=event.target.files?.[0];if(!file)return;
+ const reader=new FileReader();reader.onload=()=>{try{
+  const parsed=JSON.parse(reader.result);
+  if(parsed.type!=="ocre-companion-calendar-month"||!Array.isArray(parsed.sessions))throw new Error("Format invalide");
+  const a=current(),existing=new Set((a.huntSessions||[]).map(s=>String(s.id))),before=(a.huntSessions||[]).length;
+  const added=parsed.sessions.filter(s=>s&&s.id&&!existing.has(String(s.id)));
+  a.huntSessions=[...(a.huntSessions||[]),...added].sort((x,y)=>(y.startedAt||0)-(x.startedAt||0)).slice(0,500);
+  save();
+  document.getElementById("calendarImportResult").innerHTML=`<div class="import-result">${added.length} session${added.length>1?"s":""} importée${added.length>1?"s":""}. ${parsed.sessions.length-added.length} doublon${parsed.sessions.length-added.length>1?"s":""} ignoré${parsed.sessions.length-added.length>1?"s":""}.</div>`;
+ }catch(e){document.getElementById("calendarImportResult").innerHTML='<div class="import-result">Fichier mensuel invalide.</div>'}
+ event.target.value=""};reader.readAsText(file)
+}
+
+
+function availableSessionYears(){
+ const years=[...new Set((current().huntSessions||[]).map(s=>new Date(s.startedAt).getFullYear()))].sort((a,b)=>b-a);
+ const now=new Date().getFullYear();if(!years.includes(now))years.unshift(now);return years
+}
+function goToCurrentYear(){calendarYearCursor=new Date().getFullYear();renderYearCalendar()}
+function yearStats(year){
+ const sessions=(current().huntSessions||[]).filter(s=>new Date(s.startedAt).getFullYear()===Number(year)),captures=sessions.flatMap(s=>s.captures||[]),duration=sessions.reduce((n,s)=>n+huntElapsed(s),0);
+ return{year:Number(year),sessions:sessions.length,captures:captures.length,unique:new Set(captures.map(x=>x.name)).size,duration,rate:duration?captures.length/(duration/3600000):0,rows:sessions}
+}
+function exportYearReport(){
+ const y=calendarYearCursor,s=yearStats(y);
+ downloadJson({type:"ocre-companion-year-report",version:"13.0",game:"Dofus Rétro",adventure:current().name,year:y,generatedAt:new Date().toISOString(),summary:{sessions:s.sessions,captures:s.captures,unique:s.unique,durationMs:s.duration,rate:s.rate},records:computeAnnualRecords(),sessions:s.rows},"ocre-companion-bilan-annuel-"+y+".json")
+}
+function initYearSelectors(){
+ const a=document.getElementById("compareYearA"),b=document.getElementById("compareYearB");if(!a||!b)return;
+ const years=availableSessionYears(),opts=years.map(y=>`<option value="${y}">${y}</option>`).join(""),oldA=a.value,oldB=b.value;
+ a.innerHTML=opts;b.innerHTML=opts;
+ a.value=years.includes(Number(oldA))?oldA:String(years[0]);
+ b.value=years.includes(Number(oldB))?oldB:String(years[1]||years[0])
+}
+function renderYearComparison(){
+ const box=document.getElementById("yearComparison"),a=document.getElementById("compareYearA"),b=document.getElementById("compareYearB");if(!box||!a||!b)return;
+ if(!a.options.length)initYearSelectors();
+ const rows=[yearStats(a.value),yearStats(b.value)],bestCaptures=Math.max(...rows.map(x=>x.captures)),bestRate=Math.max(...rows.map(x=>x.rate));
+ box.innerHTML=rows.map(x=>`<div class="year-compare-card ${x.captures===bestCaptures?'winner':''}">
+  <span class="muted">${x.year}</span><b>${x.captures} captures</b>
+  <div class="trend">${x.sessions} sessions · ${x.unique} uniques</div>
+  <div class="trend">${Math.round(x.duration/60000)} min · ${x.rate.toFixed(1)}/h${x.rate===bestRate?" · meilleur rendement":""}</div>
+ </div>`).join("")
+}
+function computeAnnualRecords(){
+ const sessions=current().huntSessions||[],years=availableSessionYears(),yearRows=years.map(year=>yearStats(year));
+ const monthMap=new Map();
+ sessions.forEach(s=>{const d=new Date(s.startedAt),key=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}`,row=monthMap.get(key)||{key,captures:0,sessions:0,unique:new Set(),duration:0};row.sessions++;row.captures+=(s.captures||[]).length;row.duration+=huntElapsed(s);(s.captures||[]).forEach(c=>row.unique.add(c.name));monthMap.set(key,row)});
+ const months=[...monthMap.values()].map(x=>({...x,unique:x.unique.size,rate:x.duration?x.captures/(x.duration/3600000):0}));
+ const bestYear=[...yearRows].sort((a,b)=>b.captures-a.captures)[0]||null,bestMonth=[...months].sort((a,b)=>b.captures-a.captures)[0]||null,bestRateMonth=[...months].sort((a,b)=>b.rate-a.rate)[0]||null;
+ const bestSession=[...sessions].map(s=>({s,rate:sessionRate(s),captures:(s.captures||[]).length})).sort((a,b)=>b.rate-a.rate)[0]||null;
+ return{bestYear,bestMonth,bestRateMonth,bestSession}
+}
+function renderAnnualRecords(){
+ const box=document.getElementById("annualRecords");if(!box)return;
+ initYearSelectors();
+ const r=computeAnnualRecords(),rows=[];
+ if(r.bestYear)rows.push({name:"Meilleure année",value:String(r.bestYear.year),meta:`${r.bestYear.captures} captures · ${r.bestYear.sessions} sessions`});
+ if(r.bestMonth)rows.push({name:"Meilleur mois",value:r.bestMonth.key,meta:`${r.bestMonth.captures} captures · ${r.bestMonth.unique} uniques`});
+ if(r.bestRateMonth)rows.push({name:"Meilleur rendement mensuel",value:r.bestRateMonth.rate.toFixed(1)+"/h",meta:r.bestRateMonth.key});
+ if(r.bestSession)rows.push({name:"Meilleure session",value:r.bestSession.rate.toFixed(1)+"/h",meta:r.bestSession.s.name});
+ box.innerHTML=rows.length?rows.map(x=>`<div class="record-board-row"><div><strong>${esc(x.name)}</strong><small>${esc(x.meta)}</small></div><span class="pill">${esc(x.value)}</span></div>`).join(""):'<p class="muted">Aucun record disponible.</p>'
+}
+function renderProjectCompletion(){
+ const feature=document.getElementById("featureCompletion"),data=document.getElementById("dataCompletion");if(!feature||!data)return;
+ const majorFeatures=[QUEST.length===35,DB.archimonsters.length===286,typeof renderHunter==="function",typeof renderAssistant==="function",typeof renderEncyclopedia==="function",typeof renderSessionCalendar==="function",typeof renderYearCalendar==="function",typeof exportBackup==="function"];
+ const featurePct=Math.round(majorFeatures.filter(Boolean).length/majorFeatures.length*100),complete=DB.archimonsters.filter(a=>creatureAuditComplete(a)).length,dataPct=Math.round(complete/DB.archimonsters.length*100);
+ feature.textContent=featurePct+"%";data.textContent=dataPct+"%"
+}
+
+function renderStageGoals(){
+ const box=document.getElementById("stageGoals"),pill=document.getElementById("stageGoalCount");if(!box||!pill)return;
+ const goals=(current().personalGoals||[]).filter(g=>g.type==="stage"||g.type==="stages_count");pill.textContent=goals.length;
+ box.innerHTML=goals.length?goals.map(g=>{
+  if(g.type==="stages_count"){
+   const value=goalProgress(g),pct=Math.min(100,Math.round(value/g.target*100)),done=value>=g.target;
+   return `<div class="stage-count-goal ${done?"complete":""}"><div class="row between"><div><strong>${esc(g.name)}</strong><div class="muted" style="font-size:12px;margin-top:4px">${value} / ${g.target} étapes terminées</div></div><span class="pill">${done?"Atteint":pct+"%"}</span></div><div class="goal-progress"><span style="width:${pct}%"></span></div><div class="goal-actions"><button class="secondary" onclick="go('quest')">Voir la quête</button><button class="secondary" onclick="openGoalModal('${g.id}')">Modifier</button></div></div>`
+  }
+  const step=Number(g.stage||g.target),done=stageComplete(step),q=QUEST[step-1];
+  return `<div class="stage-goal ${done?"complete":""}"><div class="row between"><div><strong>${esc(g.name)}</strong><div class="muted" style="font-size:12px;margin-top:4px">Étape ${step} · ${q?.kind||"Quête"}</div></div><span class="pill">${done?"Terminée":"En cours"}</span></div><div class="goal-progress"><span style="width:${done?100:Math.round(stageDone(step)/(q?.objectives.length||1)*100)}%"></span></div><div class="goal-actions"><button class="secondary" onclick="openStep(${step})">Ouvrir l’étape</button><button class="secondary" onclick="openGoalModal('${g.id}')">Modifier</button></div></div>`
+ }).join(""):'<p class="muted">Crée un objectif de type « Terminer une étape » ou « Nombre d’étapes terminées ».</p>'
+}
+function toggleInAppReminders(){current().inAppReminders=!current().inAppReminders;save()}
+function renderInAppReminders(){
+ const box=document.getElementById("inAppReminders");if(!box)return;
+ if(current().inAppReminders===false){box.innerHTML='<p class="muted">Les rappels visuels sont désactivés.</p>';return}
+ const reminders=[];
+ const ready=ocreEngine()?.readyStages?.()||[];
+ if(ready.length)reminders.push(`${ready.length} étape${ready.length>1?"s":""} terminable${ready.length>1?"s":""} avec ton inventaire.`);
+ const near=(current().personalGoals||[]).filter(g=>g.type!=="stage").map(g=>({g,p:goalProgress(g)/Math.max(g.target,1)})).filter(x=>x.p>=.8&&x.p<1).sort((a,b)=>b.p-a.p)[0];
+ if(near)reminders.push(`Objectif presque atteint : ${near.g.name} (${goalProgress(near.g)}/${near.g.target}).`);
+ const stageGoal=(current().personalGoals||[]).find(g=>g.type==="stage"&&!stageComplete(Number(g.stage||g.target)));
+ if(stageGoal)reminders.push(`Étape prioritaire : ${stageGoal.name}.`);
+ if(current().activeHuntSession)reminders.push(`Une session de chasse est ${current().activeHuntSession.pausedAt?"en pause":"en cours"}.`);
+ box.innerHTML=reminders.length?reminders.map(r=>`<div class="reminder-banner"><span class="notification-dot"></span>${esc(r)}</div>`).join(""):'<p class="muted">Aucun rappel actif.</p>'
+}
+
+function applyPlanToHunter(type,key){
+ if(type==="lists"){const id=key.split(":").slice(1).join(":");document.getElementById("huntList").value=id}
+ else if(type==="zones"){document.getElementById("huntZone").value=key.slice(6)}
+ else if(type==="family"){document.getElementById("huntFamily").value=key.slice(7)}
+ renderHunter();scrollTo(0,0)
 }
 
 function renderSearch(){
@@ -858,6 +2249,6 @@ function js(s){return String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'")}
 
 function esc(s){return s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
 updateAll();
-if("serviceWorker" in navigator)navigator.serviceWorker.register("./service-worker.js").catch(()=>{});
+setupPwaUpdateFlow();
 </script>
 </body></html>

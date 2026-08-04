@@ -1,4 +1,9 @@
-# Ocre Companion V10
+# Ocre Companion Stable 1.0
+
+Compagnon personnel complet pour **L’Éternelle Moisson sur Dofus Rétro**.
+
+**Statut : version stable.**
+
 
 Compagnon personnel pour la quête **L’Éternelle Moisson sur Dofus Rétro**.
 

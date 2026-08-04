@@ -1,7 +1,8 @@
 {
-  "version": "10.0.0",
-  "name": "V10 — GitHub Foundation",
+  "version": "1.0.0",
+  "name": "Ocre Companion Stable 1.0",
   "date": "2026-08-04",
-  "schemaVersion": 8,
-  "game": "Dofus Rétro"
+  "schemaVersion": 14,
+  "game": "Dofus Rétro",
+  "status": "stable"
 }

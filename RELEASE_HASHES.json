@@ -1,7 +1,8 @@
 {
-  "index.html": "ed97a642d1bf4378f929fe0b0d2f44f45569490dd7ff46e3443a70b67fb8c604",
-  "manifest.webmanifest": "d4b7566364a559480c368dde52fbac2c6aeedb29c07ae38861d658708063ceec",
-  "service-worker.js": "cfeb7024b17c00325b522351ed01098eb056a0643c7b8fb32c64a9ceaf42cd43",
-  "assets/icon-master-1024.png": "c4a77ce2c179806268d7cd6e26c5a4ddb69c17b7ba1f8d12cd1f5557fbf3bc9e",
-  "assets/splash-ocre-ombre-645x1398.jpg": "dbba6a402ca36b08540c506df50cf1729db6f72061854d0f779fb947f46bfb35"
+  "index.html": "fa4fcc3b3ef13dbaa95f6ce918c99e9d185ae01d403bd61e262ee0d7491b7399",
+  "src/app/app.js": "4900540dbcb55a0637b35885b405f8b153ad8f76ed2ae76c26ec2761c5f94ffa",
+  "src/core/engine.js": "5b2a0491a94954d379c8efba2f2b3129b2e672138042033b65bee40dfbf4ad5d",
+  "data/ocre-retro-db.json": "790bc1ba405a523f5a6bd076c9588d98c12912cffd7a19a523e5ba489fb042cd",
+  "service-worker.js": "bfded8c4470b8a4360a60379fd7d89e6f817c8b01ae8441e01fb64b8d06e3c92",
+  "VERSION.json": "6427495ee4dd8c257021d184e8f0b7d590399d6a5e5213df3f03037c0be0ba3c"
 }

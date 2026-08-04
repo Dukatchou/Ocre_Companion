@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#17130f">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icons/icon-180.png">
-<title>Ocre Companion 1.0.5 — Mise à jour intégrée</title>
+<title>Ocre Companion 1.0.6 — Correctif mises à jour</title>
 <style>
 :root{--bg:#15120f;--panel:#211c17;--panel2:#29221b;--gold:#d5ad57;--gold2:#f0d28b;--text:#f5eee4;--muted:#a99d8d;--line:#3a3026;--ok:#72c69b}
 *{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
@@ -274,7 +274,7 @@ textarea{font:inherit}
 <body>
 <div class="shell">
 <header>
- <div class="brand"><h1><b>Ocre</b> Companion</h1><span class="pill">1.0.5 Updates</span></div>
+ <div class="brand"><h1><b>Ocre</b> Companion</h1><span class="pill">1.0.6 Update Fix</span></div>
  <div class="sub" id="saveState">Sauvegarde locale</div><div class="sub" id="advLabel"></div>
 </header>
 
@@ -798,7 +798,7 @@ textarea{font:inherit}
   <p class="muted">La mise à jour remplace uniquement les fichiers de l’application. Tes aventures, équipes, captures et réglages restent enregistrés sur cet appareil.</p>
 
   <div class="version-line">
-   <div><span class="muted">Version actuelle</span><strong id="currentVersionLabel" style="display:block;margin-top:4px">1.0.5</strong></div>
+   <div><span class="muted">Version actuelle</span><strong id="currentVersionLabel" style="display:block;margin-top:4px">1.0.6</strong></div>
    <div style="text-align:right"><span class="muted">Nouvelle version</span><strong id="availableVersionLabel" style="display:block;margin-top:4px">—</strong></div>
   </div>
 
@@ -1049,7 +1049,7 @@ function repairLocalData(){
 }
 function exportEmergencyBackup(){downloadJson({type:"ocre-companion-emergency-backup",version:"13.1",generatedAt:new Date().toISOString(),app},"ocre-companion-sauvegarde-urgence-v13-1.json")}
 
-const APP_VERSION="1.0.5";
+const APP_VERSION="1.0.6";
 const VERSION_MANIFEST_URL="./VERSION.json";
 let waitingServiceWorker=null;
 let availableRemoteVersion=null;
@@ -1122,54 +1122,71 @@ async function installAvailableUpdate(){
  const installButton=document.getElementById("installUpdateButton");
  const laterButton=document.getElementById("laterUpdateButton");
  installButton.disabled=true;laterButton.disabled=true;
- setUpdateProgress(15,"Sauvegarde de tes données locales…");
+ setUpdateProgress(10,"Sauvegarde de tes données locales…");
 
  try{
   localStorage.setItem("ocre_pre_update_backup",JSON.stringify({
    createdAt:new Date().toISOString(),
    version:APP_VERSION,
    data:app
-  }))
+  }));
  }catch(error){console.warn("Sauvegarde pré-mise à jour impossible",error)}
 
- setUpdateProgress(35,"Recherche des nouveaux fichiers…");
+ setUpdateProgress(30,"Téléchargement de la nouvelle version…");
 
- if("serviceWorker" in navigator){
-  try{
-   const reg=await navigator.serviceWorker.getRegistration();
-   if(reg){
-    await reg.update();
-    waitingServiceWorker=reg.waiting||waitingServiceWorker
+ try{
+  const registration=await navigator.serviceWorker.getRegistration();
+  if(!registration)throw new Error("Service worker introuvable");
+
+  await registration.update();
+
+  const worker=registration.waiting || registration.installing;
+  if(worker){
+   waitingServiceWorker=worker;
+   if(worker.state==="installed"){
+    worker.postMessage({type:"SKIP_WAITING"});
+   }else{
+    worker.addEventListener("statechange",()=>{
+     if(worker.state==="installed"){
+      worker.postMessage({type:"SKIP_WAITING"});
+     }
+    });
    }
-  }catch(error){console.warn("Mise à jour du service worker impossible",error)}
- }
-
- setUpdateProgress(65,"Installation de la nouvelle version…");
-
- if(waitingServiceWorker){
-  waitingServiceWorker.postMessage({type:"SKIP_WAITING"})
- }else{
-  try{
+  }else{
    const keys=await caches.keys();
-   await Promise.all(keys.filter(k=>k.startsWith("ocre-companion-")).map(k=>caches.delete(k)))
-  }catch(error){console.warn("Nettoyage des caches impossible",error)}
+   await Promise.all(
+    keys.filter(k=>k.startsWith("ocre-companion-")).map(k=>caches.delete(k))
+   );
+   setUpdateProgress(85,"Cache nettoyé. Rechargement…");
+   setTimeout(()=>location.reload(),500);
+   return;
+  }
+
+  setUpdateProgress(70,"Installation…");
+  sessionStorage.removeItem("ocre_update_dismissed");
+
+  setTimeout(()=>{
+   setUpdateProgress(100,"Mise à jour terminée. Rechargement…");
+   location.reload();
+  },1200);
+
+ }catch(error){
+  console.error("Échec de mise à jour",error);
+  setUpdateProgress(0,"Échec de la mise à jour. Recharge l’application puis réessaie.");
+  installButton.disabled=false;
+  laterButton.disabled=false;
  }
-
- setUpdateProgress(90,"Finalisation…");
- sessionStorage.removeItem("ocre_update_dismissed");
-
- setTimeout(()=>{
-  setUpdateProgress(100,"Mise à jour terminée. Rechargement…");
-  setTimeout(()=>location.reload(true),500)
- },350)
 }
 function setupPwaUpdateFlow(){
  if(!("serviceWorker" in navigator)){
   checkRemoteVersion(false);
   return
  }
+ let reloadingAfterUpdate=false;
  navigator.serviceWorker.addEventListener("controllerchange",()=>{
-  if(document.visibilityState==="visible")location.reload()
+  if(reloadingAfterUpdate)return;
+  reloadingAfterUpdate=true;
+  location.reload();
  });
  navigator.serviceWorker.register("./service-worker.js").then(reg=>{
   if(reg.waiting){

@@ -1,12 +1,12 @@
-# Ocre Companion 1.0.5 — Mise à jour intégrée
+# Ocre Companion 1.0.6 — Correctif mises à jour
 
-- Détection automatique des nouvelles versions publiées sur GitHub Pages.
-- Écran intégré « Mettre à jour / Plus tard ».
-- Affichage de la version actuelle et de la nouvelle version.
-- Conservation de toutes les données locales pendant la mise à jour.
-- Sauvegarde automatique de sécurité avant installation.
-- Nettoyage contrôlé des anciens caches PWA.
-- Installation déclenchée uniquement après confirmation de l’utilisateur.
-- Vérification automatique à l’ouverture et au retour dans l’application.
-- Bouton manuel « Rechercher une mise à jour » dans le diagnostic.
-- Cette version doit être installée une dernière fois manuellement ; les suivantes pourront passer par l’écran intégré.
+- Réécriture complète du service worker.
+- `SKIP_WAITING` fonctionne réellement.
+- Suppression des anciens caches Ocre Companion lors de l’activation.
+- `VERSION.json` est toujours lu depuis le réseau.
+- Navigation en stratégie réseau d’abord avec secours hors-ligne.
+- Ressources statiques en cache d’abord.
+- Un seul gestionnaire `fetch`.
+- Rechargement automatique lorsque le nouveau service worker prend le contrôle.
+- Sauvegarde locale conservée avant mise à jour.
+- À partir de cette version, les futures mises à jour doivent pouvoir s’installer sans supprimer la PWA.

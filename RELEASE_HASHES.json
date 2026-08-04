@@ -1,8 +1,8 @@
 {
-  "index.html": "c6cfbe4857a2a11925a891b69270b5926bff09be1df76b8393b0d003853d55f0",
-  "src/app/app.js": "7d2b41b9fdae62a6cc501b1b69a53cbfbdd18bf64ddf3f2f15cc59963b105622",
+  "index.html": "f6ec8c8d66367c8e5389ea5e28ed11e507c77054e1d89516386e4e19548f8d3b",
+  "src/app/app.js": "fc6a773448d6f7d453d340752830ad4d3b322cb1c09809f7acd8b9bebcd120c0",
   "src/core/engine.js": "5b2a0491a94954d379c8efba2f2b3129b2e672138042033b65bee40dfbf4ad5d",
   "data/ocre-retro-db.json": "790bc1ba405a523f5a6bd076c9588d98c12912cffd7a19a523e5ba489fb042cd",
-  "service-worker.js": "3be13acd0d29a7d9669676aadc31baabd9fb922a74dc6cc4389422b9a904ec4e",
-  "VERSION.json": "ddc69974d9d368cf08a68979fdac634420ac5f8365b477c518adc41f9446857c"
+  "service-worker.js": "bd6ec9731cef92f26c9bc2d5fbc31791acdb5bcb9f83c478278c966ef9260d09",
+  "VERSION.json": "7a804be1e1dcdd0a9d2599632e61f7d310789136dccb6c0724449fe9c197460c"
 }

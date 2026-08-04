@@ -58,7 +58,7 @@ function repairLocalData(){
 }
 function exportEmergencyBackup(){downloadJson({type:"ocre-companion-emergency-backup",version:"13.1",generatedAt:new Date().toISOString(),app},"ocre-companion-sauvegarde-urgence-v13-1.json")}
 
-const APP_VERSION="1.0.5";
+const APP_VERSION="1.0.6";
 const VERSION_MANIFEST_URL="./VERSION.json";
 let waitingServiceWorker=null;
 let availableRemoteVersion=null;
@@ -131,54 +131,71 @@ async function installAvailableUpdate(){
  const installButton=document.getElementById("installUpdateButton");
  const laterButton=document.getElementById("laterUpdateButton");
  installButton.disabled=true;laterButton.disabled=true;
- setUpdateProgress(15,"Sauvegarde de tes données locales…");
+ setUpdateProgress(10,"Sauvegarde de tes données locales…");
 
  try{
   localStorage.setItem("ocre_pre_update_backup",JSON.stringify({
    createdAt:new Date().toISOString(),
    version:APP_VERSION,
    data:app
-  }))
+  }));
  }catch(error){console.warn("Sauvegarde pré-mise à jour impossible",error)}
 
- setUpdateProgress(35,"Recherche des nouveaux fichiers…");
+ setUpdateProgress(30,"Téléchargement de la nouvelle version…");
 
- if("serviceWorker" in navigator){
-  try{
-   const reg=await navigator.serviceWorker.getRegistration();
-   if(reg){
-    await reg.update();
-    waitingServiceWorker=reg.waiting||waitingServiceWorker
+ try{
+  const registration=await navigator.serviceWorker.getRegistration();
+  if(!registration)throw new Error("Service worker introuvable");
+
+  await registration.update();
+
+  const worker=registration.waiting || registration.installing;
+  if(worker){
+   waitingServiceWorker=worker;
+   if(worker.state==="installed"){
+    worker.postMessage({type:"SKIP_WAITING"});
+   }else{
+    worker.addEventListener("statechange",()=>{
+     if(worker.state==="installed"){
+      worker.postMessage({type:"SKIP_WAITING"});
+     }
+    });
    }
-  }catch(error){console.warn("Mise à jour du service worker impossible",error)}
- }
-
- setUpdateProgress(65,"Installation de la nouvelle version…");
-
- if(waitingServiceWorker){
-  waitingServiceWorker.postMessage({type:"SKIP_WAITING"})
- }else{
-  try{
+  }else{
    const keys=await caches.keys();
-   await Promise.all(keys.filter(k=>k.startsWith("ocre-companion-")).map(k=>caches.delete(k)))
-  }catch(error){console.warn("Nettoyage des caches impossible",error)}
+   await Promise.all(
+    keys.filter(k=>k.startsWith("ocre-companion-")).map(k=>caches.delete(k))
+   );
+   setUpdateProgress(85,"Cache nettoyé. Rechargement…");
+   setTimeout(()=>location.reload(),500);
+   return;
+  }
+
+  setUpdateProgress(70,"Installation…");
+  sessionStorage.removeItem("ocre_update_dismissed");
+
+  setTimeout(()=>{
+   setUpdateProgress(100,"Mise à jour terminée. Rechargement…");
+   location.reload();
+  },1200);
+
+ }catch(error){
+  console.error("Échec de mise à jour",error);
+  setUpdateProgress(0,"Échec de la mise à jour. Recharge l’application puis réessaie.");
+  installButton.disabled=false;
+  laterButton.disabled=false;
  }
-
- setUpdateProgress(90,"Finalisation…");
- sessionStorage.removeItem("ocre_update_dismissed");
-
- setTimeout(()=>{
-  setUpdateProgress(100,"Mise à jour terminée. Rechargement…");
-  setTimeout(()=>location.reload(true),500)
- },350)
 }
 function setupPwaUpdateFlow(){
  if(!("serviceWorker" in navigator)){
   checkRemoteVersion(false);
   return
  }
+ let reloadingAfterUpdate=false;
  navigator.serviceWorker.addEventListener("controllerchange",()=>{
-  if(document.visibilityState==="visible")location.reload()
+  if(reloadingAfterUpdate)return;
+  reloadingAfterUpdate=true;
+  location.reload();
  });
  navigator.serviceWorker.register("./service-worker.js").then(reg=>{
   if(reg.waiting){

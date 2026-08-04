@@ -1,12 +1,12 @@
 {
-  "name": "Ocre Companion",
-  "short_name": "Ocre Companion",
+  "name": "Ocre Companion V2.1 Rétro",
+  "short_name": "Ocre V2.1",
   "description": "Compagnon multi-profils avec guide de reconnaissance des 286 archimonstres pour la quête du Dofus Ocre sur Dofus Rétro.",
-  "start_url": "./index.html",
+  "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#0c0b09",
-  "theme_color": "#17120d",
+  "background_color": "#15120f",
+  "theme_color": "#17130f",
   "orientation": "portrait-primary",
   "icons": [
     {

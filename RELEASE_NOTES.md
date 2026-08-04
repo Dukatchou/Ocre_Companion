@@ -1,8 +1,11 @@
-# Ocre Companion 1.5.0 — Reprise de progression
+# Ocre Companion 2.1.0 — Dofus Rétro
 
-- Ajout d’un assistant « Reprendre une quête déjà commencée ».
-- Choisir la page actuelle valide automatiquement toutes les pages précédentes.
-- Application possible au personnage actif ou à toute l’équipe.
-- Les captures déjà cochées ne sont jamais retirées.
-- Une sauvegarde locale est créée avant chaque synchronisation.
-- La synchronisation peut être modifiée depuis L’Éternelle Moisson ou les Réglages.
+- Base exclusivement Dofus Rétro.
+- Noms réels des monstres normaux intégrés aux étapes 1 à 16.
+- Boss vérifiés et ordonnés aux étapes 17 à 19.
+- Archimonstres conservés dans l’ordre de quête aux étapes 20 à 34.
+- Consultation complète de chaque étape.
+- Filtre « Tout consulter » / « Seulement les restants ».
+- Synchronisation par véritable numéro d’étape.
+- Interface sombre et dorée simplifiée.
+- Sauvegarde V2 indépendante des anciennes versions.

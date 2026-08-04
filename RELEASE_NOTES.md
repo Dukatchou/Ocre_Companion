@@ -1,6 +1,8 @@
-# Ocre Companion 1.2.2 — Capture individuelle
+# Ocre Companion 1.3.0 — Guide des archimonstres
 
-- Le mode Chasseur ne valide plus un archimonstre pour toute l’équipe d’un coup.
-- Les personnages auxquels l’archimonstre manque sont affichés directement sur la carte.
-- Un appui sur un personnage valide uniquement sa capture.
-- Le journal et les statistiques restent recalculés automatiquement.
+- Une fiche de reconnaissance est disponible pour chacun des 286 archimonstres.
+- La liste affiche maintenant le monstre ou la famille à rechercher.
+- La recherche accepte aussi les types de monstres (larve, bouftou, gobelin, etc.).
+- Chaque fiche indique région, sous-zone, description et conseil de chasse.
+- Correspondances exactes intégrées pour les archimonstres les plus courants ; les autres utilisent une famille indicative clairement signalée.
+- La progression locale et les profils existants restent compatibles.

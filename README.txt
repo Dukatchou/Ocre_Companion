@@ -44,3 +44,5 @@ Nouveauté v13 : sauvegardes locales automatiques, restauration d’urgence, pro
 Nouveauté v14 : réglages de thème/densité, écran de démarrage configurable, fichiers GitHub Pages, confidentialité locale et contrôles de release.
 
 Nouveauté v15 : icône finale « L’Ocre », splash screen « Ocre & Ombre », palette or/anthracite et assets iPhone intégrés.
+
+Version 1.3.0 : guide de reconnaissance des archimonstres.
